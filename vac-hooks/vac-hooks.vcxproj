@@ -158,6 +158,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.c" />
+    <ClCompile Include="Hooks.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hooks.h" />
