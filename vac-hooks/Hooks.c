@@ -1,8 +1,11 @@
 #include "Hooks.h"
+#include "Utils.h"
 
 HMODULE WINAPI Hooks_LoadLibraryExW(LPCWSTR lpLibFileName, HANDLE hFile, DWORD dwFlags)
 {
-    return LoadLibraryExW(lpLibFileName, hFile, dwFlags);
+    HMODULE result = LoadLibraryExW(lpLibFileName, hFile, dwFlags);
+    Utils_hookImport(lpLibFileName, "kernel32.dll", "GetProcAddress", Hooks_GetProcAddress);
+    return result;
 }
 
 FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
