@@ -24,10 +24,7 @@ PVOID findPattern(PCWSTR module, PCSTR pattern, SIZE_T offset)
                 return c + offset;
         }
     }
-    WCHAR buf[100];
-    swprintf(buf, sizeof(buf) / sizeof(WCHAR), L"Failed to find pattern in %s.dll!", module);
-    MessageBoxW(NULL, buf, L"Error", MB_OK | MB_ICONERROR);
-    exit(EXIT_FAILURE);
+    return NULL;
 }
 
 VOID Utils_hookImport(PCWSTR moduleName, PCSTR importModuleName, PCSTR functionName, PVOID fun)
