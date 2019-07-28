@@ -1,17 +1,20 @@
 #include <Windows.h>
 
-BOOL APIENTRY DllMain( HMODULE hModule,
-                       DWORD  ul_reason_for_call,
-                       LPVOID lpReserved
-                     )
+#include "Hooks.h"
+#include "Utils.h"
+
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
-    switch (ul_reason_for_call)
-    {
-    case DLL_PROCESS_ATTACH:
-    case DLL_THREAD_ATTACH:
-    case DLL_THREAD_DETACH:
-    case DLL_PROCESS_DETACH:
-        break;
+    if (ul_reason_for_call == DLL_PROCESS_ATTACH) {
+        PBYTE toPatch = Utils_findPattern(L"steamservice", "\x74\x47\x6A\x01\x6A\x00", 0);
+        if (toPatch) {
+            DWORD old;
+            VirtualProtect(toPatch, 1, PAGE_EXECUTE_READWRITE, &old);
+            *toPatch = 0xEB;
+            VirtualProtect(toPatch, 1, old, &old);
+            Utils_hookImport(L"steamservice", "kernel32.dll", "LoadLibraryExW", Hooks_LoadLibraryExW);
+        }
+        DisableThreadLibraryCalls(hModule);
     }
     return TRUE;
 }

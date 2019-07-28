@@ -5,7 +5,7 @@
 
 #include "Utils.h"
 
-PVOID findPattern(PCWSTR module, PCSTR pattern, SIZE_T offset)
+PVOID Utils_findPattern(PCWSTR module, PCSTR pattern, SIZE_T offset)
 {
     MODULEINFO moduleInfo;
     HMODULE moduleHandle = GetModuleHandleW(module);
