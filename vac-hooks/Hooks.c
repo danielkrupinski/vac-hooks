@@ -7,5 +7,8 @@ HMODULE WINAPI Hooks_LoadLibraryExW(LPCWSTR lpLibFileName, HANDLE hFile, DWORD d
 
 FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
 {
-    return GetProcAddress(hModule, lpProcName);
+    FARPROC result = GetProcAddress(hModule, lpProcName);
+    if (!strcmp(lpProcName, "GetProcAddress"))
+        return (FARPROC)Hooks_GetProcAddress;
+    return result;
 }
