@@ -15,3 +15,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetProcAddress;
     return result;
 }
+
+HANDLE WINAPI Hooks_OpenProcess(DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD dwProcessId)
+{
+    HANDLE result = OpenProcess(dwDesiredAccess, bInheritHandle, dwProcessId);
+    return result;
+}
