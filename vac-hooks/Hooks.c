@@ -11,7 +11,7 @@ HMODULE WINAPI Hooks_LoadLibraryExW(LPCWSTR lpLibFileName, HANDLE hFile, DWORD d
     HMODULE result = LoadLibraryExW(lpLibFileName, hFile, dwFlags);
     FILE* out;
 
-    if (fopen_s(&out, LOG_FILENAME, "a")) {
+    if (!fopen_s(&out, LOG_FILENAME, "a")) {
         CHAR buf[LOG_BUFFER_SIZE];
         sprintf_s(buf, sizeof(buf), "LoadLibraryExW(lpLibFileName: %ws, hFile: %p, dwFlags: %d)\n", lpLibFileName, hFile, dwFlags);
         fprintf(out, buf);
@@ -35,5 +35,14 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
 HANDLE WINAPI Hooks_OpenProcess(DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD dwProcessId)
 {
     HANDLE result = OpenProcess(dwDesiredAccess, bInheritHandle, dwProcessId);
+    FILE* out;
+
+    if (!fopen_s(&out, LOG_FILENAME, "a")) {
+        CHAR buf[LOG_BUFFER_SIZE];
+        sprintf_s(buf, sizeof(buf), "OpenProcess(dwDesiredAccess: %d, bInheritHandle: %d, dwProcessId: %d)\n", dwDesiredAccess, bInheritHandle, dwProcessId);
+        fprintf(out, buf);
+        fclose(out);
+    }
+
     return result;
 }
