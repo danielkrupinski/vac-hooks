@@ -25,6 +25,16 @@ HMODULE WINAPI Hooks_LoadLibraryExW(LPCWSTR lpLibFileName, HANDLE hFile, DWORD d
 FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
 {
     FARPROC result = GetProcAddress(hModule, lpProcName);
+
+    FILE* out;
+
+    if (!fopen_s(&out, LOG_FILENAME, "a")) {
+        CHAR buf[LOG_BUFFER_SIZE];
+        sprintf_s(buf, sizeof(buf), "GetProcAddress(hModule: %d, lpProcName: %s)\n", (DWORD)hModule, lpProcName);
+        fprintf(out, buf);
+        fclose(out);
+    }
+
     if (!strcmp(lpProcName, "GetProcAddress"))
         return (FARPROC)Hooks_GetProcAddress;
     else if (!strcmp(lpProcName, "OpenProcess"))
