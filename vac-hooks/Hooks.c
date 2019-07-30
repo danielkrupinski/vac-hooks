@@ -77,3 +77,19 @@ DWORD WINAPI Hooks_GetProcessImageFileNameA(HANDLE hProcess, LPSTR lpImageFileNa
 
     return result;
 }
+
+int WINAPI Hooks_GetWindowTextW(HWND hWnd, LPWSTR lpString, int nMaxCount)
+{
+    int result = GetWindowTextW(hWnd, lpString, nMaxCount);
+
+    FILE* out;
+
+    if (!fopen_s(&out, LOG_FILENAME, "a")) {
+        CHAR buf[LOG_BUFFER_SIZE];
+        sprintf_s(buf, sizeof(buf), "GetWindowTextW(hWnd: %d, lpString: %ws, nMaxCount: %d)\n", (DWORD)hWnd, lpString, nMaxCount);
+        fprintf(out, buf);
+        fclose(out);
+    }
+
+    return result;
+}
