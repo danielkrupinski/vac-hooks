@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <Windows.h>
+#include <Psapi.h>
 
 #include "Hooks.h"
 #include "Utils.h"
@@ -50,6 +52,22 @@ HANDLE WINAPI Hooks_OpenProcess(DWORD dwDesiredAccess, BOOL bInheritHandle, DWOR
     if (!fopen_s(&out, LOG_FILENAME, "a")) {
         CHAR buf[LOG_BUFFER_SIZE];
         sprintf_s(buf, sizeof(buf), "OpenProcess(dwDesiredAccess: %d, bInheritHandle: %d, dwProcessId: %d)\n", dwDesiredAccess, bInheritHandle, dwProcessId);
+        fprintf(out, buf);
+        fclose(out);
+    }
+
+    return result;
+}
+
+DWORD WINAPI Hooks_GetProcessImageFileNameA(HANDLE hProcess, LPSTR lpImageFileName, DWORD nSize)
+{
+    DWORD result = GetProcessImageFileNameA(hProcess, lpImageFileName, nSize);
+
+    FILE* out;
+
+    if (!fopen_s(&out, LOG_FILENAME, "a")) {
+        CHAR buf[LOG_BUFFER_SIZE];
+        sprintf_s(buf, sizeof(buf), "GetProcessImageFileNameA(hProcess: %p, lpImageFileName: %s, nSize: %d)\n", hProcess, lpImageFileName, nSize);
         fprintf(out, buf);
         fclose(out);
     }
