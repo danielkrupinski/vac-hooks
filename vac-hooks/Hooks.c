@@ -41,6 +41,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetProcAddress;
     else if (!strcmp(lpProcName, "OpenProcess"))
         return (FARPROC)Hooks_OpenProcess;
+    else if (!strcmp(lpProcName, "GetProcessImageFileNameA"))
+        return (FARPROC)Hooks_GetProcessImageFileNameA;
+
     return result;
 }
 
