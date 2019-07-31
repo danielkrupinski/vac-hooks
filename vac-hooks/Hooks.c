@@ -95,3 +95,19 @@ int WINAPI Hooks_GetWindowTextW(HWND hWnd, LPWSTR lpString, int nMaxCount)
 
     return result;
 }
+
+BOOL WINAPI Hooks_QueryFullProcessImageNameW(HANDLE hProcess, DWORD dwFlags, LPWSTR lpExeName, PDWORD lpdwSize)
+{
+    BOOL result = QueryFullProcessImageNameW(hProcess, dwFlags, lpExeName, lpdwSize);
+
+    FILE* out;
+
+    if (!fopen_s(&out, LOG_FILENAME, "a")) {
+        CHAR buf[LOG_BUFFER_SIZE];
+        sprintf_s(buf, sizeof(buf), "QueryFullProcessImageNameW(hProcess: %d, lpString: %ws, nMaxCount: %d)\n", (DWORD)hWnd, lpString, nMaxCount);
+        fprintf(out, buf);
+        fclose(out);
+    }
+
+    return result;
+}
