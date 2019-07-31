@@ -15,7 +15,7 @@ HMODULE WINAPI Hooks_LoadLibraryExW(LPCWSTR lpLibFileName, HANDLE hFile, DWORD d
 
     if (!fopen_s(&out, LOG_FILENAME, "a")) {
         CHAR buf[LOG_BUFFER_SIZE];
-        sprintf_s(buf, sizeof(buf), "LoadLibraryExW(lpLibFileName: %ws, hFile: %p, dwFlags: %d)\n", lpLibFileName, hFile, dwFlags);
+        sprintf_s(buf, sizeof(buf), "LoadLibraryExW(lpLibFileName: %ws, hFile: %p, dwFlags: %d) -> HMODULE: %p\n", lpLibFileName, hFile, dwFlags, result);
         fprintf(out, buf);
         fclose(out);
     }
@@ -32,7 +32,7 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
 
     if (!fopen_s(&out, LOG_FILENAME, "a")) {
         CHAR buf[LOG_BUFFER_SIZE];
-        sprintf_s(buf, sizeof(buf), "GetProcAddress(hModule: %d, lpProcName: %s)\n", (DWORD)hModule, lpProcName);
+        sprintf_s(buf, sizeof(buf), "GetProcAddress(hModule: %p, lpProcName: %s) -> FARPROC: %p \n", hModule, lpProcName, result);
         fprintf(out, buf);
         fclose(out);
     }
@@ -56,7 +56,7 @@ HANDLE WINAPI Hooks_OpenProcess(DWORD dwDesiredAccess, BOOL bInheritHandle, DWOR
 
     if (!fopen_s(&out, LOG_FILENAME, "a")) {
         CHAR buf[LOG_BUFFER_SIZE];
-        sprintf_s(buf, sizeof(buf), "OpenProcess(dwDesiredAccess: %d, bInheritHandle: %d, dwProcessId: %d)\n", dwDesiredAccess, bInheritHandle, dwProcessId);
+        sprintf_s(buf, sizeof(buf), "OpenProcess(dwDesiredAccess: %d, bInheritHandle: %d, dwProcessId: %d) -> HANDLE: %p\n", dwDesiredAccess, bInheritHandle, dwProcessId, result);
         fprintf(out, buf);
         fclose(out);
     }
@@ -72,7 +72,7 @@ DWORD WINAPI Hooks_GetProcessImageFileNameA(HANDLE hProcess, LPSTR lpImageFileNa
 
     if (!fopen_s(&out, LOG_FILENAME, "a")) {
         CHAR buf[LOG_BUFFER_SIZE];
-        sprintf_s(buf, sizeof(buf), "GetProcessImageFileNameA(hProcess: %p, lpImageFileName: %s, nSize: %d)\n", hProcess, lpImageFileName, nSize);
+        sprintf_s(buf, sizeof(buf), "GetProcessImageFileNameA(hProcess: %p, lpImageFileName: %s, nSize: %d) -> DWORD: %d\n", hProcess, lpImageFileName, nSize, result);
         fprintf(out, buf);
         fclose(out);
     }
@@ -88,7 +88,7 @@ int WINAPI Hooks_GetWindowTextW(HWND hWnd, LPWSTR lpString, int nMaxCount)
 
     if (!fopen_s(&out, LOG_FILENAME, "a")) {
         CHAR buf[LOG_BUFFER_SIZE];
-        sprintf_s(buf, sizeof(buf), "GetWindowTextW(hWnd: %d, lpString: %ws, nMaxCount: %d)\n", (DWORD)hWnd, lpString, nMaxCount);
+        sprintf_s(buf, sizeof(buf), "GetWindowTextW(hWnd: %p, lpString: %ws, nMaxCount: %d) -> int %d\n", hWnd, lpString, nMaxCount, result);
         fprintf(out, buf);
         fclose(out);
     }
@@ -104,7 +104,7 @@ BOOL WINAPI Hooks_QueryFullProcessImageNameW(HANDLE hProcess, DWORD dwFlags, LPW
 
     if (!fopen_s(&out, LOG_FILENAME, "a")) {
         CHAR buf[LOG_BUFFER_SIZE];
-        sprintf_s(buf, sizeof(buf), "QueryFullProcessImageNameW(hProcess: %d, lpString: %ws, nMaxCount: %d)\n", (DWORD)hWnd, lpString, nMaxCount);
+        sprintf_s(buf, sizeof(buf), "QueryFullProcessImageNameW(hProcess: %p, dwFlags: %d, lpExeName: %ws, lpdwSize: %p) -> BOOL: %d\n", hProcess, dwFlags, lpExeName, lpdwSize, result);
         fprintf(out, buf);
         fclose(out);
     }
