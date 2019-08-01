@@ -55,6 +55,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetModuleFileNameA;
     else if (!strcmp(lpProcName, "GetModuleFileNameExA"))
         return (FARPROC)Hooks_GetModuleFileNameExA;
+    else if (!strcmp(lpProcName, "GetModuleFileNameExW"))
+        return (FARPROC)Hooks_GetModuleFileNameExW;
 
     return result;
 }
@@ -179,6 +181,22 @@ DWORD WINAPI Hooks_GetModuleFileNameExA(HANDLE hProcess, HMODULE hModule, LPSTR 
     if (!fopen_s(&out, LOG_FILENAME, "a")) {
         CHAR buf[LOG_BUFFER_SIZE];
         sprintf_s(buf, sizeof(buf), "GetModuleFileNameExA(hProcess: %p, hModule: %p, lpFilename: %s, nSize: %d) -> DWORD: %d\n", hProcess, hModule, lpFilename, nSize, result);
+        fprintf(out, buf);
+        fclose(out);
+    }
+
+    return result;
+}
+
+DWORD WINAPI Hooks_GetModuleFileNameExW(HANDLE hProcess, HMODULE hModule, LPWSTR lpFilename, DWORD nSize)
+{
+    DWORD result = GetModuleFileNameExW(hProcess, hModule, lpFilename, nSize);
+
+    FILE* out;
+
+    if (!fopen_s(&out, LOG_FILENAME, "a")) {
+        CHAR buf[LOG_BUFFER_SIZE];
+        sprintf_s(buf, sizeof(buf), "GetModuleFileNameExW(hProcess: %p, hModule: %p, lpFilename: %ws, nSize: %d) -> DWORD: %d\n", hProcess, hModule, lpFilename, nSize, result);
         fprintf(out, buf);
         fclose(out);
     }
