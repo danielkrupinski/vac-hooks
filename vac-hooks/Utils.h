@@ -12,3 +12,5 @@ VOID Utils_hookImport(PCWSTR, PCSTR, PCSTR, PVOID);
 #define UTILS_HASH_256(s, i, val) UTILS_HASH_64(s, i, UTILS_HASH_64(s, i + 64, UTILS_HASH_64(s, i + 128, UTILS_HASH_64(s, i + 192, val))))
 
 #define UTILS_HASH(s) ((UINT)(UTILS_HASH_256(s, 0, 0) ^ UTILS_HASH_256(s, 0, 0) >> 16))
+
+UINT Utils_hashRuntime(PCSTR);
