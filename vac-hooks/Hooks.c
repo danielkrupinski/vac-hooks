@@ -45,7 +45,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetComputerNameExW;
     else if (!strcmp(lpProcName, "CreateRemoteThread"))
         return (FARPROC)Hooks_CreateRemoteThread;
-
+    else if (!strcmp(lpProcName, "NtOpenProcess"))
+        return (FARPROC)Hooks_NtOpenProcess;
     return result;
 }
 
