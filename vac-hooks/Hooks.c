@@ -47,6 +47,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_CreateRemoteThread;
     else if (!strcmp(lpProcName, "NtOpenProcess"))
         return (FARPROC)Hooks_NtOpenProcess;
+    else if (!strcmp(lpProcName, "ReadProcessMemory"))
+        return (FARPROC)Hooks_ReadProcessMemory;
+
     return result;
 }
 
@@ -155,6 +158,15 @@ NTSTATUS NTAPI Hooks_NtOpenProcess(PHANDLE ProcessHandle, ACCESS_MASK DesiredAcc
     NTSTATUS result = NtOpenProcess(ProcessHandle, DesiredAccess, ObjectAttributes, ClientId);
 
     Utils_log("NtOpenProcess(ProcessHandle: %p, DesiredAccess: %d, ObjectAttributes: %p, ClientId: %p) -> NTSTATUS: %l\n", ProcessHandle, DesiredAccess, ObjectAttributes, ClientId, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_ReadProcessMemory(HANDLE hProcess, LPCVOID lpBaseAddress, LPVOID lpBuffer, SIZE_T nSize, SIZE_T* lpNumberOfBytesRead)
+{
+    BOOL result = ReadProcessMemory(hProcess, lpBaseAddress, lpBuffer, nSize, lpNumberOfBytesRead);
+
+    Utils_log("ReadProcessMemory(hProcess: %p, lpBaseAddress: %p, lpBuffer: %p, nSize: %d, lpNumberOfBytesRead: %p) -> BOOL: %d\n", hProcess, lpBaseAddress, lpBuffer, nSize, lpNumberOfBytesRead, result);
 
     return result;
 }
