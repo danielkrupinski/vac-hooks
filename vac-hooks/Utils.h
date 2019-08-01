@@ -4,6 +4,7 @@
 
 PVOID Utils_findPattern(PCWSTR, PCSTR, SIZE_T);
 VOID Utils_hookImport(PCWSTR, PCSTR, PCSTR, PVOID);
+VOID Utils_log(PCSTR, ...);
 
 #define UTILS_HASH_1(s, i, val) (val * 65599u + ((i) < strlen(s) ? s[strlen(s) - 1- (i)] : 0))
 #define UTILS_HASH_4(s, i, val) UTILS_HASH_1(s, i, UTILS_HASH_1(s, i + 1, UTILS_HASH_1(s, i + 2, UTILS_HASH_1(s, i + 3, val))))

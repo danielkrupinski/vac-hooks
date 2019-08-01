@@ -55,6 +55,25 @@ VOID Utils_hookImport(PCWSTR moduleName, PCSTR importModuleName, PCSTR functionN
     }
 }
 
+#define LOG_FILENAME "vac-hooks.txt"
+#define LOG_BUFFER_SIZE 500
+
+VOID Utils_log(PCSTR format, ...)
+{
+    FILE* out;
+
+    if (!fopen_s(&out, LOG_FILENAME, "a")) {
+        CHAR buf[LOG_BUFFER_SIZE];
+
+        va_list args;
+        va_start(args, format);
+        vsprintf_s(buf, sizeof(buf), format, args);
+        va_end(args);
+        fprintf(out, buf);
+        fclose(out);
+    }
+}
+
 UINT Utils_hashRuntime(PCSTR str)
 {
     UINT hash = 0;
