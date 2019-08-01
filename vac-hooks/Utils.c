@@ -29,13 +29,13 @@ PVOID Utils_findPattern(PCWSTR module, PCSTR pattern, SIZE_T offset)
 
 VOID Utils_hookImport(PCWSTR moduleName, PCSTR importModuleName, PCSTR functionName, PVOID fun)
 {
-    HMODULE module = GetModuleHandleW(moduleName);
+    PBYTE module = (PBYTE)GetModuleHandleW(moduleName);
 
     PIMAGE_NT_HEADERS ntHeaders = (PIMAGE_NT_HEADERS)(module + ((PIMAGE_DOS_HEADER)module)->e_lfanew);
     PIMAGE_IMPORT_DESCRIPTOR imports = (PIMAGE_IMPORT_DESCRIPTOR)(module + ntHeaders->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress);
 
     for (PIMAGE_IMPORT_DESCRIPTOR import = imports; import->Name; import++) {
-        if (_strcmpi((PCSTR)module + import->Name, importModuleName))
+        if (_strcmpi(module + import->Name, importModuleName))
             continue;
 
         for (PIMAGE_THUNK_DATA original_first_thunk = (PIMAGE_THUNK_DATA)(module + import->OriginalFirstThunk), first_thunk = (PIMAGE_THUNK_DATA)(module + import->FirstThunk); original_first_thunk->u1.AddressOfData; original_first_thunk++, first_thunk++) {
