@@ -45,6 +45,16 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetProcessImageFileNameA;
     else if (!strcmp(lpProcName, "GetWindowTextW"))
         return (FARPROC)Hooks_GetWindowTextW;
+    else if (!strcmp(lpProcName, "QueryFullProcessImageNameW"))
+        return (FARPROC)Hooks_QueryFullProcessImageNameW;
+    else if (!strcmp(lpProcName, "GetModuleBaseNameA"))
+        return (FARPROC)Hooks_GetModuleBaseNameA;
+    else if (!strcmp(lpProcName, "GetModuleBaseNameW"))
+        return (FARPROC)Hooks_GetModuleBaseNameW;
+    else if (!strcmp(lpProcName, "GetModuleFileNameA"))
+        return (FARPROC)Hooks_GetModuleFileNameA;
+    else if (!strcmp(lpProcName, "GetModuleFileNameExA"))
+        return (FARPROC)Hooks_GetModuleFileNameExA;
 
     return result;
 }
