@@ -111,3 +111,19 @@ BOOL WINAPI Hooks_QueryFullProcessImageNameW(HANDLE hProcess, DWORD dwFlags, LPW
 
     return result;
 }
+
+DWORD WINAPI Hooks_GetModuleBaseNameA(HANDLE hProcess, HMODULE hModule, LPSTR lpBaseName, DWORD nSize)
+{
+    DWORD result = GetModuleBaseNameA(hProcess, hModule, lpBaseName, nSize);
+
+    FILE* out;
+
+    if (!fopen_s(&out, LOG_FILENAME, "a")) {
+        CHAR buf[LOG_BUFFER_SIZE];
+        sprintf_s(buf, sizeof(buf), "GetModuleBaseNameA(hProcess: %p, hModule: %p, lpBaseName: %s, nSize: %d) -> DWORD: %d\n", hProcess, hModule, lpBaseName, nSize, result);
+        fprintf(out, buf);
+        fclose(out);
+    }
+
+    return result;
+}
