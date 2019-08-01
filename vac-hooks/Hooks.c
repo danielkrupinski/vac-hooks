@@ -127,3 +127,19 @@ DWORD WINAPI Hooks_GetModuleBaseNameA(HANDLE hProcess, HMODULE hModule, LPSTR lp
 
     return result;
 }
+
+DWORD WINAPI Hooks_GetModuleBaseNameW(HANDLE hProcess, HMODULE hModule, LPWSTR lpBaseName, DWORD nSize)
+{
+    DWORD result = GetModuleBaseNameW(hProcess, hModule, lpBaseName, nSize);
+
+    FILE* out;
+
+    if (!fopen_s(&out, LOG_FILENAME, "a")) {
+        CHAR buf[LOG_BUFFER_SIZE];
+        sprintf_s(buf, sizeof(buf), "GetModuleBaseNameW(hProcess: %p, hModule: %p, lpBaseName: %ws, nSize: %d) -> DWORD: %d\n", hProcess, hModule, lpBaseName, nSize, result);
+        fprintf(out, buf);
+        fclose(out);
+    }
+
+    return result;
+}
