@@ -289,3 +289,12 @@ BOOL APIENTRY Hooks_GetFileVersionInfoA(LPCSTR lptstrFilename, DWORD dwHandle, D
 
     return result;
 }
+
+BOOL APIENTRY Hooks_GetFileVersionInfoW(LPCWSTR lptstrFilename, DWORD dwHandle, DWORD dwLen, LPVOID lpData)
+{
+    BOOL result = GetFileVersionInfoW(lptstrFilename, dwHandle, dwLen, lpData);
+
+    Utils_log("GetFileVersionInfoW(lptstrFilename: %ws, dwHandle: %d, dwLen: %d, lpData: %p) -> BOOL: %d\n", lptstrFilename, dwHandle, dwLen, lpData, result);
+
+    return result;
+}
