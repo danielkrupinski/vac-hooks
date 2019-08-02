@@ -334,8 +334,9 @@ DWORD APIENTRY Hooks_GetFileVersionInfoSizeW(LPCWSTR lptstrFilename, LPDWORD lpd
 DWORD WINAPI Hooks_GetFileSize(HANDLE hFile, LPDWORD lpFileSizeHigh)
 {
     DWORD result = GetFileSize(hFile, lpFileSizeHigh);
+    WCHAR filename[MAX_PATH];
 
-    Utils_log("GetFileSize(hFile: %p, lpFileSizeHigh: %p) -> DWORD: %d\n", hFile, lpFileSizeHigh, result);
+    Utils_log("GetFileSize(hFile: %p (%ws), lpFileSizeHigh: %p) -> DWORD: %d\n", hFile, GetFinalPathNameByHandleW(hFile, filename, MAX_PATH, 0) ? filename : L"", lpFileSizeHigh, result);
 
     return result;
 }
@@ -343,8 +344,9 @@ DWORD WINAPI Hooks_GetFileSize(HANDLE hFile, LPDWORD lpFileSizeHigh)
 BOOL WINAPI Hooks_GetFileSizeEx(HANDLE hFile, PLARGE_INTEGER lpFileSize)
 {
     BOOL result = GetFileSizeEx(hFile, lpFileSize);
+    WCHAR filename[MAX_PATH];
 
-    Utils_log("GetFileSizeEx(hFile: %p, lpFileSize: %p) -> BOOL: %d\n", hFile, lpFileSize, result);
+    Utils_log("GetFileSizeEx(hFile: %p (%ws), lpFileSize: %p) -> BOOL: %d\n", hFile, GetFinalPathNameByHandleW(hFile, filename, MAX_PATH, 0) ? filename : L"", lpFileSize, result);
 
     return result;
 }
