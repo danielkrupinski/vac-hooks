@@ -53,6 +53,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_MultiByteToWideChar;
     else if (!strcmp(lpProcName, "GetUserNameExW"))
         return (FARPROC)Hooks_GetUserNameExW;
+    else if (!strcmp(lpProcName, "GetDriveTypeW"))
+        return (FARPROC)Hooks_GetDriveTypeW;
 
     return result;
 }
@@ -189,6 +191,15 @@ BOOLEAN SEC_ENTRY Hooks_GetUserNameExW(EXTENDED_NAME_FORMAT NameFormat, LPWSTR l
     BOOLEAN result = GetUserNameExW(NameFormat, lpNameBuffer, nSize);
 
     Utils_log("GetUserNameExW(NameFormat: %d, lpNameBuffer: %ws, nSize: %ul) -> BOOLEAN: %d\n", NameFormat, lpNameBuffer, nSize, result);
+
+    return result;
+}
+
+UINT WINAPI Hooks_GetDriveTypeW(LPCWSTR lpRootPathName)
+{
+    UINT result = GetDriveTypeW(lpRootPathName);
+
+    Utils_log("GetDriveTypeW(lpRootPathName: %ws) -> UINT: %u\n", lpRootPathName, result);
 
     return result;
 }
