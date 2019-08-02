@@ -32,3 +32,4 @@ VOID     WINAPI     Hooks_OutputDebugStringA(LPCSTR);
 BOOL     APIENTRY   Hooks_GetFileVersionInfoA(LPCSTR, DWORD, DWORD, LPVOID);
 BOOL     APIENTRY   Hooks_GetFileVersionInfoW(LPCWSTR, DWORD, DWORD, LPVOID);
 DWORD    APIENTRY   Hooks_GetFileVersionInfoSizeA(LPCSTR, LPDWORD);
+DWORD    APIENTRY   Hooks_GetFileVersionInfoSizeW(LPCWSTR, LPDWORD);

@@ -73,6 +73,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetFileVersionInfoA;
     else if (!strcmp(lpProcName, "GetFileVersionInfoSizeA"))
         return (FARPROC)Hooks_GetFileVersionInfoSizeA;
+    else if (!strcmp(lpProcName, "GetFileVersionInfoSizeW"))
+        return (FARPROC)Hooks_GetFileVersionInfoSizeW;
 
     return result;
 }
@@ -306,6 +308,15 @@ DWORD APIENTRY Hooks_GetFileVersionInfoSizeA(LPCSTR lptstrFilename, LPDWORD lpdw
     DWORD result = GetFileVersionInfoSizeA(lptstrFilename, lpdwHandle);
 
     Utils_log("GetFileVersionInfoSizeA(lptstrFilename: %s, lpdwHandle: %p) -> DWORD: %d\n", lptstrFilename, lpdwHandle, result);
+
+    return result;
+}
+
+DWORD APIENTRY Hooks_GetFileVersionInfoSizeW(LPCWSTR lptstrFilename, LPDWORD lpdwHandle)
+{
+    DWORD result = GetFileVersionInfoSizeW(lptstrFilename, lpdwHandle);
+
+    Utils_log("GetFileVersionInfoSizeW(lptstrFilename: %ws, lpdwHandle: %p) -> DWORD: %d\n", lptstrFilename, lpdwHandle, result);
 
     return result;
 }
