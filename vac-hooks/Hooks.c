@@ -27,6 +27,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_OpenProcess;
     else if (!strcmp(lpProcName, "GetProcessImageFileNameA"))
         return (FARPROC)Hooks_GetProcessImageFileNameA;
+    else if (!strcmp(lpProcName, "GetProcessImageFileNameW"))
+        return (FARPROC)Hooks_GetProcessImageFileNameW;
     else if (!strcmp(lpProcName, "GetWindowTextW"))
         return (FARPROC)Hooks_GetWindowTextW;
     else if (!strcmp(lpProcName, "QueryFullProcessImageNameW"))
@@ -73,6 +75,15 @@ DWORD WINAPI Hooks_GetProcessImageFileNameA(HANDLE hProcess, LPSTR lpImageFileNa
     DWORD result = GetProcessImageFileNameA(hProcess, lpImageFileName, nSize);
 
     Utils_log("GetProcessImageFileNameA(hProcess: %p, lpImageFileName: %s, nSize: %d) -> DWORD: %d\n", hProcess, lpImageFileName, nSize, result);
+
+    return result;
+}
+
+DWORD WINAPI Hooks_GetProcessImageFileNameW(HANDLE hProcess, LPWSTR lpImageFileName, DWORD nSize)
+{
+    DWORD result = GetProcessImageFileNameW(hProcess, lpImageFileName, nSize);
+
+    Utils_log("GetProcessImageFileNameW(hProcess: %p, lpImageFileName: %ws, nSize: %d) -> DWORD: %d\n", hProcess, lpImageFileName, nSize, result);
 
     return result;
 }
