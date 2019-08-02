@@ -57,6 +57,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetUserNameExW;
     else if (!strcmp(lpProcName, "GetDriveTypeW"))
         return (FARPROC)Hooks_GetDriveTypeW;
+    else if (!strcmp(lpProcName, "RegEnumKeyExA"))
+        return (FARPROC)Hooks_RegEnumKeyExA;
 
     return result;
 }
@@ -201,7 +203,7 @@ BOOLEAN SEC_ENTRY Hooks_GetUserNameExW(EXTENDED_NAME_FORMAT NameFormat, LPWSTR l
 {
     BOOLEAN result = GetUserNameExW(NameFormat, lpNameBuffer, nSize);
 
-    Utils_log("GetUserNameExW(NameFormat: %d, lpNameBuffer: %ws, nSize: %ul) -> BOOLEAN: %d\n", NameFormat, lpNameBuffer, nSize, result);
+    Utils_log("GetUserNameExW(NameFormat: %d, lpNameBuffer: %ws, nSize: %ul) -> BOOLEAN: %d\n", NameFormat, lpNameBuffer, *nSize, result);
 
     return result;
 }
@@ -211,6 +213,15 @@ UINT WINAPI Hooks_GetDriveTypeW(LPCWSTR lpRootPathName)
     UINT result = GetDriveTypeW(lpRootPathName);
 
     Utils_log("GetDriveTypeW(lpRootPathName: %ws) -> UINT: %u\n", lpRootPathName, result);
+
+    return result;
+}
+
+LSTATUS Hooks_RegEnumKeyExA(HKEY hKey, DWORD dwIndex, LPSTR lpName, LPDWORD lpcchName, LPDWORD lpReserved, LPSTR lpClass, LPDWORD lpcchClass, PFILETIME lpftLastWriteTime)
+{
+    LSTATUS result = RegEnumKeyExA(hKey, dwIndex, lpName, lpcchName, lpReserved, lpClass, lpcchClass, lpftLastWriteTime);
+
+    Utils_log("RegEnumKeyExA(hKey: %p, dwIndex: %d, lpName: %s, lpcchName: %d, lpReserved: %p, lpClass: %p, lpcchClass: %p, lpftLastWriteTime: %p) -> LSTATUS: %l\n", hKey, dwIndex, lpName, lpcchName, lpReserved, lpClass, lpcchClass, lpftLastWriteTime, result);
 
     return result;
 }
