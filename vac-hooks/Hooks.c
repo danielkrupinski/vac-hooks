@@ -69,6 +69,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_RegQueryValueExA;
     else if (!strcmp(lpProcName, "OutputDebugStringA"))
         return (FARPROC)Hooks_OutputDebugStringA;
+    else if (!strcmp(lpProcName, "GetFileVersionInfoA"))
+        return (FARPROC)Hooks_GetFileVersionInfoA;
 
     return result;
 }
@@ -277,4 +279,13 @@ VOID WINAPI Hooks_OutputDebugStringA(LPCSTR lpOutputString)
     OutputDebugStringA(lpOutputString);
 
     Utils_log("OutputDebugStringA(lpOutputString: %s) -> VOID\n", lpOutputString);
+}
+
+BOOL APIENTRY Hooks_GetFileVersionInfoA(LPCSTR lptstrFilename, DWORD dwHandle, DWORD dwLen, LPVOID lpData)
+{
+    BOOL result = GetFileVersionInfoA(lptstrFilename, dwHandle, dwLen, lpData);
+
+    Utils_log("GetFileVersionInfoA(lptstrFilename: %s, dwHandle: %d, dwLen: %d, lpData: %p) -> BOOL: %d\n", lptstrFilename, dwHandle, dwLen, lpData, result);
+
+    return result;
 }
