@@ -37,3 +37,4 @@ DWORD    WINAPI     Hooks_GetFileSize(HANDLE, LPDWORD);
 BOOL     WINAPI     Hooks_GetFileSizeEx(HANDLE, PLARGE_INTEGER);
 BOOL     WINAPI     Hooks_GetWindowInfo(HWND, PWINDOWINFO);
 UINT     WINAPI     Hooks_GetWindowsDirectoryA(LPSTR, UINT);
+UINT     WINAPI     Hooks_GetWindowsDirectoryW(LPWSTR, UINT);
