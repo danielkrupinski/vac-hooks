@@ -34,3 +34,4 @@ BOOL     APIENTRY   Hooks_GetFileVersionInfoW(LPCWSTR, DWORD, DWORD, LPVOID);
 DWORD    APIENTRY   Hooks_GetFileVersionInfoSizeA(LPCSTR, LPDWORD);
 DWORD    APIENTRY   Hooks_GetFileVersionInfoSizeW(LPCWSTR, LPDWORD);
 DWORD    WINAPI     Hooks_GetFileSize(HANDLE, LPDWORD);
+BOOL     WINAPI     Hooks_GetFileSizeEx(HANDLE, PLARGE_INTEGER);
