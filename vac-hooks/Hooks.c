@@ -61,6 +61,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_RegEnumKeyExA;
     else if (!strcmp(lpProcName, "RegOpenKeyExA"))
         return (FARPROC)Hooks_RegOpenKeyExA;
+    else if (!strcmp(lpProcName, "RegCloseKey"))
+        return (FARPROC)Hooks_RegCloseKey;
 
     return result;
 }
@@ -233,6 +235,15 @@ LSTATUS APIENTRY Hooks_RegOpenKeyExA(HKEY hKey, LPCSTR lpSubKey, DWORD ulOptions
     LSTATUS result = RegOpenKeyExA(hKey, lpSubKey, ulOptions, samDesired, phkResult);
 
     Utils_log("RegOpenKeyExA(hKey: %p, lpSubKey: %s, ulOptions: %d, samDesired: %d, phkResult: %p) -> LSTATUS: %l\n", hKey, lpSubKey ? lpSubKey : "", ulOptions, samDesired, phkResult, result);
+
+    return result;
+}
+
+LSTATUS APIENTRY Hooks_RegCloseKey(HKEY hKey)
+{
+    LSTATUS result = RegCloseKey(hKey);
+
+    Utils_log("RegCloseKey(hKey: %p) -> LSTATUS: %l\n", hKey, result);
 
     return result;
 }
