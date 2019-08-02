@@ -59,6 +59,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetDriveTypeW;
     else if (!strcmp(lpProcName, "RegEnumKeyExA"))
         return (FARPROC)Hooks_RegEnumKeyExA;
+    else if (!strcmp(lpProcName, "RegOpenKeyExA"))
+        return (FARPROC)Hooks_RegOpenKeyExA;
 
     return result;
 }
@@ -217,11 +219,20 @@ UINT WINAPI Hooks_GetDriveTypeW(LPCWSTR lpRootPathName)
     return result;
 }
 
-LSTATUS Hooks_RegEnumKeyExA(HKEY hKey, DWORD dwIndex, LPSTR lpName, LPDWORD lpcchName, LPDWORD lpReserved, LPSTR lpClass, LPDWORD lpcchClass, PFILETIME lpftLastWriteTime)
+LSTATUS APIENTRY Hooks_RegEnumKeyExA(HKEY hKey, DWORD dwIndex, LPSTR lpName, LPDWORD lpcchName, LPDWORD lpReserved, LPSTR lpClass, LPDWORD lpcchClass, PFILETIME lpftLastWriteTime)
 {
     LSTATUS result = RegEnumKeyExA(hKey, dwIndex, lpName, lpcchName, lpReserved, lpClass, lpcchClass, lpftLastWriteTime);
 
     Utils_log("RegEnumKeyExA(hKey: %p, dwIndex: %d, lpName: %s, lpcchName: %d, lpReserved: %p, lpClass: %p, lpcchClass: %p, lpftLastWriteTime: %p) -> LSTATUS: %l\n", hKey, dwIndex, lpName, lpcchName, lpReserved, lpClass, lpcchClass, lpftLastWriteTime, result);
+
+    return result;
+}
+
+LSTATUS APIENTRY Hooks_RegOpenKeyExA(HKEY hKey, LPCSTR lpSubKey, DWORD ulOptions, REGSAM samDesired, PHKEY phkResult)
+{
+    LSTATUS result = RegOpenKeyExA(hKey, lpSubKey, ulOptions, samDesired, phkResult);
+
+    Utils_log("RegOpenKeyExA(hKey: %p, lpSubKey: %s, ulOptions: %d, samDesired: %d, phkResult: %p) -> LSTATUS: %l\n", hKey, lpSubKey ? lpSubKey : "", ulOptions, samDesired, phkResult, result);
 
     return result;
 }
