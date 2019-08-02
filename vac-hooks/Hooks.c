@@ -85,6 +85,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetWindowsDirectoryA;
     else if (!strcmp(lpProcName, "GetWindowsDirectoryW"))
         return (FARPROC)Hooks_GetWindowsDirectoryW;
+    else if (!strcmp(lpProcName, "GetModuleHandleA"))
+        return (FARPROC)Hooks_GetModuleHandleA;
 
     return result;
 }
@@ -374,6 +376,15 @@ UINT WINAPI Hooks_GetWindowsDirectoryW(LPWSTR lpBuffer, UINT uSize)
     UINT result = GetWindowsDirectoryW(lpBuffer, uSize);
 
     Utils_log("GetWindowsDirectoryW(lpBuffer: %ws, uSize: %u) -> UINT: %u\n", lpBuffer, uSize, result);
+
+    return result;
+}
+
+HMODULE WINAPI Hooks_GetModuleHandleA(LPCSTR lpModuleName)
+{
+    HMODULE result = GetModuleHandleA(lpModuleName);
+
+    Utils_log("GetModuleHandleA(lpModuleName: %s) -> HMODULE: %p\n", lpModuleName ? lpModuleName : "", result);
 
     return result;
 }
