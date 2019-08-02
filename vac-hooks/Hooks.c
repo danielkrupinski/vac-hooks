@@ -67,6 +67,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_RegQueryInfoKeyA;
     else if (!strcmp(lpProcName, "RegQueryValueExA"))
         return (FARPROC)Hooks_RegQueryValueExA;
+    else if (!strcmp(lpProcName, "OutputDebugStringA"))
+        return (FARPROC)Hooks_OutputDebugStringA;
 
     return result;
 }
@@ -268,4 +270,11 @@ LSTATUS APIENTRY Hooks_RegQueryValueExA(HKEY hKey, LPCSTR lpValueName, LPDWORD l
     Utils_log("RegQueryValueExA(hKey: %p, lpValueName: %s, lpcchClass: %p, lpReserved: %p, lpType: %p, lpData: %p, lpcbData: %p) -> LSTATUS: %l\n", hKey, lpValueName ? lpValueName : "", lpReserved, lpType, lpData, lpcbData, result);
 
     return result;
+}
+
+VOID WINAPI Hooks_OutputDebugStringA(LPCSTR lpOutputString)
+{
+    OutputDebugStringA(lpOutputString);
+
+    Utils_log("OutputDebugStringA(lpOutputString: %s) -> VOID\n", lpOutputString);
 }
