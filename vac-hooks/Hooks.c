@@ -79,6 +79,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetFileSize;
     else if (!strcmp(lpProcName, "GetFileSizeEx"))
         return (FARPROC)Hooks_GetFileSizeEx;
+    else if (!strcmp(lpProcName, "GetWindowInfo"))
+        return (FARPROC)Hooks_GetWindowInfo;
 
     return result;
 }
@@ -339,6 +341,15 @@ BOOL WINAPI Hooks_GetFileSizeEx(HANDLE hFile, PLARGE_INTEGER lpFileSize)
     BOOL result = GetFileSizeEx(hFile, lpFileSize);
 
     Utils_log("GetFileSizeEx(hFile: %p, lpFileSize: %p) -> BOOL: %d\n", hFile, lpFileSize, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_GetWindowInfo(HWND hwnd, PWINDOWINFO pwi)
+{
+    BOOL result = GetWindowInfo(hwnd, pwi);
+
+    Utils_log("GetWindowInfo(hwnd: %p, pwi: %p) -> BOOL: %d\n", hwnd, pwi, result);
 
     return result;
 }
