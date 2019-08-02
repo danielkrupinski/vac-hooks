@@ -51,6 +51,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_ReadProcessMemory;
     else if (!strcmp(lpProcName, "MultiByteToWideChar"))
         return (FARPROC)Hooks_MultiByteToWideChar;
+    else if (!strcmp(lpProcName, "GetUserNameExW"))
+        return (FARPROC)Hooks_GetUserNameExW;
 
     return result;
 }
@@ -178,6 +180,15 @@ int WINAPI Hooks_MultiByteToWideChar(UINT CodePage, DWORD dwFlags, LPCCH lpMulti
     int result = MultiByteToWideChar(CodePage, dwFlags, lpMultiByteStr, cbMultiByte, lpWideCharStr, cchWideChar);
 
     Utils_log("MultiByteToWideChar(CodePage: %u, dwFlags: %d, lpMultiByteStr: %s, cbMultiByte: %d, lpWideCharStr: %ws, cchWideChar: %d) -> int: %d\n", CodePage, dwFlags, lpMultiByteStr, cbMultiByte, lpWideCharStr, cchWideChar, result);
+
+    return result;
+}
+
+BOOLEAN SEC_ENTRY Hooks_GetUserNameExW(EXTENDED_NAME_FORMAT NameFormat, LPWSTR lpNameBuffer, PULONG nSize)
+{
+    BOOLEAN result = GetUserNameExW(NameFormat, lpNameBuffer, nSize);
+
+    Utils_log("GetUserNameExW(NameFormat: %d, lpNameBuffer: %ws, nSize: %ul) -> BOOLEAN: %d\n", NameFormat, lpNameBuffer, nSize, result);
 
     return result;
 }
