@@ -39,3 +39,4 @@ BOOL     WINAPI     Hooks_GetWindowInfo(HWND, PWINDOWINFO);
 UINT     WINAPI     Hooks_GetWindowsDirectoryA(LPSTR, UINT);
 UINT     WINAPI     Hooks_GetWindowsDirectoryW(LPWSTR, UINT);
 HMODULE  WINAPI     Hooks_GetModuleHandleA(LPCSTR);
+PVOID    WINAPI     Hooks_AddVectoredExceptionHandler(ULONG, PVECTORED_EXCEPTION_HANDLER);

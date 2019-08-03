@@ -87,6 +87,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetWindowsDirectoryW;
     else if (!strcmp(lpProcName, "GetModuleHandleA"))
         return (FARPROC)Hooks_GetModuleHandleA;
+    else if (!strcmp(lpProcName, "AddVectoredExceptionHandler"))
+        return (FARPROC)Hooks_AddVectoredExceptionHandler;
 
     return result;
 }
@@ -385,6 +387,15 @@ HMODULE WINAPI Hooks_GetModuleHandleA(LPCSTR lpModuleName)
     HMODULE result = GetModuleHandleA(lpModuleName);
 
     Utils_log("GetModuleHandleA(lpModuleName: %s) -> HMODULE: %p\n", lpModuleName ? lpModuleName : "", result);
+
+    return result;
+}
+
+PVOID WINAPI Hooks_AddVectoredExceptionHandler(ULONG First, PVECTORED_EXCEPTION_HANDLER Handler)
+{
+    PVOID result = AddVectoredExceptionHandler(First, Handler);
+
+    Utils_log("AddVectoredExceptionHandler(First: %ul, Handler: %p) -> PVOID: %p\n", First, Handler, result);
 
     return result;
 }
