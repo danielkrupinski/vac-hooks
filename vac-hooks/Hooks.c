@@ -101,6 +101,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetCurrentProcess;
     else if (!strcmp(lpProcName, "GetCurrentProcessId"))
         return (FARPROC)Hooks_GetCurrentProcessId;
+    else if (!strcmp(lpProcName, "GetCurrentThread"))
+        return (FARPROC)Hooks_GetCurrentThread;
 
     return result;
 }
@@ -462,6 +464,15 @@ DWORD WINAPI Hooks_GetCurrentProcessId(VOID)
     DWORD result = GetCurrentProcessId();
 
     Utils_log("GetCurrentProcessId() -> DWORD: %d\n", result);
+
+    return result;;
+}
+
+HANDLE WINAPI Hooks_GetCurrentThread(VOID)
+{
+    HANDLE result = GetCurrentThread();
+
+    Utils_log("GetCurrentThread() -> HANDLE: %p\n", result);
 
     return result;;
 }
