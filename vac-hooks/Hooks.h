@@ -47,3 +47,4 @@ HANDLE   WINAPI     Hooks_CreateFileW(LPCWSTR, DWORD, DWORD, LPSECURITY_ATTRIBUT
 HANDLE   WINAPI     Hooks_GetCurrentProcess(VOID);
 DWORD    WINAPI     Hooks_GetCurrentProcessId(VOID);
 HANDLE   WINAPI     Hooks_GetCurrentThread(VOID);
+DWORD    WINAPI     Hooks_GetCurrentThreadId(VOID);
