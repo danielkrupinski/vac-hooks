@@ -91,6 +91,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_AddVectoredExceptionHandler;
     else if (!strcmp(lpProcName, "AdjustTokenPrivileges"))
         return (FARPROC)Hooks_AdjustTokenPrivileges;
+    else if (!strcmp(lpProcName, "CertGetNameStringW"))
+        return (FARPROC)Hooks_CertGetNameStringW;
 
     return result;
 }
@@ -407,6 +409,15 @@ BOOL WINAPI Hooks_AdjustTokenPrivileges(HANDLE TokenHandle, BOOL DisableAllPrivi
     BOOL result = AdjustTokenPrivileges(TokenHandle, DisableAllPrivileges, NewState, BufferLength, PreviousState, ReturnLength);
 
     Utils_log("AdjustTokenPrivileges(TokenHandle: %ulp, DisableAllPrivileges: %d, NewState: %p, BufferLength: %d, PreviousState: %p, ReturnLength: %p) -> BOOL: %d\n", TokenHandle, DisableAllPrivileges, NewState, BufferLength, PreviousState, ReturnLength, result);
+
+    return result;
+}
+
+DWORD WINAPI Hooks_CertGetNameStringW(PCCERT_CONTEXT pCertContext, DWORD dwType, DWORD dwFlags, void* pvTypePara, LPWSTR pszNameString, DWORD cchNameString)
+{
+    DWORD result = CertGetNameStringW(pCertContext, dwType, dwFlags, pvTypePara, pszNameString, cchNameString);
+
+    Utils_log("CertGetNameStringW(pCertContext: %p, dwType: %d, dwFlags: %p, pvTypePara: %p, pszNameString: %ws, cchNameString: %d) -> DWORD: %d\n", pCertContext, dwType, dwFlags, pvTypePara, pszNameString, cchNameString, result);
 
     return result;
 }

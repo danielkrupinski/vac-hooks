@@ -41,3 +41,4 @@ UINT     WINAPI     Hooks_GetWindowsDirectoryW(LPWSTR, UINT);
 HMODULE  WINAPI     Hooks_GetModuleHandleA(LPCSTR);
 PVOID    WINAPI     Hooks_AddVectoredExceptionHandler(ULONG, PVECTORED_EXCEPTION_HANDLER);
 BOOL     WINAPI     Hooks_AdjustTokenPrivileges(HANDLE, BOOL, PTOKEN_PRIVILEGES, DWORD, PTOKEN_PRIVILEGES, PDWORD);
+DWORD    WINAPI     Hooks_CertGetNameStringW(PCCERT_CONTEXT, DWORD, DWORD, void*, LPWSTR, DWORD);
