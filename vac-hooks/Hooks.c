@@ -97,6 +97,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_CreateFileA;
     else if (!strcmp(lpProcName, "CreateFileW"))
         return (FARPROC)Hooks_CreateFileW;
+    else if (!strcmp(lpProcName, "GetCurrentProcess"))
+        return (FARPROC)Hooks_GetCurrentProcess;
 
     return result;
 }
@@ -442,4 +444,13 @@ HANDLE WINAPI Hooks_CreateFileW(LPCWSTR lpFileName, DWORD dwDesiredAccess, DWORD
     Utils_log("CreateFileW(lpFileName: %ws, dwDesiredAccess: %d, dwShareMode: %d, lpSecurityAttributes: %p, dwCreationDisposition: %d, dwFlagsAndAttributes: %d, hTemplateFile: %p) -> HANDLE: %p\n", lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, result);
 
     return result;
+}
+
+HANDLE WINAPI Hooks_GetCurrentProcess(VOID)
+{
+    HANDLE result = GetCurrentProcess();
+
+    Utils_log("GetCurrentProcess() -> HANDLE: %p\n", result);
+
+    return result;;
 }
