@@ -89,6 +89,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetModuleHandleA;
     else if (!strcmp(lpProcName, "AddVectoredExceptionHandler"))
         return (FARPROC)Hooks_AddVectoredExceptionHandler;
+    else if (!strcmp(lpProcName, "AdjustTokenPrivileges"))
+        return (FARPROC)Hooks_AdjustTokenPrivileges;
 
     return result;
 }
@@ -396,6 +398,15 @@ PVOID WINAPI Hooks_AddVectoredExceptionHandler(ULONG First, PVECTORED_EXCEPTION_
     PVOID result = AddVectoredExceptionHandler(First, Handler);
 
     Utils_log("AddVectoredExceptionHandler(First: %ul, Handler: %p) -> PVOID: %p\n", First, Handler, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_AdjustTokenPrivileges(HANDLE TokenHandle, BOOL DisableAllPrivileges, PTOKEN_PRIVILEGES NewState, DWORD BufferLength, PTOKEN_PRIVILEGES PreviousState, PDWORD ReturnLength)
+{
+    BOOL result = AdjustTokenPrivileges(TokenHandle, DisableAllPrivileges, NewState, BufferLength, PreviousState, ReturnLength);
+
+    Utils_log("AdjustTokenPrivileges(TokenHandle: %ulp, DisableAllPrivileges: %d, NewState: %p, BufferLength: %d, PreviousState: %p, ReturnLength: %p) -> BOOL: %d\n", TokenHandle, DisableAllPrivileges, NewState, BufferLength, PreviousState, ReturnLength, result);
 
     return result;
 }
