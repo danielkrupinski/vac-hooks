@@ -55,3 +55,4 @@ BOOL     WINAPI     Hooks_EnumProcesses(DWORD*, DWORD, LPDWORD);
 BOOL     WINAPI     Hooks_EnumWindows(WNDENUMPROC, LPARAM);
 BOOL     WINAPI     Hooks_GetProcessTimes(HANDLE, LPFILETIME, LPFILETIME, LPFILETIME, LPFILETIME);
 DWORD    WINAPI     Hooks_WaitForSingleObject(HANDLE, DWORD);
+LPVOID   WINAPI     Hooks_VirtualAlloc(LPVOID, SIZE_T, DWORD, DWORD);

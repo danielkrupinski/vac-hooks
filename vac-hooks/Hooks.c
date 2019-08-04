@@ -120,6 +120,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetProcessTimes;
     else if (!strcmp(lpProcName, "WaitForSingleObject"))
         return (FARPROC)Hooks_WaitForSingleObject;
+    else if (!strcmp(lpProcName, "VirtualAlloc"))
+        return (FARPROC)Hooks_VirtualAlloc;
 
     return result;
 }
@@ -562,6 +564,15 @@ DWORD WINAPI Hooks_WaitForSingleObject(HANDLE hHandle, DWORD dwMilliseconds)
     DWORD result = WaitForSingleObject(hHandle, dwMilliseconds);
 
     Utils_log("WaitForSingleObject(hHandle: %p, dwMilliseconds: %d) -> DWORD: %d\n", hHandle, dwMilliseconds, result);
+
+    return result;
+}
+
+LPVOID WINAPI Hooks_VirtualAlloc(LPVOID lpAddress, SIZE_T dwSize, DWORD flAllocationType, DWORD flProtect)
+{
+    LPVOID result = VirtualAlloc(lpAddress, dwSize, flAllocationType, flProtect);
+
+    Utils_log("VirtualAlloc(lpAddress: %p, dwSize: %d, flAllocationType: %d, flProtect: %d) -> LPVOID: %p\n", lpAddress, dwSize, flAllocationType, flProtect, result);
 
     return result;
 }
