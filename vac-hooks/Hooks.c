@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <Windows.h>
 #include <Psapi.h>
+#include <TlHelp32.h>
 
 #include "Hooks.h"
 #include "Utils.h"
@@ -105,6 +106,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetCurrentThread;
     else if (!strcmp(lpProcName, "GetCurrentThreadId"))
         return (FARPROC)Hooks_GetCurrentThreadId;
+    else if (!strcmp(lpProcName, "CreateToolhelp32Snapshot"))
+        return (FARPROC)Hooks_CreateToolhelp32Snapshot;
 
     return result;
 }
@@ -484,6 +487,15 @@ DWORD WINAPI Hooks_GetCurrentThreadId(VOID)
     DWORD result = GetCurrentThreadId();
 
     Utils_log("GetCurrentThreadId() -> DWORD: %d\n", result);
+
+    return result;
+}
+
+HANDLE WINAPI Hooks_CreateToolhelp32Snapshot(DWORD dwFlags, DWORD th32ProcessID)
+{
+    HANDLE result = CreateToolhelp32Snapshot(dwFlags, th32ProcessID);
+
+    Utils_log("CreateToolhelp32Snapshot(dwFlags: %d, th32ProcessID: %d) -> HANDLE: %p\n", dwFlags, th32ProcessID, result);
 
     return result;
 }
