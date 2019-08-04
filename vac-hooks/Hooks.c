@@ -132,7 +132,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_VirtualProtect;
     else if (!strcmp(lpProcName, "VirtualQuery"))
         return (FARPROC)Hooks_VirtualQuery;
-        
+    else if (!strcmp(lpProcName, "VirtualQueryEx"))
+        return (FARPROC)Hooks_VirtualQueryEx;
+
     return result;
 }
 
@@ -628,6 +630,15 @@ SIZE_T WINAPI Hooks_VirtualQuery(LPCVOID lpAddress, PMEMORY_BASIC_INFORMATION lp
     SIZE_T result = VirtualQuery(lpAddress, lpBuffer, dwLength);
 
     Utils_log("VirtualQuery(lpAddress: %p, lpBuffer: %p, dwLength: %d) -> SIZE_T: %d\n", lpAddress, lpBuffer, dwLength, result);
+
+    return result;
+}
+
+SIZE_T WINAPI Hooks_VirtualQueryEx(HANDLE hProcess, LPCVOID lpAddress, PMEMORY_BASIC_INFORMATION lpBuffer, SIZE_T dwLength)
+{
+    SIZE_T result = VirtualQueryEx(hProcess, lpAddress, lpBuffer, dwLength);
+
+    Utils_log("VirtualQueryEx(hProcess: %p, lpAddress: %p, lpBuffer: %p, dwLength: %d) -> SIZE_T: %d\n", hProcess, lpAddress, lpBuffer, dwLength, result);
 
     return result;
 }
