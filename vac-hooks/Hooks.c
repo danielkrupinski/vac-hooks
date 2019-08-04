@@ -114,6 +114,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_EnumProcesses;
     else if (!strcmp(lpProcName, "EnumWindows"))
         return (FARPROC)Hooks_EnumWindows;
+    else if (!strcmp(lpProcName, "GetProcessTimes"))
+        return (FARPROC)Hooks_GetProcessTimes;
 
     return result;
 }
@@ -529,6 +531,15 @@ BOOL WINAPI Hooks_EnumWindows(WNDENUMPROC lpEnumFunc, LPARAM lParam)
     BOOL result = EnumWindows(lpEnumFunc, lParam);
 
     Utils_log("EnumWindows(lpEnumFunc: %p, lParam: %l) -> BOOL: %d\n", lpEnumFunc, lParam, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_GetProcessTimes(HANDLE hProcess, LPFILETIME lpCreationTime, LPFILETIME lpExitTime, LPFILETIME lpKernelTime, LPFILETIME lpUserTime)
+{
+    BOOL result = GetProcessTimes(hProcess, lpCreationTime, lpExitTime, lpKernelTime, lpUserTime);
+
+    Utils_log("GetProcessTimes(hProcess: %p, lpCreationTime: %p, lpExitTime: %p, lpKernelTime: %p, lpUserTime: %p) -> BOOL: %d\n", hProcess, lpCreationTime, lpExitTime, lpKernelTime, lpUserTime, result);
 
     return result;
 }

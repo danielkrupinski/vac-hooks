@@ -52,3 +52,4 @@ HANDLE   WINAPI     Hooks_CreateToolhelp32Snapshot(DWORD, DWORD);
 BOOL     WINAPI     Hooks_EnumChildWindows(HWND, WNDENUMPROC, LPARAM);
 BOOL     WINAPI     Hooks_EnumProcesses(DWORD*, DWORD, LPDWORD);
 BOOL     WINAPI     Hooks_EnumWindows(WNDENUMPROC, LPARAM);
+BOOL     WINAPI     Hooks_GetProcessTimes(HANDLE, LPFILETIME, LPFILETIME, LPFILETIME, LPFILETIME);
