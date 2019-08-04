@@ -52,6 +52,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_NtOpenProcess;
     else if (!strcmp(lpProcName, "ReadProcessMemory"))
         return (FARPROC)Hooks_ReadProcessMemory;
+    else if (!strcmp(lpProcName, "WriteProcessMemory"))
+        return (FARPROC)Hooks_WriteProcessMemory;
     else if (!strcmp(lpProcName, "MultiByteToWideChar"))
         return (FARPROC)Hooks_MultiByteToWideChar;
     else if (!strcmp(lpProcName, "GetUserNameExW"))
@@ -243,6 +245,15 @@ BOOL WINAPI Hooks_ReadProcessMemory(HANDLE hProcess, LPCVOID lpBaseAddress, LPVO
     BOOL result = ReadProcessMemory(hProcess, lpBaseAddress, lpBuffer, nSize, lpNumberOfBytesRead);
 
     Utils_log("ReadProcessMemory(hProcess: %p, lpBaseAddress: %p, lpBuffer: %p, nSize: %d, lpNumberOfBytesRead: %p) -> BOOL: %d\n", hProcess, lpBaseAddress, lpBuffer, nSize, lpNumberOfBytesRead, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_WriteProcessMemory(HANDLE hProcess, LPVOID lpBaseAddress, LPCVOID lpBuffer, SIZE_T nSize, SIZE_T* lpNumberOfBytesWritten)
+{
+    BOOL result = WriteProcessMemory(hProcess, lpBaseAddress, lpBuffer, nSize, lpNumberOfBytesWritten);
+
+    Utils_log("WriteProcessMemory(hProcess: %p, lpBaseAddress: %p, lpBuffer: %p, nSize: %d, lpNumberOfBytesWritten: %p) -> BOOL: %d\n", hProcess, lpBaseAddress, lpBuffer, nSize, lpNumberOfBytesWritten, result);
 
     return result;
 }
