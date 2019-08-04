@@ -122,6 +122,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_WaitForSingleObject;
     else if (!strcmp(lpProcName, "VirtualAlloc"))
         return (FARPROC)Hooks_VirtualAlloc;
+    else if (!strcmp(lpProcName, "VirtualAllocEx"))
+        return (FARPROC)Hooks_VirtualAllocEx;
 
     return result;
 }
@@ -573,6 +575,15 @@ LPVOID WINAPI Hooks_VirtualAlloc(LPVOID lpAddress, SIZE_T dwSize, DWORD flAlloca
     LPVOID result = VirtualAlloc(lpAddress, dwSize, flAllocationType, flProtect);
 
     Utils_log("VirtualAlloc(lpAddress: %p, dwSize: %d, flAllocationType: %d, flProtect: %d) -> LPVOID: %p\n", lpAddress, dwSize, flAllocationType, flProtect, result);
+
+    return result;
+}
+
+LPVOID WINAPI Hooks_VirtualAllocEx(HANDLE hProcess, LPVOID lpAddress, SIZE_T dwSize, DWORD flAllocationType, DWORD flProtect)
+{
+    LPVOID result = VirtualAllocEx(hProcess, lpAddress, dwSize, flAllocationType, flProtect);
+
+    Utils_log("VirtualAllocEx(hProcess: %p, lpAddress: %p, dwSize: %d, flAllocationType: %d, flProtect: %d) -> LPVOID: %p\n", hProcess, lpAddress, dwSize, flAllocationType, flProtect, result);
 
     return result;
 }
