@@ -118,6 +118,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_EnumWindows;
     else if (!strcmp(lpProcName, "GetProcessTimes"))
         return (FARPROC)Hooks_GetProcessTimes;
+    else if (!strcmp(lpProcName, "WaitForSingleObject"))
+        return (FARPROC)Hooks_WaitForSingleObject;
 
     return result;
 }
@@ -551,6 +553,15 @@ BOOL WINAPI Hooks_GetProcessTimes(HANDLE hProcess, LPFILETIME lpCreationTime, LP
     BOOL result = GetProcessTimes(hProcess, lpCreationTime, lpExitTime, lpKernelTime, lpUserTime);
 
     Utils_log("GetProcessTimes(hProcess: %p, lpCreationTime: %p, lpExitTime: %p, lpKernelTime: %p, lpUserTime: %p) -> BOOL: %d\n", hProcess, lpCreationTime, lpExitTime, lpKernelTime, lpUserTime, result);
+
+    return result;
+}
+
+DWORD WINAPI Hooks_WaitForSingleObject(HANDLE hHandle, DWORD dwMilliseconds)
+{
+    DWORD result = WaitForSingleObject(hHandle, dwMilliseconds);
+
+    Utils_log("WaitForSingleObject(hHandle: %p, dwMilliseconds: %d) -> DWORD: %d\n", hHandle, dwMilliseconds, result);
 
     return result;
 }
