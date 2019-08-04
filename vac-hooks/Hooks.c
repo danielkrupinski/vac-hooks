@@ -112,6 +112,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_EnumChildWindows;
     else if (!strcmp(lpProcName, "EnumProcesses"))
         return (FARPROC)Hooks_EnumProcesses;
+    else if (!strcmp(lpProcName, "EnumWindows"))
+        return (FARPROC)Hooks_EnumWindows;
 
     return result;
 }
@@ -518,6 +520,15 @@ BOOL WINAPI Hooks_EnumProcesses(DWORD* lpidProcess, DWORD cb, LPDWORD lpcbNeeded
     BOOL result = EnumProcesses(lpidProcess, cb, lpcbNeeded);
 
     Utils_log("EnumProcesses(lpidProcess: %p, cb: %d, lpcbNeeded: %p) -> BOOL: %d\n", lpidProcess, cb, lpcbNeeded, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_EnumWindows(WNDENUMPROC lpEnumFunc, LPARAM lParam)
+{
+    BOOL result = EnumWindows(lpEnumFunc, lParam);
+
+    Utils_log("EnumWindows(lpEnumFunc: %p, lParam: %l) -> BOOL: %d\n", lpEnumFunc, lParam, result);
 
     return result;
 }
