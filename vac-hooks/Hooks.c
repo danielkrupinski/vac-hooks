@@ -134,7 +134,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_VirtualQuery;
     else if (!strcmp(lpProcName, "VirtualQueryEx"))
         return (FARPROC)Hooks_VirtualQueryEx;
-
+    else if (!strcmp(lpProcName, "SuspendThread"))
+        return (FARPROC)Hooks_SuspendThread;
+  
     return result;
 }
 
@@ -639,6 +641,15 @@ SIZE_T WINAPI Hooks_VirtualQueryEx(HANDLE hProcess, LPCVOID lpAddress, PMEMORY_B
     SIZE_T result = VirtualQueryEx(hProcess, lpAddress, lpBuffer, dwLength);
 
     Utils_log("VirtualQueryEx(hProcess: %p, lpAddress: %p, lpBuffer: %p, dwLength: %d) -> SIZE_T: %d\n", hProcess, lpAddress, lpBuffer, dwLength, result);
+
+    return result;
+}
+
+DWORD WINAPI Hooks_SuspendThread(HANDLE hThread)
+{
+    DWORD result = SuspendThread(hThread);
+
+    Utils_log("SuspendThread(hThread: %p) -> DWORD: %d\n", hThread, result);
 
     return result;
 }
