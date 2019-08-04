@@ -126,7 +126,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_VirtualAllocEx;
     else if (!strcmp(lpProcName, "VirtualFree"))
         return (FARPROC)Hooks_VirtualFree;
-   
+    else if (!strcmp(lpProcName, "VirtualFreeEx"))
+        return (FARPROC)Hooks_VirtualFreeEx;
+
     return result;
 }
 
@@ -595,6 +597,15 @@ BOOL WINAPI Hooks_VirtualFree(LPVOID lpAddress, SIZE_T dwSize, DWORD dwFreeType)
     BOOL result = VirtualFree(lpAddress, dwSize, dwFreeType);
 
     Utils_log("VirtualFree(lpAddress: %p, dwSize: %d, dwFreeType: %d) -> BOOL: %d\n", lpAddress, dwSize, dwFreeType, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_VirtualFreeEx(HANDLE hProcess, LPVOID lpAddress, SIZE_T dwSize, DWORD dwFreeType)
+{
+    BOOL result = VirtualFreeEx(hProcess, lpAddress, dwSize, dwFreeType);
+
+    Utils_log("VirtualFreeEx(hProcess: %p, lpAddress: %p, dwSize: %d, dwFreeType: %d) -> BOOL: %d\n", hProcess, lpAddress, dwSize, dwFreeType, result);
 
     return result;
 }
