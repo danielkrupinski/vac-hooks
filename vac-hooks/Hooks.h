@@ -59,3 +59,4 @@ LPVOID   WINAPI     Hooks_VirtualAlloc(LPVOID, SIZE_T, DWORD, DWORD);
 LPVOID   WINAPI     Hooks_VirtualAllocEx(HANDLE, LPVOID, SIZE_T, DWORD, DWORD);
 BOOL     WINAPI     Hooks_VirtualFree(LPVOID, SIZE_T, DWORD);
 BOOL     WINAPI     Hooks_VirtualFreeEx(HANDLE, LPVOID, SIZE_T, DWORD);
+BOOL     WINAPI     Hooks_VirtualProtect(LPVOID, SIZE_T, DWORD, PDWORD);
