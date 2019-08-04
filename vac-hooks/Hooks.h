@@ -63,3 +63,4 @@ BOOL     WINAPI     Hooks_VirtualProtect(LPVOID, SIZE_T, DWORD, PDWORD);
 SIZE_T   WINAPI     Hooks_VirtualQuery(LPCVOID, PMEMORY_BASIC_INFORMATION, SIZE_T);
 SIZE_T   WINAPI     Hooks_VirtualQueryEx(HANDLE, LPCVOID, PMEMORY_BASIC_INFORMATION, SIZE_T);
 DWORD    WINAPI     Hooks_SuspendThread(HANDLE);
+BOOL     WINAPI     Hooks_SwitchToThread(VOID);

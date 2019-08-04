@@ -136,7 +136,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_VirtualQueryEx;
     else if (!strcmp(lpProcName, "SuspendThread"))
         return (FARPROC)Hooks_SuspendThread;
-  
+    else if (!strcmp(lpProcName, "SwitchToThread"))
+        return (FARPROC)Hooks_SwitchToThread;
+    
     return result;
 }
 
@@ -650,6 +652,15 @@ DWORD WINAPI Hooks_SuspendThread(HANDLE hThread)
     DWORD result = SuspendThread(hThread);
 
     Utils_log("SuspendThread(hThread: %p) -> DWORD: %d\n", hThread, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_SwitchToThread(VOID)
+{
+    BOOL result = SwitchToThread();
+
+    Utils_log("SwitchToThread() -> BOOL: %d\n", result);
 
     return result;
 }
