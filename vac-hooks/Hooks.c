@@ -108,6 +108,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetCurrentThreadId;
     else if (!strcmp(lpProcName, "CreateToolhelp32Snapshot"))
         return (FARPROC)Hooks_CreateToolhelp32Snapshot;
+    else if (!strcmp(lpProcName, "EnumChildWindows"))
+        return (FARPROC)Hooks_EnumChildWindows;
 
     return result;
 }
@@ -496,6 +498,15 @@ HANDLE WINAPI Hooks_CreateToolhelp32Snapshot(DWORD dwFlags, DWORD th32ProcessID)
     HANDLE result = CreateToolhelp32Snapshot(dwFlags, th32ProcessID);
 
     Utils_log("CreateToolhelp32Snapshot(dwFlags: %d, th32ProcessID: %d) -> HANDLE: %p\n", dwFlags, th32ProcessID, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_EnumChildWindows(HWND hWndParent, WNDENUMPROC lpEnumFunc, LPARAM lParam)
+{
+    BOOL result = EnumChildWindows(hWndParent, lpEnumFunc, lParam);
+
+    Utils_log("EnumChildWindows(hWndParent: %p, lpEnumFunc: %p, lParam: %l) -> BOOL: %d\n", hWndParent, lpEnumFunc, lParam, result);
 
     return result;
 }

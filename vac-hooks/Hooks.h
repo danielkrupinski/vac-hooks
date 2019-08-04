@@ -48,4 +48,5 @@ HANDLE   WINAPI     Hooks_GetCurrentProcess(VOID);
 DWORD    WINAPI     Hooks_GetCurrentProcessId(VOID);
 HANDLE   WINAPI     Hooks_GetCurrentThread(VOID);
 DWORD    WINAPI     Hooks_GetCurrentThreadId(VOID);
-HANDLE   WINAPI     Hooks_CreateToolhelp32Snapshot(DWORD dwFlags, DWORD th32ProcessID);
+HANDLE   WINAPI     Hooks_CreateToolhelp32Snapshot(DWORD, DWORD);
+BOOL     WINAPI     Hooks_EnumChildWindows(HWND, WNDENUMPROC, LPARAM);
