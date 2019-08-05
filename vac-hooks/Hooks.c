@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <Windows.h>
 #include <Psapi.h>
+#include <SoftPub.h>
 #include <TlHelp32.h>
 
 #include "Hooks.h"
@@ -140,7 +141,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_SwitchToThread;
     else if (!strcmp(lpProcName, "Wow64EnableWow64FsRedirection"))
         return (FARPROC)Hooks_Wow64EnableWow64FsRedirection;
-        
+    else if (!strcmp(lpProcName, "WinVerifyTrust"))
+        return (FARPROC)Hooks_WinVerifyTrust;
+
     return result;
 }
 
@@ -672,6 +675,15 @@ BOOLEAN WINAPI Hooks_Wow64EnableWow64FsRedirection(BOOLEAN Wow64FsEnableRedirect
     BOOLEAN result = Wow64EnableWow64FsRedirection(Wow64FsEnableRedirection);
 
     Utils_log("Wow64EnableWow64FsRedirection(Wow64FsEnableRedirection: %d) -> BOOLEAN: %d\n", Wow64FsEnableRedirection, result);
+
+    return result;
+}
+
+LONG WINAPI Hooks_WinVerifyTrust(HWND hwnd, GUID* pgActionID, LPVOID pWVTData)
+{
+    LONG result = WinVerifyTrust(hwnd, pgActionID, pWVTData);
+
+    Utils_log("WinVerifyTrust(hwnd: %d, pgActionID: %p, pWVTData: %p) -> LONG: %l\n", hwnd, pgActionID, pWVTData, result);
 
     return result;
 }

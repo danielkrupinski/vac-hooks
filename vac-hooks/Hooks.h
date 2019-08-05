@@ -65,3 +65,4 @@ SIZE_T   WINAPI     Hooks_VirtualQueryEx(HANDLE, LPCVOID, PMEMORY_BASIC_INFORMAT
 DWORD    WINAPI     Hooks_SuspendThread(HANDLE);
 BOOL     WINAPI     Hooks_SwitchToThread(VOID);
 BOOLEAN  WINAPI     Hooks_Wow64EnableWow64FsRedirection(BOOLEAN);
+LONG     WINAPI     Hooks_WinVerifyTrust(HWND, GUID*, LPVOID);
