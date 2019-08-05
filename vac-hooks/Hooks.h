@@ -66,3 +66,4 @@ DWORD    WINAPI     Hooks_SuspendThread(HANDLE);
 BOOL     WINAPI     Hooks_SwitchToThread(VOID);
 BOOLEAN  WINAPI     Hooks_Wow64EnableWow64FsRedirection(BOOLEAN);
 LONG     WINAPI     Hooks_WinVerifyTrust(HWND, GUID*, LPVOID);
+VOID     WINAPI     Hooks_Sleep(DWORD);

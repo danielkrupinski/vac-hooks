@@ -143,6 +143,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_Wow64EnableWow64FsRedirection;
     else if (!strcmp(lpProcName, "WinVerifyTrust"))
         return (FARPROC)Hooks_WinVerifyTrust;
+    else if (!strcmp(lpProcName, "Sleep"))
+        return (FARPROC)Hooks_Sleep;
 
     return result;
 }
@@ -686,4 +688,11 @@ LONG WINAPI Hooks_WinVerifyTrust(HWND hwnd, GUID* pgActionID, LPVOID pWVTData)
     Utils_log("WinVerifyTrust(hwnd: %d, pgActionID: %p, pWVTData: %p) -> LONG: %l\n", hwnd, pgActionID, pWVTData, result);
 
     return result;
+}
+
+VOID WINAPI Hooks_Sleep(DWORD dwMilliseconds)
+{
+    Sleep(dwMilliseconds);
+
+    Utils_log("Sleep(dwMilliseconds: %d) -> VOID\n", dwMilliseconds);
 }
