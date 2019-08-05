@@ -138,7 +138,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_SuspendThread;
     else if (!strcmp(lpProcName, "SwitchToThread"))
         return (FARPROC)Hooks_SwitchToThread;
-    
+    else if (!strcmp(lpProcName, "Wow64EnableWow64FsRedirection"))
+        return (FARPROC)Hooks_Wow64EnableWow64FsRedirection;
+        
     return result;
 }
 
@@ -661,6 +663,15 @@ BOOL WINAPI Hooks_SwitchToThread(VOID)
     BOOL result = SwitchToThread();
 
     Utils_log("SwitchToThread() -> BOOL: %d\n", result);
+
+    return result;
+}
+
+BOOLEAN WINAPI Hooks_Wow64EnableWow64FsRedirection(BOOLEAN Wow64FsEnableRedirection)
+{
+    BOOLEAN result = Wow64EnableWow64FsRedirection(Wow64FsEnableRedirection);
+
+    Utils_log("Wow64EnableWow64FsRedirection(Wow64FsEnableRedirection: %d) -> BOOLEAN: %d\n", Wow64FsEnableRedirection, result);
 
     return result;
 }
