@@ -7,7 +7,7 @@ Hook WinAPI functions used by Valve Anti-Cheat. Log calls and intercept argument
 Microsoft Visual Studio 2019 (preferably latest version i.e. 16.1.6), platform toolset v142 and Windows SDK 10.0 are required in order to compile vac-hooks. If you don't have ones, you can download VS [here](https://visualstudio.microsoft.com/) (Windows SDK is installed during Visual Studio Setup).
 
 ### Cloning
-The very first step in order to compile Osiris is to clone this repo from GitHub to your local computer. Git is required to step futher, if not installed download it [here](https://git-scm.com). Open git bash / git cmd / cmd and enter following command:
+The very first step in order to compile vac-hooks is to clone this repo from GitHub to your local computer. Git is required to step futher, if not installed download it [here](https://git-scm.com). Open git bash / git cmd / cmd and enter following command:
 ```
 git clone https://github.com/danielkrupinski/vac-hooks.git
 ```
