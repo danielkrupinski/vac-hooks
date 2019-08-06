@@ -145,6 +145,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_WinVerifyTrust;
     else if (!strcmp(lpProcName, "Sleep"))
         return (FARPROC)Hooks_Sleep;
+    else if (!strcmp(lpProcName, "CreateFileMappingW"))
+        return (FARPROC)Hooks_CreateFileMappingW;
 
     return result;
 }
@@ -695,4 +697,13 @@ VOID WINAPI Hooks_Sleep(DWORD dwMilliseconds)
     Sleep(dwMilliseconds);
 
     Utils_log("Sleep(dwMilliseconds: %d) -> VOID\n", dwMilliseconds);
+}
+
+HANDLE WINAPI Hooks_CreateFileMappingW(HANDLE hFile, LPSECURITY_ATTRIBUTES lpFileMappingAttributes, DWORD flProtect, DWORD dwMaximumSizeHigh, DWORD dwMaximumSizeLow, LPCWSTR lpName)
+{
+    HANDLE result = CreateFileMappingW(hFile, lpFileMappingAttributes, flProtect, dwMaximumSizeHigh, dwMaximumSizeLow, lpName);
+
+    Utils_log("CreateFileMappingW(hFile: %p, lpFileMappingAttributes: %p, flProtect: %d, dwMaximumSizeHigh: %d, dwMaximumSizeLow: %d, lpName: %ws) -> HANDLE: %p\n", hFile, lpFileMappingAttributes, flProtect, dwMaximumSizeHigh, dwMaximumSizeLow, lpName, result);
+
+    return result;
 }

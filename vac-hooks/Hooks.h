@@ -67,3 +67,4 @@ BOOL     WINAPI     Hooks_SwitchToThread(VOID);
 BOOLEAN  WINAPI     Hooks_Wow64EnableWow64FsRedirection(BOOLEAN);
 LONG     WINAPI     Hooks_WinVerifyTrust(HWND, GUID*, LPVOID);
 VOID     WINAPI     Hooks_Sleep(DWORD);
+HANDLE   WINAPI     Hooks_CreateFileMappingW(HANDLE, LPSECURITY_ATTRIBUTES, DWORD, DWORD, DWORD, LPCWSTR);
