@@ -147,6 +147,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_Sleep;
     else if (!strcmp(lpProcName, "CreateFileMappingW"))
         return (FARPROC)Hooks_CreateFileMappingW;
+    else if (!strcmp(lpProcName, "OpenProcessToken"))
+        return (FARPROC)Hooks_OpenProcessToken;
 
     return result;
 }
@@ -704,6 +706,15 @@ HANDLE WINAPI Hooks_CreateFileMappingW(HANDLE hFile, LPSECURITY_ATTRIBUTES lpFil
     HANDLE result = CreateFileMappingW(hFile, lpFileMappingAttributes, flProtect, dwMaximumSizeHigh, dwMaximumSizeLow, lpName);
 
     Utils_log("CreateFileMappingW(hFile: %p, lpFileMappingAttributes: %p, flProtect: %d, dwMaximumSizeHigh: %d, dwMaximumSizeLow: %d, lpName: %ws) -> HANDLE: %p\n", hFile, lpFileMappingAttributes, flProtect, dwMaximumSizeHigh, dwMaximumSizeLow, lpName, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_OpenProcessToken(HANDLE ProcessHandle, DWORD DesiredAccess, PHANDLE TokenHandle)
+{
+    BOOL result = OpenProcessToken(ProcessHandle, DesiredAccess, TokenHandle);
+
+    Utils_log("OpenProcessToken(ProcessHandle: %p, DesiredAccess: %d, TokenHandle %p) -> BOOL: %d\n", ProcessHandle, DesiredAccess, TokenHandle, result);
 
     return result;
 }
