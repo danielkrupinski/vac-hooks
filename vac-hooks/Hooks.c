@@ -157,6 +157,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_FindFirstVolumeW;
     else if (!strcmp(lpProcName, "FindNextVolumeW"))
         return (FARPROC)Hooks_FindNextVolumeW;
+    else if (!strcmp(lpProcName, "FlushInstructionCache"))
+        return (FARPROC)Hooks_FlushInstructionCache;
 
     return result;
 }
@@ -759,6 +761,15 @@ BOOL WINAPI Hooks_FindNextVolumeW(HANDLE hFindVolume, LPWSTR lpszVolumeName, DWO
     BOOL result = FindNextVolumeW(hFindVolume, lpszVolumeName, cchBufferLength);
 
     Utils_log("FindNextVolumeW(hFindVolume: %p, lpszVolumeName: %ws, cchBufferLength: %d) -> BOOL: %d\n", hFindVolume, lpszVolumeName, cchBufferLength, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_FlushInstructionCache(HANDLE hProcess, LPCVOID lpBaseAddress, SIZE_T dwSize)
+{
+    BOOL result = FlushInstructionCache(hProcess, lpBaseAddress, dwSize);
+
+    Utils_log("FlushInstructionCache(hProcess: %p, lpBaseAddress: %p, dwSize: %d) -> BOOL: %d\n", hProcess, lpBaseAddress, dwSize, result);
 
     return result;
 }
