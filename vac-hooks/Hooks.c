@@ -153,6 +153,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_EnumServicesStatusA;
     else if (!strcmp(lpProcName, "EnumServicesStatusW"))
         return (FARPROC)Hooks_EnumServicesStatusW;
+    else if (!strcmp(lpProcName, "FindFirstVolumeW"))
+        return (FARPROC)Hooks_FindFirstVolumeW;
 
     return result;
 }
@@ -737,6 +739,15 @@ BOOL WINAPI Hooks_EnumServicesStatusW(SC_HANDLE hSCManager, DWORD dwServiceType,
     BOOL result = EnumServicesStatusW(hSCManager, dwServiceType, dwServiceState, lpServices, cbBufSize, pcbBytesNeeded, lpServicesReturned, lpResumeHandle);
 
     Utils_log("EnumServicesStatusW(hSCManager: %p, dwServiceType: %d, dwServiceState: %d, lpServices: %p, cbBufSize: %d, pcbBytesNeeded: %p, lpServicesReturned: %p, lpResumeHandle: %p) -> BOOL: %d\n", hSCManager, dwServiceType, dwServiceState, lpServices, cbBufSize, pcbBytesNeeded, lpServicesReturned, lpResumeHandle, result);
+
+    return result;
+}
+
+HANDLE WINAPI Hooks_FindFirstVolumeW(LPWSTR lpszVolumeName, DWORD cchBufferLength)
+{
+    HANDLE result = FindFirstVolumeW(lpszVolumeName, cchBufferLength);
+
+    Utils_log("FindFirstVolumeW(lpszVolumeName: %ws, cchBufferLength: %d) -> HANDLE: %p\n", lpszVolumeName, cchBufferLength, result);
 
     return result;
 }
