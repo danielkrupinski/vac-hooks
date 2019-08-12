@@ -155,6 +155,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_EnumServicesStatusW;
     else if (!strcmp(lpProcName, "FindFirstVolumeW"))
         return (FARPROC)Hooks_FindFirstVolumeW;
+    else if (!strcmp(lpProcName, "FindNextVolumeW"))
+        return (FARPROC)Hooks_FindNextVolumeW;
 
     return result;
 }
@@ -748,6 +750,15 @@ HANDLE WINAPI Hooks_FindFirstVolumeW(LPWSTR lpszVolumeName, DWORD cchBufferLengt
     HANDLE result = FindFirstVolumeW(lpszVolumeName, cchBufferLength);
 
     Utils_log("FindFirstVolumeW(lpszVolumeName: %ws, cchBufferLength: %d) -> HANDLE: %p\n", lpszVolumeName, cchBufferLength, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_FindNextVolumeW(HANDLE hFindVolume, LPWSTR lpszVolumeName, DWORD cchBufferLength)
+{
+    BOOL result = FindNextVolumeW(hFindVolume, lpszVolumeName, cchBufferLength);
+
+    Utils_log("FindNextVolumeW(hFindVolume: %p, lpszVolumeName: %ws, cchBufferLength: %d) -> BOOL: %d\n", hFindVolume, lpszVolumeName, cchBufferLength, result);
 
     return result;
 }
