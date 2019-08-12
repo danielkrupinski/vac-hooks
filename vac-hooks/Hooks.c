@@ -161,6 +161,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_FlushInstructionCache;
     else if (!strcmp(lpProcName, "GetVolumePathNamesForVolumeNameW"))
         return (FARPROC)Hooks_GetVolumePathNamesForVolumeNameW;
+    else if (!strcmp(lpProcName, "GetWindowThreadProcessId"))
+        return (FARPROC)Hooks_GetWindowThreadProcessId;
         
     return result;
 }
@@ -781,6 +783,15 @@ BOOL WINAPI Hooks_GetVolumePathNamesForVolumeNameW(LPCWSTR lpszVolumeName, LPWCH
     BOOL result = GetVolumePathNamesForVolumeNameW(lpszVolumeName, lpszVolumePathNames, cchBufferLength, lpcchReturnLength);
 
     Utils_log("GetVolumePathNamesForVolumeNameW(lpszVolumeName: %ws, lpszVolumePathNames: %ws, cchBufferLength: %d, lpcchReturnLength: %p) -> BOOL: %d\n", lpszVolumeName, lpszVolumePathNames, cchBufferLength, lpcchReturnLength, result);
+
+    return result;
+}
+
+DWORD WINAPI Hooks_GetWindowThreadProcessId(HWND hWnd, LPDWORD lpdwProcessId)
+{
+    DWORD result = GetWindowThreadProcessId(hWnd, lpdwProcessId);
+
+    Utils_log("GetWindowThreadProcessId(hWnd: %p, lpdwProcessId: %p) -> DWORD: %d\n", hWnd, lpdwProcessId, result);
 
     return result;
 }
