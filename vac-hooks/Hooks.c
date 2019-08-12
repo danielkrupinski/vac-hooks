@@ -163,7 +163,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetVolumePathNamesForVolumeNameW;
     else if (!strcmp(lpProcName, "GetWindowThreadProcessId"))
         return (FARPROC)Hooks_GetWindowThreadProcessId;
-        
+    else if (!strcmp(lpProcName, "Heap32First"))
+        return (FARPROC)Hooks_Heap32First;
+
     return result;
 }
 
@@ -792,6 +794,15 @@ DWORD WINAPI Hooks_GetWindowThreadProcessId(HWND hWnd, LPDWORD lpdwProcessId)
     DWORD result = GetWindowThreadProcessId(hWnd, lpdwProcessId);
 
     Utils_log("GetWindowThreadProcessId(hWnd: %p, lpdwProcessId: %p) -> DWORD: %d\n", hWnd, lpdwProcessId, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_Heap32First(LPHEAPENTRY32 lphe, DWORD th32ProcessID, ULONG_PTR th32HeapID)
+{
+    BOOL result = Heap32First(lphe, th32ProcessID, th32HeapID);
+
+    Utils_log("Heap32First(lphe: %p, th32ProcessID: %d, th32HeapID: %ul) -> BOOL: %d\n", lphe, th32ProcessID, th32HeapID, result);
 
     return result;
 }

@@ -76,3 +76,4 @@ BOOL     WINAPI     Hooks_FindNextVolumeW(HANDLE, LPWSTR, DWORD);
 BOOL     WINAPI     Hooks_FlushInstructionCache(HANDLE, LPCVOID, SIZE_T);
 BOOL     WINAPI     Hooks_GetVolumePathNamesForVolumeNameW(LPCWSTR, LPWCH, DWORD, PDWORD);
 DWORD    WINAPI     Hooks_GetWindowThreadProcessId(HWND, LPDWORD);
+BOOL     WINAPI     Hooks_Heap32First(LPHEAPENTRY32, DWORD, ULONG_PTR);
