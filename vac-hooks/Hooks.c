@@ -149,6 +149,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_CreateFileMappingW;
     else if (!strcmp(lpProcName, "OpenProcessToken"))
         return (FARPROC)Hooks_OpenProcessToken;
+    else if (!strcmp(lpProcName, "EnumServicesStatusA"))
+        return (FARPROC)Hooks_EnumServicesStatusA;
 
     return result;
 }
@@ -715,6 +717,15 @@ BOOL WINAPI Hooks_OpenProcessToken(HANDLE ProcessHandle, DWORD DesiredAccess, PH
     BOOL result = OpenProcessToken(ProcessHandle, DesiredAccess, TokenHandle);
 
     Utils_log("OpenProcessToken(ProcessHandle: %p, DesiredAccess: %d, TokenHandle %p) -> BOOL: %d\n", ProcessHandle, DesiredAccess, TokenHandle, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_EnumServicesStatusA(SC_HANDLE hSCManager, DWORD dwServiceType, DWORD dwServiceState, LPENUM_SERVICE_STATUSA lpServices, DWORD cbBufSize, LPDWORD pcbBytesNeeded, LPDWORD lpServicesReturned, LPDWORD lpResumeHandle)
+{
+    BOOL result = EnumServicesStatusA(hSCManager, dwServiceType, dwServiceState, lpServices, cbBufSize, pcbBytesNeeded, lpServicesReturned, lpResumeHandle);
+
+    Utils_log("EnumServicesStatusA(hSCManager: %p, dwServiceType: %d, dwServiceState: %d, lpServices: %p, cbBufSize: %d, pcbBytesNeeded: %p, lpServicesReturned: %p, lpResumeHandle: %p) -> BOOL: %d\n", hSCManager, dwServiceType, dwServiceState, lpServices, cbBufSize, pcbBytesNeeded, lpServicesReturned, lpResumeHandle, result);
 
     return result;
 }
