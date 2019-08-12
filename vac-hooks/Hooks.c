@@ -343,7 +343,7 @@ LSTATUS APIENTRY Hooks_RegOpenKeyExA(HKEY hKey, LPCSTR lpSubKey, DWORD ulOptions
 {
     LSTATUS result = RegOpenKeyExA(hKey, lpSubKey, ulOptions, samDesired, phkResult);
 
-    Utils_log("RegOpenKeyExA(hKey: %p, lpSubKey: %s, ulOptions: %d, samDesired: %d, phkResult: %p) -> LSTATUS: %l\n", hKey, lpSubKey ? lpSubKey : "", ulOptions, samDesired, phkResult, result);
+    Utils_log("RegOpenKeyExA(hKey: %p, lpSubKey: %s, ulOptions: %d, samDesired: %d, phkResult: %p) -> LSTATUS: %l\n", hKey, SAFE_STR(lpSubKey, ""), ulOptions, samDesired, phkResult, result);
 
     return result;
 }
@@ -361,7 +361,7 @@ LSTATUS APIENTRY Hooks_RegQueryInfoKeyA(HKEY hKey, LPSTR lpClass, LPDWORD lpcchC
 {
     LSTATUS result = RegQueryInfoKeyA(hKey, lpClass, lpcchClass, lpReserved, lpcSubKeys, lpcbMaxSubKeyLen, lpcbMaxClassLen, lpcValues, lpcbMaxValueNameLen, lpcbMaxValueLen, lpcbSecurityDescriptor, lpftLastWriteTime);
 
-    Utils_log("RegQueryInfoKeyA(hKey: %p, lpClass: %s, lpcchClass: %p, lpReserved: %p, lpcSubKeys: %p, lpcbMaxSubKeyLen: %p, lpcbMaxClassLen: %p, lpcValues: %p, lpcbMaxValueNameLen: %p, lpcbMaxValueLen: %p, lpcbSecurityDescriptor: %p, lpftLastWriteTime: %p) -> LSTATUS: %l\n", hKey, lpClass ? lpClass : "", lpcchClass, lpReserved, lpcSubKeys, lpcbMaxSubKeyLen, lpcbMaxClassLen, lpcValues, lpcbMaxValueNameLen, lpcbMaxValueLen, lpcbSecurityDescriptor, lpftLastWriteTime, result);
+    Utils_log("RegQueryInfoKeyA(hKey: %p, lpClass: %s, lpcchClass: %p, lpReserved: %p, lpcSubKeys: %p, lpcbMaxSubKeyLen: %p, lpcbMaxClassLen: %p, lpcValues: %p, lpcbMaxValueNameLen: %p, lpcbMaxValueLen: %p, lpcbSecurityDescriptor: %p, lpftLastWriteTime: %p) -> LSTATUS: %l\n", hKey, SAFE_STR(lpClass, ""), lpcchClass, lpReserved, lpcSubKeys, lpcbMaxSubKeyLen, lpcbMaxClassLen, lpcValues, lpcbMaxValueNameLen, lpcbMaxValueLen, lpcbSecurityDescriptor, lpftLastWriteTime, result);
 
     return result;
 }
@@ -370,7 +370,7 @@ LSTATUS APIENTRY Hooks_RegQueryValueExA(HKEY hKey, LPCSTR lpValueName, LPDWORD l
 {
     LSTATUS result = RegQueryValueExA(hKey, lpValueName, lpReserved, lpType, lpData, lpcbData);
 
-    Utils_log("RegQueryValueExA(hKey: %p, lpValueName: %s, lpcchClass: %p, lpReserved: %p, lpType: %p, lpData: %p, lpcbData: %p) -> LSTATUS: %l\n", hKey, lpValueName ? lpValueName : "", lpReserved, lpType, lpData, lpcbData, result);
+    Utils_log("RegQueryValueExA(hKey: %p, lpValueName: %s, lpcchClass: %p, lpReserved: %p, lpType: %p, lpData: %p, lpcbData: %p) -> LSTATUS: %l\n", hKey, SAFE_STR(lpValueName, ""), lpReserved, lpType, lpData, lpcbData, result);
 
     return result;
 }
@@ -469,7 +469,7 @@ HMODULE WINAPI Hooks_GetModuleHandleA(LPCSTR lpModuleName)
 {
     HMODULE result = GetModuleHandleA(lpModuleName);
 
-    Utils_log("GetModuleHandleA(lpModuleName: %s) -> HMODULE: %p\n", lpModuleName ? lpModuleName : "", result);
+    Utils_log("GetModuleHandleA(lpModuleName: %s) -> HMODULE: %p\n", SAFE_STR(lpModuleName, ""), result);
 
     return result;
 }
@@ -496,7 +496,7 @@ DWORD WINAPI Hooks_CertGetNameStringW(PCCERT_CONTEXT pCertContext, DWORD dwType,
 {
     DWORD result = CertGetNameStringW(pCertContext, dwType, dwFlags, pvTypePara, pszNameString, cchNameString);
 
-    Utils_log("CertGetNameStringW(pCertContext: %p, dwType: %d, dwFlags: %p, pvTypePara: %p, pszNameString: %ws, cchNameString: %d) -> DWORD: %d\n", pCertContext, dwType, dwFlags, pvTypePara, pszNameString ? pszNameString : L"", cchNameString, result);
+    Utils_log("CertGetNameStringW(pCertContext: %p, dwType: %d, dwFlags: %p, pvTypePara: %p, pszNameString: %ws, cchNameString: %d) -> DWORD: %d\n", pCertContext, dwType, dwFlags, pvTypePara, SAFE_STR(pszNameString, L""), cchNameString, result);
 
     return result;
 }
