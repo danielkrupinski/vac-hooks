@@ -74,3 +74,4 @@ BOOL     WINAPI     Hooks_EnumServicesStatusW(SC_HANDLE, DWORD, DWORD, LPENUM_SE
 HANDLE   WINAPI     Hooks_FindFirstVolumeW(LPWSTR, DWORD);
 BOOL     WINAPI     Hooks_FindNextVolumeW(HANDLE, LPWSTR, DWORD);
 BOOL     WINAPI     Hooks_FlushInstructionCache(HANDLE, LPCVOID, SIZE_T);
+BOOL     WINAPI     Hooks_GetVolumePathNamesForVolumeNameW(LPCWSTR, LPWCH, DWORD, PDWORD);

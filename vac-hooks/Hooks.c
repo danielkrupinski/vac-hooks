@@ -159,7 +159,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_FindNextVolumeW;
     else if (!strcmp(lpProcName, "FlushInstructionCache"))
         return (FARPROC)Hooks_FlushInstructionCache;
-
+    else if (!strcmp(lpProcName, "GetVolumePathNamesForVolumeNameW"))
+        return (FARPROC)Hooks_GetVolumePathNamesForVolumeNameW;
+        
     return result;
 }
 
@@ -770,6 +772,15 @@ BOOL WINAPI Hooks_FlushInstructionCache(HANDLE hProcess, LPCVOID lpBaseAddress, 
     BOOL result = FlushInstructionCache(hProcess, lpBaseAddress, dwSize);
 
     Utils_log("FlushInstructionCache(hProcess: %p, lpBaseAddress: %p, dwSize: %d) -> BOOL: %d\n", hProcess, lpBaseAddress, dwSize, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_GetVolumePathNamesForVolumeNameW(LPCWSTR lpszVolumeName, LPWCH lpszVolumePathNames, DWORD cchBufferLength, PDWORD lpcchReturnLength)
+{
+    BOOL result = GetVolumePathNamesForVolumeNameW(lpszVolumeName, lpszVolumePathNames, cchBufferLength, lpcchReturnLength);
+
+    Utils_log("GetVolumePathNamesForVolumeNameW(lpszVolumeName: %ws, lpszVolumePathNames: %ws, cchBufferLength: %d, lpcchReturnLength: %p) -> BOOL: %d\n", lpszVolumeName, lpszVolumePathNames, cchBufferLength, lpcchReturnLength, result);
 
     return result;
 }
