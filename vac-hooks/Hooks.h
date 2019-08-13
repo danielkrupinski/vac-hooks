@@ -3,6 +3,7 @@
 #include <Windows.h>
 #define SECURITY_WIN32
 #include <security.h>
+#include <TlHelp32.h>
 
 HMODULE  WINAPI     Hooks_LoadLibraryExW(LPCWSTR, HANDLE, DWORD);
 FARPROC  WINAPI     Hooks_GetProcAddress(HMODULE, LPCSTR);
