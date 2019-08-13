@@ -284,7 +284,7 @@ NTSTATUS NTAPI Hooks_NtOpenProcess(PHANDLE ProcessHandle, ACCESS_MASK DesiredAcc
     NTSTATUS(NTAPI* NtOpenProcess)(PHANDLE, ACCESS_MASK, PVOID, PVOID) = (PVOID)GetProcAddress(GetModuleHandleW(L"ntdll"), "NtOpenProcess");
     NTSTATUS result = NtOpenProcess(ProcessHandle, DesiredAccess, ObjectAttributes, ClientId);
 
-    Utils_log("NtOpenProcess(ProcessHandle: %p, DesiredAccess: %d, ObjectAttributes: %p, ClientId: %p) -> NTSTATUS: %l\n", ProcessHandle, DesiredAccess, ObjectAttributes, ClientId, result);
+    Utils_log("NtOpenProcess(ProcessHandle: %p, DesiredAccess: %d, ObjectAttributes: %p, ClientId: %p) -> NTSTATUS: %ld\n", ProcessHandle, DesiredAccess, ObjectAttributes, ClientId, result);
 
     return result;
 }
@@ -320,7 +320,7 @@ BOOLEAN SEC_ENTRY Hooks_GetUserNameExW(EXTENDED_NAME_FORMAT NameFormat, LPWSTR l
 {
     BOOLEAN result = GetUserNameExW(NameFormat, lpNameBuffer, nSize);
 
-    Utils_log("GetUserNameExW(NameFormat: %d, lpNameBuffer: %ws, nSize: %ul) -> BOOLEAN: %d\n", NameFormat, lpNameBuffer, *nSize, result);
+    Utils_log("GetUserNameExW(NameFormat: %d, lpNameBuffer: %ws, nSize: %lu) -> BOOLEAN: %d\n", NameFormat, lpNameBuffer, *nSize, result);
 
     return result;
 }
@@ -338,7 +338,7 @@ LSTATUS APIENTRY Hooks_RegEnumKeyExA(HKEY hKey, DWORD dwIndex, LPSTR lpName, LPD
 {
     LSTATUS result = RegEnumKeyExA(hKey, dwIndex, lpName, lpcchName, lpReserved, lpClass, lpcchClass, lpftLastWriteTime);
 
-    Utils_log("RegEnumKeyExA(hKey: %p, dwIndex: %d, lpName: %s, lpcchName: %d, lpReserved: %p, lpClass: %p, lpcchClass: %p, lpftLastWriteTime: %p) -> LSTATUS: %l\n", hKey, dwIndex, lpName, lpcchName, lpReserved, lpClass, lpcchClass, lpftLastWriteTime, result);
+    Utils_log("RegEnumKeyExA(hKey: %p, dwIndex: %d, lpName: %s, lpcchName: %d, lpReserved: %p, lpClass: %p, lpcchClass: %p, lpftLastWriteTime: %p) -> LSTATUS: %ld\n", hKey, dwIndex, lpName, lpcchName, lpReserved, lpClass, lpcchClass, lpftLastWriteTime, result);
 
     return result;
 }
@@ -347,7 +347,7 @@ LSTATUS APIENTRY Hooks_RegOpenKeyExA(HKEY hKey, LPCSTR lpSubKey, DWORD ulOptions
 {
     LSTATUS result = RegOpenKeyExA(hKey, lpSubKey, ulOptions, samDesired, phkResult);
 
-    Utils_log("RegOpenKeyExA(hKey: %p, lpSubKey: %s, ulOptions: %d, samDesired: %d, phkResult: %p) -> LSTATUS: %l\n", hKey, SAFE_STR(lpSubKey, ""), ulOptions, samDesired, phkResult, result);
+    Utils_log("RegOpenKeyExA(hKey: %p, lpSubKey: %s, ulOptions: %d, samDesired: %d, phkResult: %p) -> LSTATUS: %ld\n", hKey, SAFE_STR(lpSubKey, ""), ulOptions, samDesired, phkResult, result);
 
     return result;
 }
@@ -356,7 +356,7 @@ LSTATUS APIENTRY Hooks_RegCloseKey(HKEY hKey)
 {
     LSTATUS result = RegCloseKey(hKey);
 
-    Utils_log("RegCloseKey(hKey: %p) -> LSTATUS: %l\n", hKey, result);
+    Utils_log("RegCloseKey(hKey: %p) -> LSTATUS: %ld\n", hKey, result);
 
     return result;
 }
@@ -365,7 +365,7 @@ LSTATUS APIENTRY Hooks_RegQueryInfoKeyA(HKEY hKey, LPSTR lpClass, LPDWORD lpcchC
 {
     LSTATUS result = RegQueryInfoKeyA(hKey, lpClass, lpcchClass, lpReserved, lpcSubKeys, lpcbMaxSubKeyLen, lpcbMaxClassLen, lpcValues, lpcbMaxValueNameLen, lpcbMaxValueLen, lpcbSecurityDescriptor, lpftLastWriteTime);
 
-    Utils_log("RegQueryInfoKeyA(hKey: %p, lpClass: %s, lpcchClass: %p, lpReserved: %p, lpcSubKeys: %p, lpcbMaxSubKeyLen: %p, lpcbMaxClassLen: %p, lpcValues: %p, lpcbMaxValueNameLen: %p, lpcbMaxValueLen: %p, lpcbSecurityDescriptor: %p, lpftLastWriteTime: %p) -> LSTATUS: %l\n", hKey, SAFE_STR(lpClass, ""), lpcchClass, lpReserved, lpcSubKeys, lpcbMaxSubKeyLen, lpcbMaxClassLen, lpcValues, lpcbMaxValueNameLen, lpcbMaxValueLen, lpcbSecurityDescriptor, lpftLastWriteTime, result);
+    Utils_log("RegQueryInfoKeyA(hKey: %p, lpClass: %s, lpcchClass: %p, lpReserved: %p, lpcSubKeys: %p, lpcbMaxSubKeyLen: %p, lpcbMaxClassLen: %p, lpcValues: %p, lpcbMaxValueNameLen: %p, lpcbMaxValueLen: %p, lpcbSecurityDescriptor: %p, lpftLastWriteTime: %p) -> LSTATUS: %ld\n", hKey, SAFE_STR(lpClass, ""), lpcchClass, lpReserved, lpcSubKeys, lpcbMaxSubKeyLen, lpcbMaxClassLen, lpcValues, lpcbMaxValueNameLen, lpcbMaxValueLen, lpcbSecurityDescriptor, lpftLastWriteTime, result);
 
     return result;
 }
@@ -374,7 +374,7 @@ LSTATUS APIENTRY Hooks_RegQueryValueExA(HKEY hKey, LPCSTR lpValueName, LPDWORD l
 {
     LSTATUS result = RegQueryValueExA(hKey, lpValueName, lpReserved, lpType, lpData, lpcbData);
 
-    Utils_log("RegQueryValueExA(hKey: %p, lpValueName: %s, lpcchClass: %p, lpReserved: %p, lpType: %p, lpData: %p, lpcbData: %p) -> LSTATUS: %l\n", hKey, SAFE_STR(lpValueName, ""), lpReserved, lpType, lpData, lpcbData, result);
+    Utils_log("RegQueryValueExA(hKey: %p, lpValueName: %s, lpcchClass: %p, lpReserved: %p, lpType: %p, lpData: %p, lpcbData: %p) -> LSTATUS: %ld\n", hKey, SAFE_STR(lpValueName, ""), lpReserved, lpType, lpData, lpcbData, result);
 
     return result;
 }
@@ -482,7 +482,7 @@ PVOID WINAPI Hooks_AddVectoredExceptionHandler(ULONG First, PVECTORED_EXCEPTION_
 {
     PVOID result = AddVectoredExceptionHandler(First, Handler);
 
-    Utils_log("AddVectoredExceptionHandler(First: %ul, Handler: %p) -> PVOID: %p\n", First, Handler, result);
+    Utils_log("AddVectoredExceptionHandler(First: %lu, Handler: %p) -> PVOID: %p\n", First, Handler, result);
 
     return result;
 }
@@ -491,7 +491,7 @@ BOOL WINAPI Hooks_AdjustTokenPrivileges(HANDLE TokenHandle, BOOL DisableAllPrivi
 {
     BOOL result = AdjustTokenPrivileges(TokenHandle, DisableAllPrivileges, NewState, BufferLength, PreviousState, ReturnLength);
 
-    Utils_log("AdjustTokenPrivileges(TokenHandle: %ulp, DisableAllPrivileges: %d, NewState: %p, BufferLength: %d, PreviousState: %p, ReturnLength: %p) -> BOOL: %d\n", TokenHandle, DisableAllPrivileges, NewState, BufferLength, PreviousState, ReturnLength, result);
+    Utils_log("AdjustTokenPrivileges(TokenHandle: %p, DisableAllPrivileges: %d, NewState: %p, BufferLength: %d, PreviousState: %p, ReturnLength: %p) -> BOOL: %d\n", TokenHandle, DisableAllPrivileges, NewState, BufferLength, PreviousState, ReturnLength, result);
 
     return result;
 }
@@ -572,7 +572,7 @@ BOOL WINAPI Hooks_EnumChildWindows(HWND hWndParent, WNDENUMPROC lpEnumFunc, LPAR
 {
     BOOL result = EnumChildWindows(hWndParent, lpEnumFunc, lParam);
 
-    Utils_log("EnumChildWindows(hWndParent: %p, lpEnumFunc: %p, lParam: %l) -> BOOL: %d\n", hWndParent, lpEnumFunc, lParam, result);
+    Utils_log("EnumChildWindows(hWndParent: %p, lpEnumFunc: %p, lParam: %ld) -> BOOL: %d\n", hWndParent, lpEnumFunc, lParam, result);
 
     return result;
 }
@@ -590,7 +590,7 @@ BOOL WINAPI Hooks_EnumWindows(WNDENUMPROC lpEnumFunc, LPARAM lParam)
 {
     BOOL result = EnumWindows(lpEnumFunc, lParam);
 
-    Utils_log("EnumWindows(lpEnumFunc: %p, lParam: %l) -> BOOL: %d\n", lpEnumFunc, lParam, result);
+    Utils_log("EnumWindows(lpEnumFunc: %p, lParam: %ld) -> BOOL: %d\n", lpEnumFunc, lParam, result);
 
     return result;
 }
@@ -707,7 +707,7 @@ LONG WINAPI Hooks_WinVerifyTrust(HWND hwnd, GUID* pgActionID, LPVOID pWVTData)
 {
     LONG result = WinVerifyTrust(hwnd, pgActionID, pWVTData);
 
-    Utils_log("WinVerifyTrust(hwnd: %d, pgActionID: %p, pWVTData: %p) -> LONG: %l\n", hwnd, pgActionID, pWVTData, result);
+    Utils_log("WinVerifyTrust(hwnd: %d, pgActionID: %p, pWVTData: %p) -> LONG: %ld\n", hwnd, pgActionID, pWVTData, result);
 
     return result;
 }
@@ -804,7 +804,7 @@ BOOL WINAPI Hooks_Heap32First(LPHEAPENTRY32 lphe, DWORD th32ProcessID, ULONG_PTR
 {
     BOOL result = Heap32First(lphe, th32ProcessID, th32HeapID);
 
-    Utils_log("Heap32First(lphe: %p, th32ProcessID: %d, th32HeapID: %ul) -> BOOL: %d\n", lphe, th32ProcessID, th32HeapID, result);
+    Utils_log("Heap32First(lphe: %p, th32ProcessID: %d, th32HeapID: %lu) -> BOOL: %d\n", lphe, th32ProcessID, th32HeapID, result);
 
     return result;
 }
@@ -813,7 +813,7 @@ NTSTATUS NTAPI Hooks_NtQuerySystemInformation(SYSTEM_INFORMATION_CLASS SystemInf
 {
     NTSTATUS result = NtQuerySystemInformation(SystemInformationClass, SystemInformation, SystemInformationLength, ReturnLength);
 
-    Utils_log("NtQuerySystemInformation(SystemInformationClass: %d, SystemInformation: %p, SystemInformationLength: %ul, ReturnLength: %p) -> NTSTATUS: %l\n", SystemInformationClass, SystemInformation, SystemInformationLength, ReturnLength, result);
+    Utils_log("NtQuerySystemInformation(SystemInformationClass: %d, SystemInformation: %p, SystemInformationLength: %lu, ReturnLength: %p) -> NTSTATUS: %ld\n", SystemInformationClass, SystemInformation, SystemInformationLength, ReturnLength, result);
 
     return result;
 }
