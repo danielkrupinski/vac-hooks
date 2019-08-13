@@ -165,7 +165,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetWindowThreadProcessId;
     else if (!strcmp(lpProcName, "Heap32First"))
         return (FARPROC)Hooks_Heap32First;
-
+    else if (!strcmp(lpProcName, "NtQuerySystemInformation"))
+        return (FARPROC)Hooks_NtQuerySystemInformation;
+        
     return result;
 }
 
@@ -803,6 +805,15 @@ BOOL WINAPI Hooks_Heap32First(LPHEAPENTRY32 lphe, DWORD th32ProcessID, ULONG_PTR
     BOOL result = Heap32First(lphe, th32ProcessID, th32HeapID);
 
     Utils_log("Heap32First(lphe: %p, th32ProcessID: %d, th32HeapID: %ul) -> BOOL: %d\n", lphe, th32ProcessID, th32HeapID, result);
+
+    return result;
+}
+
+NTSTATUS NTAPI Hooks_NtQuerySystemInformation(SYSTEM_INFORMATION_CLASS SystemInformationClass, PVOID SystemInformation, ULONG SystemInformationLength, PULONG ReturnLength)
+{
+    NTSTATUS result = NtQuerySystemInformation(SystemInformationClass, SystemInformation, SystemInformationLength, ReturnLength);
+
+    Utils_log("NtQuerySystemInformation(SystemInformationClass: %d, SystemInformation: %p, SystemInformationLength: %ul, ReturnLength: %p) -> NTSTATUS: %l\n", SystemInformationClass, SystemInformation, SystemInformationLength, ReturnLength, result);
 
     return result;
 }

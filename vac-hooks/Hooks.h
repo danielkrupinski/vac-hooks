@@ -4,6 +4,7 @@
 #define SECURITY_WIN32
 #include <security.h>
 #include <TlHelp32.h>
+#include <winternl.h>
 
 HMODULE  WINAPI     Hooks_LoadLibraryExW(LPCWSTR, HANDLE, DWORD);
 FARPROC  WINAPI     Hooks_GetProcAddress(HMODULE, LPCSTR);
@@ -78,3 +79,4 @@ BOOL     WINAPI     Hooks_FlushInstructionCache(HANDLE, LPCVOID, SIZE_T);
 BOOL     WINAPI     Hooks_GetVolumePathNamesForVolumeNameW(LPCWSTR, LPWCH, DWORD, PDWORD);
 DWORD    WINAPI     Hooks_GetWindowThreadProcessId(HWND, LPDWORD);
 BOOL     WINAPI     Hooks_Heap32First(LPHEAPENTRY32, DWORD, ULONG_PTR);
+NTSTATUS NTAPI      Hooks_NtQuerySystemInformation(SYSTEM_INFORMATION_CLASS, PVOID, ULONG, PULONG);
