@@ -60,17 +60,21 @@ VOID Utils_hookImport(PCWSTR moduleName, PCSTR importModuleName, PCSTR functionN
 
 VOID Utils_log(PCSTR format, ...)
 {
-    FILE* out;
+    CHAR buf[LOG_BUFFER_SIZE];
+    static CHAR lastLine[LOG_BUFFER_SIZE];
 
-    if (!fopen_s(&out, LOG_FILENAME, "a")) {
-        CHAR buf[LOG_BUFFER_SIZE];
+    va_list args;
+    va_start(args, format);
+    vsprintf_s(buf, sizeof(buf), format, args);
+    va_end(args);
 
-        va_list args;
-        va_start(args, format);
-        vsprintf_s(buf, sizeof(buf), format, args);
-        va_end(args);
-        fprintf(out, buf);
-        fclose(out);
+    if (strcmp(buf, lastLine)) {
+        FILE* out;
+        if (!fopen_s(&out, LOG_FILENAME, "a")) {
+            fprintf(out, buf);
+            fclose(out);
+        }
+        strcpy_s(lastLine, sizeof(lastLine), buf);
     }
 }
 
