@@ -172,7 +172,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_ConvertSidToStringSidA;
     else if (!strcmp(lpProcName, "CryptMsgGetParam"))
         return (FARPROC)Hooks_CryptMsgGetParam;
-        
+    else if (!strcmp(lpProcName, "NtQueryInformationProcess"))
+        return (FARPROC)Hooks_NtQueryInformationProcess;
+ 
     return result;
 }
 
@@ -838,6 +840,15 @@ BOOL WINAPI Hooks_CryptMsgGetParam(HCRYPTMSG hCryptMsg, DWORD dwParamType, DWORD
     BOOL result = CryptMsgGetParam(hCryptMsg, dwParamType, dwIndex, pvData, pcbData);
 
     Utils_log("CryptMsgGetParam(hCryptMsg: %p, dwParamType: %d, dwIndex: %d, pvData: %p, pcbData: %p) -> BOOL: %d\n", hCryptMsg, dwParamType, dwIndex, pvData, pcbData, result);
+
+    return result;
+}
+
+NTSTATUS NTAPI Hooks_NtQueryInformationProcess(HANDLE ProcessHandle, PROCESSINFOCLASS ProcessInformationClass, PVOID ProcessInformation, ULONG ProcessInformationLength, PULONG ReturnLength)
+{
+    NTSTATUS result = NtQueryInformationProcess(ProcessHandle, ProcessInformationClass, ProcessInformation, ProcessInformationLength, ReturnLength, ReturnLength);
+
+    Utils_log("NtQueryInformationProcess(ProcessHandle: %p, ProcessInformationClass: %d, ProcessInformation: %p, ProcessInformationLength: %lu) -> NTSTATUS: 0x%lx\n", ProcessHandle, ProcessInformationClass, ProcessInformation, ProcessInformationLength, ReturnLength, ReturnLength, result);
 
     return result;
 }
