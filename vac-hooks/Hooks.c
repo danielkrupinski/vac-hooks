@@ -174,6 +174,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_CryptMsgGetParam;
     else if (!strcmp(lpProcName, "NtQueryInformationProcess"))
         return (FARPROC)Hooks_NtQueryInformationProcess;
+    else if (!strcmp(lpProcName, "EncodePointer"))
+        return (FARPROC)Hooks_EncodePointer;
  
     return result;
 }
@@ -849,6 +851,15 @@ NTSTATUS NTAPI Hooks_NtQueryInformationProcess(HANDLE ProcessHandle, PROCESSINFO
     NTSTATUS result = NtQueryInformationProcess(ProcessHandle, ProcessInformationClass, ProcessInformation, ProcessInformationLength, ReturnLength, ReturnLength);
 
     Utils_log("NtQueryInformationProcess(ProcessHandle: %p, ProcessInformationClass: %d, ProcessInformation: %p, ProcessInformationLength: %lu) -> NTSTATUS: 0x%lx\n", ProcessHandle, ProcessInformationClass, ProcessInformation, ProcessInformationLength, ReturnLength, ReturnLength, result);
+
+    return result;
+}
+
+PVOID WINAPI Hooks_EncodePointer(PVOID Ptr)
+{
+    PVOID result = EncodePointer(Ptr);
+
+    Utils_log("EncodePointer(Ptr: %p) -> PVOID: %p\n", Ptr, result);
 
     return result;
 }
