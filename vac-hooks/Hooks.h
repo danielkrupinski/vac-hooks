@@ -84,3 +84,4 @@ BOOL     WINAPI     Hooks_ConvertSidToStringSidA(PSID, LPSTR*);
 BOOL     WINAPI     Hooks_CryptMsgGetParam(HCRYPTMSG, DWORD, DWORD, void*, DWORD*);
 NTSTATUS NTAPI      Hooks_NtQueryInformationProcess(HANDLE, PROCESSINFOCLASS, PVOID, ULONG, PULONG);
 PVOID    WINAPI     Hooks_EncodePointer(PVOID Ptr);
+NTSTATUS NTAPI      Hooks_NtQueryInformationThread(HANDLE, THREADINFOCLASS, PVOID, ULONG, PULONG);
