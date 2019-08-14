@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <Windows.h>
 #include <Psapi.h>
+#include <sddl.h>
 #include <SoftPub.h>
 #include <TlHelp32.h>
 
@@ -167,7 +168,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_Heap32First;
     else if (!strcmp(lpProcName, "NtQuerySystemInformation"))
         return (FARPROC)Hooks_NtQuerySystemInformation;
-        
+    else if (!strcmp(lpProcName, "ConvertSidToStringSidA"))
+        return (FARPROC)Hooks_ConvertSidToStringSidA;
+
     return result;
 }
 
@@ -815,6 +818,15 @@ NTSTATUS NTAPI Hooks_NtQuerySystemInformation(SYSTEM_INFORMATION_CLASS SystemInf
     NTSTATUS result = NtQuerySystemInformation(SystemInformationClass, SystemInformation, SystemInformationLength, ReturnLength);
 
     Utils_log("NtQuerySystemInformation(SystemInformationClass: %d, SystemInformation: %p, SystemInformationLength: %lu, ReturnLength: %p) -> NTSTATUS: 0x%lx\n", SystemInformationClass, SystemInformation, SystemInformationLength, ReturnLength, result);
+
+    return result;
+}
+
+BOOL NTAPI Hooks_ConvertSidToStringSidA(PSID Sid, LPSTR* StringSid)
+{
+    BOOL result = ConvertSidToStringSidA(Sid, StringSid);
+
+    Utils_log("ConvertSidToStringSidA(Sid: %p, StringSid: %s) -> BOOL: %d\n", Sid, *StringSid, result);
 
     return result;
 }
