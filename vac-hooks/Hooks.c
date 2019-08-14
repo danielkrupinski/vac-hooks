@@ -186,7 +186,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_Process32FirstW;
     else if (!strcmp(lpProcName, "Process32NextW"))
         return (FARPROC)Hooks_Process32NextW;
-
+    else if (!strcmp(lpProcName, "WriteFile"))
+        return (FARPROC)Hooks_WriteFile;
+        
     return result;
 }
 
@@ -915,6 +917,15 @@ BOOL WINAPI Hooks_Process32NextW(HANDLE hSnapshot, LPPROCESSENTRY32W lppe)
     BOOL result = Process32NextW(hSnapshot, lppe);
 
     Utils_log("Process32NextW(hSnapshot: %p, lppe: %p) -> BOOL: %d\n", hSnapshot, lppe, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_WriteFile(HANDLE hFile, LPCVOID lpBuffer, DWORD nNumberOfBytesToWrite, LPDWORD lpNumberOfBytesWritten, LPOVERLAPPED lpOverlapped)
+{
+    BOOL result = WriteFile(hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);
+
+    Utils_log("WriteFile(hFile: %p, lpBuffer: %p, nNumberOfBytesToWrite: %d, lpNumberOfBytesWritten: %p, lpOverlapped: %p) -> BOOL: %d\n", hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped, result);
 
     return result;
 }
