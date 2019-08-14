@@ -87,3 +87,4 @@ PVOID      WINAPI     Hooks_EncodePointer(PVOID Ptr);
 NTSTATUS   NTAPI      Hooks_NtQueryInformationThread(HANDLE, THREADINFOCLASS, PVOID, ULONG, PULONG);
 SC_HANDLE  WINAPI     Hooks_OpenSCManagerA(LPCSTR, LPCSTR, DWORD);
 HANDLE     WINAPI     Hooks_OpenThread(DWORD, BOOL, DWORD);
+BOOL       WINAPI     Hooks_Process32FirstW(HANDLE, LPPROCESSENTRY32W);

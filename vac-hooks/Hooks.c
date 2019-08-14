@@ -182,6 +182,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_OpenSCManagerA;
     else if (!strcmp(lpProcName, "OpenThread"))
         return (FARPROC)Hooks_OpenThread;
+    else if (!strcmp(lpProcName, "Process32FirstW"))
+        return (FARPROC)Hooks_Process32FirstW;
 
     return result;
 }
@@ -893,6 +895,15 @@ HANDLE WINAPI Hooks_OpenThread(DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD
     HANDLE result = OpenThread(dwDesiredAccess, bInheritHandle, dwThreadId);
 
     Utils_log("OpenThread(dwDesiredAccess: %d, bInheritHandle: %d, dwThreadId: %d) -> HANDLE: %p\n", dwDesiredAccess, bInheritHandle, dwThreadId, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_Process32FirstW(HANDLE hSnapshot, LPPROCESSENTRY32W lppe)
+{
+    BOOL result = Process32FirstW(hSnapshot, lppe);
+
+    Utils_log("Process32FirstW(hSnapshot: %p, lppe: %p) -> BOOL: %d\n", hSnapshot, lppe, result);
 
     return result;
 }
