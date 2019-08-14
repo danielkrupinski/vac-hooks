@@ -180,6 +180,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_NtQueryInformationThread;
     else if (!strcmp(lpProcName, "OpenSCManagerA"))
         return (FARPROC)Hooks_OpenSCManagerA;
+    else if (!strcmp(lpProcName, "OpenThread"))
+        return (FARPROC)Hooks_OpenThread;
 
     return result;
 }
@@ -882,6 +884,15 @@ SC_HANDLE WINAPI Hooks_OpenSCManagerA(LPCSTR lpMachineName, LPCSTR lpDatabaseNam
     SC_HANDLE result = OpenSCManagerA(lpMachineName, lpDatabaseName, dwDesiredAccess);
 
     Utils_log("OpenSCManagerA(lpMachineName: %s, lpDatabaseName: %s, dwDesiredAccess: %d) -> SC_HANDLE: %p\n", SAFE_STR(lpMachineName, ""), SAFE_STR(lpDatabaseName, ""), dwDesiredAccess, result);
+
+    return result;
+}
+
+HANDLE WINAPI Hooks_OpenThread(DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD dwThreadId)
+{
+    HANDLE result = OpenThread(dwDesiredAccess, bInheritHandle, dwThreadId);
+
+    Utils_log("OpenThread(dwDesiredAccess: %d, bInheritHandle: %d, dwThreadId: %d) -> HANDLE: %p\n", dwDesiredAccess, bInheritHandle, dwThreadId, result);
 
     return result;
 }
