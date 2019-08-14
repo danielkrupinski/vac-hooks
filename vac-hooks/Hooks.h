@@ -81,3 +81,4 @@ DWORD    WINAPI     Hooks_GetWindowThreadProcessId(HWND, LPDWORD);
 BOOL     WINAPI     Hooks_Heap32First(LPHEAPENTRY32, DWORD, ULONG_PTR);
 NTSTATUS NTAPI      Hooks_NtQuerySystemInformation(SYSTEM_INFORMATION_CLASS, PVOID, ULONG, PULONG);
 BOOL     WINAPI     Hooks_ConvertSidToStringSidA(PSID, LPSTR*);
+BOOL     WINAPI     Hooks_CryptMsgGetParam(HCRYPTMSG, DWORD, DWORD, void*, DWORD*);

@@ -170,7 +170,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_NtQuerySystemInformation;
     else if (!strcmp(lpProcName, "ConvertSidToStringSidA"))
         return (FARPROC)Hooks_ConvertSidToStringSidA;
-
+    else if (!strcmp(lpProcName, "CryptMsgGetParam"))
+        return (FARPROC)Hooks_CryptMsgGetParam;
+        
     return result;
 }
 
@@ -827,6 +829,15 @@ BOOL NTAPI Hooks_ConvertSidToStringSidA(PSID Sid, LPSTR* StringSid)
     BOOL result = ConvertSidToStringSidA(Sid, StringSid);
 
     Utils_log("ConvertSidToStringSidA(Sid: %p, StringSid: %s) -> BOOL: %d\n", Sid, *StringSid, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_CryptMsgGetParam(HCRYPTMSG hCryptMsg, DWORD dwParamType, DWORD dwIndex, void* pvData, DWORD* pcbData)
+{
+    BOOL result = CryptMsgGetParam(hCryptMsg, dwParamType, dwIndex, pvData, pcbData);
+
+    Utils_log("CryptMsgGetParam(hCryptMsg: %p, dwParamType: %d, dwIndex: %d, pvData: %p, pcbData: %p) -> BOOL: %d\n", hCryptMsg, dwParamType, dwIndex, pvData, pcbData, result);
 
     return result;
 }
