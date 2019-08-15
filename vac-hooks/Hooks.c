@@ -695,7 +695,7 @@ SIZE_T WINAPI Hooks_VirtualQueryEx(HANDLE hProcess, LPCVOID lpAddress, PMEMORY_B
     SIZE_T result = VirtualQueryEx(hProcess, lpAddress, lpBuffer, dwLength);
     WCHAR moduleName[MAX_PATH] = { 0 };
     GetModuleFileNameExW(hProcess, lpBuffer->AllocationBase, moduleName, MAX_PATH);
-    Utils_log("VirtualQueryEx(hProcess: %p, lpAddress: %p, lpBuffer: %p (BaseAddress: %p, AllocationBase: %p (%ws), AllocationProtect: %d, RegionSize: %d, State: %d, Protect: %d, Type: %d), dwLength: %d) -> SIZE_T: %d\n", hProcess, lpAddress, lpBuffer, lpBuffer->BaseAddress, lpBuffer->AllocationBase, moduleName, lpBuffer->AllocationProtect, lpBuffer->RegionSize, lpBuffer->State, lpBuffer->Protect, lpBuffer->Type, dwLength, result);
+    Utils_log("VirtualQueryEx(hProcess: %p, lpAddress: %p, lpBuffer: %p {BaseAddress: %p, AllocationBase: %p (%ws), AllocationProtect: %d, RegionSize: %d, State: %d, Protect: %d, Type: %d}, dwLength: %d) -> SIZE_T: %d\n", hProcess, lpAddress, lpBuffer, lpBuffer->BaseAddress, lpBuffer->AllocationBase, moduleName, lpBuffer->AllocationProtect, lpBuffer->RegionSize, lpBuffer->State, lpBuffer->Protect, lpBuffer->Type, dwLength, result);
 
     return result;
 }
