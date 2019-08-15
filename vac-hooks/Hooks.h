@@ -93,3 +93,4 @@ BOOL       WINAPI     Hooks_WriteFile(HANDLE, LPCVOID, DWORD, LPDWORD, LPOVERLAP
 NTSTATUS   NTAPI      Hooks_NtQueryVirtualMemory(HANDLE, PVOID, DWORD, PVOID, ULONG, PULONG);
 VOID       WINAPI     Hooks_SetLastError(DWORD);
 DWORD_PTR  WINAPI     Hooks_SetThreadAffinityMask(HANDLE, DWORD_PTR);
+BOOL       WINAPI     Hooks_Thread32First(HANDLE, LPTHREADENTRY32);

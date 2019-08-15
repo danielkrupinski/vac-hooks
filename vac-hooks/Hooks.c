@@ -194,6 +194,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_SetLastError;
     else if (!strcmp(lpProcName, "SetThreadAffinityMask"))
         return (FARPROC)Hooks_SetThreadAffinityMask;
+    else if (!strcmp(lpProcName, "Thread32First"))
+        return (FARPROC)Hooks_Thread32First;
 
     return result;
 }
@@ -958,6 +960,15 @@ DWORD_PTR WINAPI Hooks_SetThreadAffinityMask(HANDLE hThread, DWORD_PTR dwThreadA
     DWORD_PTR result = SetThreadAffinityMask(hThread, dwThreadAffinityMask);
 
     Utils_log("SetThreadAffinityMask(hThread: %p, dwThreadAffinityMask: %lu) -> DWORD_PTR: %lu\n", hThread, dwThreadAffinityMask, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_Thread32First(HANDLE hSnapshot, LPTHREADENTRY32 lpte)
+{
+    BOOL result = Thread32First(hSnapshot, lpte);
+
+    Utils_log("Thread32First(hSnapshot: %p, lpte: %p) -> BOOL: %d\n", hSnapshot, lpte, result);
 
     return result;
 }
