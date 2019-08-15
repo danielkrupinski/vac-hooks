@@ -192,6 +192,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_NtQueryVirtualMemory;
     else if (!strcmp(lpProcName, "SetLastError"))
         return (FARPROC)Hooks_SetLastError;
+    else if (!strcmp(lpProcName, "SetThreadAffinityMask"))
+        return (FARPROC)Hooks_SetThreadAffinityMask;
 
     return result;
 }
@@ -949,4 +951,13 @@ VOID WINAPI Hooks_SetLastError(DWORD dwErrCode)
     SetLastError(dwErrCode);
 
     Utils_log("SetLastError(dwErrCode: %d) -> VOID\n", dwErrCode);
+}
+
+DWORD_PTR WINAPI Hooks_SetThreadAffinityMask(HANDLE hThread, DWORD_PTR dwThreadAffinityMask)
+{
+    DWORD_PTR result = SetThreadAffinityMask(hThread, dwThreadAffinityMask);
+
+    Utils_log("SetThreadAffinityMask(hThread: %p, dwThreadAffinityMask: %lu) -> DWORD_PTR: %lu\n", hThread, dwThreadAffinityMask, result);
+
+    return result;
 }
