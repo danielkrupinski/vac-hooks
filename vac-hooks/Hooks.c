@@ -190,7 +190,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_WriteFile;
     else if (!strcmp(lpProcName, "NtQueryVirtualMemory"))
         return (FARPROC)Hooks_NtQueryVirtualMemory;
-        
+    else if (!strcmp(lpProcName, "SetLastError"))
+        return (FARPROC)Hooks_SetLastError;
+
     return result;
 }
 
@@ -940,4 +942,11 @@ NTSTATUS NTAPI Hooks_NtQueryVirtualMemory(HANDLE ProcessHandle, PVOID BaseAddres
     Utils_log("NtQueryVirtualMemory(ProcessHandle: %p, BaseAddress: %p, MemoryInformationClass: %d, Buffer: %p, Length: %lu, ResultLength: %p) -> NTSTATUS: 0x%lx\n", ProcessHandle, BaseAddress, MemoryInformationClass, Buffer, Length, ResultLength, result);
 
     return result;
+}
+
+VOID WINAPI Hooks_SetLastError(DWORD dwErrCode)
+{
+    SetLastError(dwErrCode);
+
+    Utils_log("SetLastError(dwErrCode: %d) -> VOID\n", dwErrCode);
 }
