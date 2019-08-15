@@ -188,6 +188,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_Process32NextW;
     else if (!strcmp(lpProcName, "WriteFile"))
         return (FARPROC)Hooks_WriteFile;
+    else if (!strcmp(lpProcName, "NtQueryVirtualMemory"))
+        return (FARPROC)Hooks_NtQueryVirtualMemory;
         
     return result;
 }
@@ -926,6 +928,16 @@ BOOL WINAPI Hooks_WriteFile(HANDLE hFile, LPCVOID lpBuffer, DWORD nNumberOfBytes
     BOOL result = WriteFile(hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);
 
     Utils_log("WriteFile(hFile: %p, lpBuffer: %p, nNumberOfBytesToWrite: %d, lpNumberOfBytesWritten: %p, lpOverlapped: %p) -> BOOL: %d\n", hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped, result);
+
+    return result;
+}
+
+NTSTATUS NTAPI Hooks_NtQueryVirtualMemory(HANDLE ProcessHandle, PVOID BaseAddress, DWORD MemoryInformationClass, PVOID Buffer, ULONG Length, PULONG ResultLength)
+{
+    NTSTATUS(NTAPI* NtQueryVirtualMemory)(HANDLE, PVOID, DWORD, PVOID, ULONG, PULONG) = (PVOID)GetProcAddress(GetModuleHandleW(L"ntdll"), "NtQueryVirtualMemory");
+    NTSTATUS result = NtQueryVirtualMemory(ProcessHandle, BaseAddress, MemoryInformationClass, Buffer, Length, ResultLength);
+
+    Utils_log("NtQueryVirtualMemory(ProcessHandle: %p, BaseAddress: %p, MemoryInformationClass: %d, Buffer: %p, Length: %lu, ResultLength: %p) -> NTSTATUS: 0x%lx\n", ProcessHandle, BaseAddress, MemoryInformationClass, Buffer, Length, ResultLength, result);
 
     return result;
 }
