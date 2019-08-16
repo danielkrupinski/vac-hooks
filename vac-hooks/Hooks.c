@@ -202,6 +202,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_NtFsControlFile;
     else if (!strcmp(lpProcName, "GetThreadContext"))
         return (FARPROC)Hooks_GetThreadContext;
+    else if (!strcmp(lpProcName, "GetTokenInformation"))
+        return (FARPROC)Hooks_GetTokenInformation;
 
     return result;
 }
@@ -1003,6 +1005,15 @@ BOOL WINAPI Hooks_GetThreadContext(HANDLE hThread, LPCONTEXT lpContext)
     BOOL result = GetThreadContext(hThread, lpContext);
 
     Utils_log("GetThreadContext(hThread: %p, lpContext: %p) -> BOOL: %d\n", hThread, lpContext, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_GetTokenInformation(HANDLE TokenHandle, TOKEN_INFORMATION_CLASS TokenInformationClass, LPVOID TokenInformation, DWORD TokenInformationLength, PDWORD ReturnLength)
+{
+    BOOL result = GetTokenInformation(TokenHandle, TokenInformationClass, TokenInformation, TokenInformationLength, ReturnLength);
+
+    Utils_log("GetTokenInformation(TokenHandle: %p, TokenInformationClass: %d, TokenInformation: %p, TokenInformationLength: %d, ReturnLength: %p) -> BOOL: %d\n", TokenHandle, TokenInformationClass, TokenInformation, TokenInformationLength, ReturnLength, result);
 
     return result;
 }
