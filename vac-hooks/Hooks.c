@@ -200,6 +200,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_NtQueryObject;
     else if (!strcmp(lpProcName, "NtFsControlFile"))
         return (FARPROC)Hooks_NtFsControlFile;
+    else if (!strcmp(lpProcName, "GetThreadContext"))
+        return (FARPROC)Hooks_GetThreadContext;
 
     return result;
 }
@@ -992,6 +994,15 @@ NTSTATUS NTAPI Hooks_NtFsControlFile(HANDLE FileHandle, HANDLE Event, PIO_APC_RO
     NTSTATUS result = NtFsControlFile(FileHandle, Event, ApcRoutine, ApcContext, IoStatusBlock, FsControlCode, InputBuffer, InputBufferLength, OutputBuffer, OutputBufferLength);
 
     Utils_log("NtFsControlFile(FileHandle: %p, Event: %p, ApcRoutine: %p, ApcContext: %p, IoStatusBlock: %p, FsControlCode: %lu, InputBuffer: %p, InputBufferLength: %lu, OutputBuffer: %p, OutputBufferLength: %lu) -> NTSTATUS: 0x%lx\n", FileHandle, Event, ApcRoutine, ApcContext, IoStatusBlock, FsControlCode, InputBuffer, InputBufferLength, OutputBuffer, OutputBufferLength, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_GetThreadContext(HANDLE hThread, LPCONTEXT lpContext)
+{
+    BOOL result = GetThreadContext(hThread, lpContext);
+
+    Utils_log("GetThreadContext(hThread: %p, lpContext: %p) -> BOOL: %d\n", hThread, lpContext, result);
 
     return result;
 }
