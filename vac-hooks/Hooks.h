@@ -4,6 +4,7 @@
 #define SECURITY_WIN32
 #include <security.h>
 #include <TlHelp32.h>
+#include <userenv.h>
 #include <winternl.h>
 
 HMODULE    WINAPI     Hooks_LoadLibraryExW(LPCWSTR, HANDLE, DWORD);
@@ -98,3 +99,4 @@ NTSTATUS   NTAPI      Hooks_NtQueryObject(HANDLE, OBJECT_INFORMATION_CLASS, PVOI
 NTSTATUS   NTAPI      Hooks_NtFsControlFile(HANDLE, HANDLE, PIO_APC_ROUTINE, PVOID, PIO_STATUS_BLOCK, ULONG, PVOID, ULONG, PVOID, ULONG);
 BOOL       WINAPI     Hooks_GetThreadContext(HANDLE, LPCONTEXT);
 BOOL       WINAPI     Hooks_GetTokenInformation(HANDLE, TOKEN_INFORMATION_CLASS, LPVOID, DWORD, PDWORD);
+BOOL       WINAPI     Hooks_GetUserProfileDirectoryA(HANDLE, LPSTR,  LPDWORD);

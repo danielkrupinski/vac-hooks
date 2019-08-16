@@ -204,7 +204,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetThreadContext;
     else if (!strcmp(lpProcName, "GetTokenInformation"))
         return (FARPROC)Hooks_GetTokenInformation;
-
+    else if (!strcmp(lpProcName, "GetUserProfileDirectoryA"))
+        return (FARPROC)Hooks_GetUserProfileDirectoryA;
+       
     return result;
 }
 
@@ -1014,6 +1016,15 @@ BOOL WINAPI Hooks_GetTokenInformation(HANDLE TokenHandle, TOKEN_INFORMATION_CLAS
     BOOL result = GetTokenInformation(TokenHandle, TokenInformationClass, TokenInformation, TokenInformationLength, ReturnLength);
 
     Utils_log("GetTokenInformation(TokenHandle: %p, TokenInformationClass: %d, TokenInformation: %p, TokenInformationLength: %d, ReturnLength: %p) -> BOOL: %d\n", TokenHandle, TokenInformationClass, TokenInformation, TokenInformationLength, ReturnLength, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_GetUserProfileDirectoryA(HANDLE hToken, LPSTR lpProfileDir, LPDWORD lpcchSize)
+{
+    BOOL result = GetUserProfileDirectoryA(hToken, lpProfileDir, lpcchSize);
+
+    Utils_log("GetUserProfileDirectoryA(hToken: %p, lpProfileDir: %s, lpcchSize: %p) -> BOOL: %d\n", hToken, SAFE_STR(lpProfileDir, ""), lpcchSize, result);
 
     return result;
 }
