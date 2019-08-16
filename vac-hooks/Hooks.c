@@ -198,7 +198,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_Thread32First;
     else if (!strcmp(lpProcName, "NtQueryObject"))
         return (FARPROC)Hooks_NtQueryObject;
- 
+    else if (!strcmp(lpProcName, "NtFsControlFile"))
+        return (FARPROC)Hooks_NtFsControlFile;
+
     return result;
 }
 
@@ -980,6 +982,16 @@ NTSTATUS NTAPI Hooks_NtQueryObject(HANDLE Handle, OBJECT_INFORMATION_CLASS Objec
     NTSTATUS result = NtQueryObject(Handle, ObjectInformationClass, ObjectInformation, ObjectInformationLength, ReturnLength);
 
     Utils_log("NtQueryObject(Handle: %p, ObjectInformationClass: %d, ObjectInformation: %p, ObjectInformationLength: %lu, ReturnLength: %p) -> NTSTATUS: 0x%lx\n", Handle, ObjectInformationClass, ObjectInformation, ObjectInformationLength, ReturnLength, result);
+
+    return result;
+}
+
+NTSTATUS NTAPI Hooks_NtFsControlFile(HANDLE FileHandle, HANDLE Event, PIO_APC_ROUTINE ApcRoutine, PVOID ApcContext, PIO_STATUS_BLOCK IoStatusBlock, ULONG FsControlCode, PVOID InputBuffer, ULONG InputBufferLength, PVOID OutputBuffer, ULONG OutputBufferLength)
+{
+    NTSTATUS(NTAPI* NtFsControlFile)(HANDLE, HANDLE, PIO_APC_ROUTINE, PVOID, PIO_STATUS_BLOCK, ULONG, PVOID, ULONG, PVOID, ULONG) = (PVOID)GetProcAddress(GetModuleHandleW(L"ntdll"), "NtFsControlFile");
+    NTSTATUS result = NtFsControlFile(FileHandle, Event, ApcRoutine, ApcContext, IoStatusBlock, FsControlCode, InputBuffer, InputBufferLength, OutputBuffer, OutputBufferLength);
+
+    Utils_log("NtFsControlFile(FileHandle: %p, Event: %p, ApcRoutine: %p, ApcContext: %p, IoStatusBlock: %p, FsControlCode: %lu, InputBuffer: %p, InputBufferLength: %lu, OutputBuffer: %p, OutputBufferLength: %lu) -> NTSTATUS: 0x%lx\n", FileHandle, Event, ApcRoutine, ApcContext, IoStatusBlock, FsControlCode, InputBuffer, InputBufferLength, OutputBuffer, OutputBufferLength, result);
 
     return result;
 }
