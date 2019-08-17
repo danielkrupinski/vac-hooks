@@ -78,6 +78,22 @@ VOID Utils_log(PCSTR format, ...)
     }
 }
 
+PCWSTR Utils_getCallingModule(PVOID returnAddress)
+{
+    MEMORY_BASIC_INFORMATION mbi;
+    if (VirtualQuery(returnAddress, &mbi, sizeof(mbi)) == sizeof(mbi)) {
+        static WCHAR fileName[MAX_PATH] = { 0 };
+
+        if (GetModuleFileNameW(mbi.AllocationBase, fileName, sizeof(fileName) / sizeof(WCHAR))) {
+            PWSTR name = wcsrchr(fileName, L'\\');
+            if (name)
+                return name;
+            return fileName;
+        }
+    }
+    return L"?";
+}
+
 UINT Utils_hashRuntime(PCSTR str)
 {
     UINT hash = 0;
