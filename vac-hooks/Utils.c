@@ -78,10 +78,10 @@ VOID Utils_log(PCSTR format, ...)
     }
 }
 
-PCWSTR Utils_getModuleName(PVOID returnAddress)
+PCWSTR Utils_getModuleName(PVOID address)
 {
     MEMORY_BASIC_INFORMATION mbi;
-    if (VirtualQuery(returnAddress, &mbi, sizeof(mbi)) == sizeof(mbi)) {
+    if (VirtualQuery(address, &mbi, sizeof(mbi)) == sizeof(mbi)) {
         static WCHAR fileName[MAX_PATH] = { 0 };
 
         if (GetModuleFileNameW(mbi.AllocationBase, fileName, sizeof(fileName) / sizeof(WCHAR))) {
