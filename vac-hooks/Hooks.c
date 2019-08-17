@@ -208,6 +208,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetUserProfileDirectoryA;
     else if (!strcmp(lpProcName, "GetUserProfileDirectoryW"))
         return (FARPROC)Hooks_GetUserProfileDirectoryW;
+    else if (!strcmp(lpProcName, "NtDuplicateObject"))
+        return (FARPROC)Hooks_NtDuplicateObject;
 
     return result;
 }
@@ -1036,6 +1038,16 @@ BOOL WINAPI Hooks_GetUserProfileDirectoryW(HANDLE hToken, LPWSTR lpProfileDir, L
     BOOL result = GetUserProfileDirectoryW(hToken, lpProfileDir, lpcchSize);
 
     Utils_log("GetUserProfileDirectoryW(hToken: %p, lpProfileDir: %ws, lpcchSize: %p) -> BOOL: %d\n", hToken, SAFE_STR(lpProfileDir, L""), lpcchSize, result);
+
+    return result;
+}
+
+NTSTATUS NTAPI Hooks_NtDuplicateObject(HANDLE SourceProcessHandle, PHANDLE SourceHandle, HANDLE TargetProcessHandle, PHANDLE TargetHandle, ACCESS_MASK DesiredAccess, BOOLEAN InheritHandle, ULONG Options)
+{
+    NTSTATUS(NTAPI* NtDuplicateObject)(HANDLE, PHANDLE, HANDLE, PHANDLE, ACCESS_MASK, BOOLEAN, ULONG) = (PVOID)GetProcAddress(GetModuleHandleW(L"ntdll"), "NtDuplicateObject");
+    NTSTATUS result = NtDuplicateObject(SourceProcessHandle, SourceHandle, TargetProcessHandle, TargetHandle, DesiredAccess, InheritHandle, Options);
+
+    Utils_log("NtDuplicateObject(SourceProcessHandle: %p, SourceHandle: %p, TargetProcessHandle: %p, TargetHandle: %p, DesiredAccess: %d, InheritHandle: %d, Options: %lu) -> NTSTATUS: 0x%lx\n", SourceProcessHandle, SourceHandle, TargetProcessHandle, TargetHandle, DesiredAccess, InheritHandle, Options, result);
 
     return result;
 }

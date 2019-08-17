@@ -101,3 +101,4 @@ BOOL       WINAPI     Hooks_GetThreadContext(HANDLE, LPCONTEXT);
 BOOL       WINAPI     Hooks_GetTokenInformation(HANDLE, TOKEN_INFORMATION_CLASS, LPVOID, DWORD, PDWORD);
 BOOL       WINAPI     Hooks_GetUserProfileDirectoryA(HANDLE, LPSTR, LPDWORD);
 BOOL       WINAPI     Hooks_GetUserProfileDirectoryW(HANDLE, LPWSTR, LPDWORD);
+NTSTATUS   NTAPI      Hooks_NtDuplicateObject(HANDLE, PHANDLE, HANDLE, PHANDLE, ACCESS_MASK, BOOLEAN, ULONG);
