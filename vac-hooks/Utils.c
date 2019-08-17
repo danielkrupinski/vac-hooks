@@ -87,7 +87,7 @@ PCWSTR Utils_getCallingModule(PVOID returnAddress)
         if (GetModuleFileNameW(mbi.AllocationBase, fileName, sizeof(fileName) / sizeof(WCHAR))) {
             PWSTR name = wcsrchr(fileName, L'\\');
             if (name)
-                return name;
+                return name + 1;
             return fileName;
         }
     }
