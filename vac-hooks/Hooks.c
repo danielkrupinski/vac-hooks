@@ -211,6 +211,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetUserProfileDirectoryW;
     else if (!strcmp(lpProcName, "NtDuplicateObject"))
         return (FARPROC)Hooks_NtDuplicateObject;
+    else if (!strcmp(lpProcName, "OpenFileMappingW"))
+        return (FARPROC)Hooks_OpenFileMappingW;
 
     return result;
 }
@@ -1063,6 +1065,16 @@ NTSTATUS NTAPI Hooks_NtDuplicateObject(HANDLE SourceProcessHandle, PHANDLE Sourc
 
     Utils_log("%ws: NtDuplicateObject(SourceProcessHandle: %p, SourceHandle: %p, TargetProcessHandle: %p, TargetHandle: %p, DesiredAccess: %d, InheritHandle: %d, Options: %lu) -> NTSTATUS: 0x%lx\n",
         Utils_getModuleName(_ReturnAddress()), SourceProcessHandle, SourceHandle, TargetProcessHandle, TargetHandle, DesiredAccess, InheritHandle, Options, result);
+
+    return result;
+}
+
+HANDLE WINAPI Hooks_OpenFileMappingW(DWORD dwDesiredAccess, BOOL bInheritHandle, LPCWSTR lpName)
+{
+    HANDLE result = OpenFileMappingW(dwDesiredAccess, bInheritHandle, lpName);
+
+    Utils_log("%ws: OpenFileMappingW(dwDesiredAccess: %d, bInheritHandle: %d, lpName: %ws) -> HANDLE: %p\n",
+        Utils_getModuleName(_ReturnAddress()), dwDesiredAccess, bInheritHandle, lpName, result);
 
     return result;
 }

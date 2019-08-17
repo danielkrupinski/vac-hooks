@@ -102,3 +102,4 @@ BOOL       WINAPI     Hooks_GetTokenInformation(HANDLE, TOKEN_INFORMATION_CLASS,
 BOOL       WINAPI     Hooks_GetUserProfileDirectoryA(HANDLE, LPSTR, LPDWORD);
 BOOL       WINAPI     Hooks_GetUserProfileDirectoryW(HANDLE, LPWSTR, LPDWORD);
 NTSTATUS   NTAPI      Hooks_NtDuplicateObject(HANDLE, PHANDLE, HANDLE, PHANDLE, ACCESS_MASK, BOOLEAN, ULONG);
+HANDLE     WINAPI     Hooks_OpenFileMappingW(DWORD, BOOL, LPCWSTR);
