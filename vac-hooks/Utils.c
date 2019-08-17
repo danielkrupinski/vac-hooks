@@ -78,7 +78,7 @@ VOID Utils_log(PCSTR format, ...)
     }
 }
 
-PCWSTR Utils_getCallingModule(PVOID returnAddress)
+PCWSTR Utils_getModuleName(PVOID returnAddress)
 {
     MEMORY_BASIC_INFORMATION mbi;
     if (VirtualQuery(returnAddress, &mbi, sizeof(mbi)) == sizeof(mbi)) {

@@ -931,7 +931,7 @@ BOOL WINAPI Hooks_Process32FirstW(HANDLE hSnapshot, LPPROCESSENTRY32W lppe)
     BOOL result = Process32FirstW(hSnapshot, lppe);
 
     Utils_log("%ws: Process32FirstW(hSnapshot: %p, lppe: %p) -> BOOL: %d\n",
-        Utils_getCallingModule(_ReturnAddress()), hSnapshot, lppe, result);
+        Utils_getModuleName(_ReturnAddress()), hSnapshot, lppe, result);
 
     return result;
 }
@@ -941,7 +941,7 @@ BOOL WINAPI Hooks_Process32NextW(HANDLE hSnapshot, LPPROCESSENTRY32W lppe)
     BOOL result = Process32NextW(hSnapshot, lppe);
 
     Utils_log("%ws: Process32NextW(hSnapshot: %p, lppe: %p) -> BOOL: %d\n",
-        Utils_getCallingModule(_ReturnAddress()), hSnapshot, lppe, result);
+        Utils_getModuleName(_ReturnAddress()), hSnapshot, lppe, result);
 
     return result;
 }
@@ -951,7 +951,7 @@ BOOL WINAPI Hooks_WriteFile(HANDLE hFile, LPCVOID lpBuffer, DWORD nNumberOfBytes
     BOOL result = WriteFile(hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);
 
     Utils_log("%ws: WriteFile(hFile: %p, lpBuffer: %p, nNumberOfBytesToWrite: %d, lpNumberOfBytesWritten: %p, lpOverlapped: %p) -> BOOL: %d\n",
-        Utils_getCallingModule(_ReturnAddress()), hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped, result);
+        Utils_getModuleName(_ReturnAddress()), hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped, result);
 
     return result;
 }
@@ -962,7 +962,7 @@ NTSTATUS NTAPI Hooks_NtQueryVirtualMemory(HANDLE ProcessHandle, PVOID BaseAddres
     NTSTATUS result = NtQueryVirtualMemory(ProcessHandle, BaseAddress, MemoryInformationClass, Buffer, Length, ResultLength);
 
     Utils_log("%ws: NtQueryVirtualMemory(ProcessHandle: %p, BaseAddress: %p, MemoryInformationClass: %d, Buffer: %p, Length: %lu, ResultLength: %p) -> NTSTATUS: 0x%lx\n",
-        Utils_getCallingModule(_ReturnAddress()), ProcessHandle, BaseAddress, MemoryInformationClass, Buffer, Length, ResultLength, result);
+        Utils_getModuleName(_ReturnAddress()), ProcessHandle, BaseAddress, MemoryInformationClass, Buffer, Length, ResultLength, result);
 
     return result;
 }
@@ -972,7 +972,7 @@ VOID WINAPI Hooks_SetLastError(DWORD dwErrCode)
     SetLastError(dwErrCode);
 
     Utils_log("%ws: SetLastError(dwErrCode: %d) -> VOID\n",
-        Utils_getCallingModule(_ReturnAddress()), dwErrCode);
+        Utils_getModuleName(_ReturnAddress()), dwErrCode);
 }
 
 DWORD_PTR WINAPI Hooks_SetThreadAffinityMask(HANDLE hThread, DWORD_PTR dwThreadAffinityMask)
@@ -980,7 +980,7 @@ DWORD_PTR WINAPI Hooks_SetThreadAffinityMask(HANDLE hThread, DWORD_PTR dwThreadA
     DWORD_PTR result = SetThreadAffinityMask(hThread, dwThreadAffinityMask);
 
     Utils_log("%ws: SetThreadAffinityMask(hThread: %p, dwThreadAffinityMask: %lu) -> DWORD_PTR: %lu\n",
-        Utils_getCallingModule(_ReturnAddress()), hThread, dwThreadAffinityMask, result);
+        Utils_getModuleName(_ReturnAddress()), hThread, dwThreadAffinityMask, result);
 
     return result;
 }
@@ -990,7 +990,7 @@ BOOL WINAPI Hooks_Thread32First(HANDLE hSnapshot, LPTHREADENTRY32 lpte)
     BOOL result = Thread32First(hSnapshot, lpte);
 
     Utils_log("%ws: Thread32First(hSnapshot: %p, lpte: %p) -> BOOL: %d\n",
-        Utils_getCallingModule(_ReturnAddress()), hSnapshot, lpte, result);
+        Utils_getModuleName(_ReturnAddress()), hSnapshot, lpte, result);
 
     return result;
 }
@@ -1000,7 +1000,7 @@ NTSTATUS NTAPI Hooks_NtQueryObject(HANDLE Handle, OBJECT_INFORMATION_CLASS Objec
     NTSTATUS result = NtQueryObject(Handle, ObjectInformationClass, ObjectInformation, ObjectInformationLength, ReturnLength);
 
     Utils_log("%ws: NtQueryObject(Handle: %p, ObjectInformationClass: %d, ObjectInformation: %p, ObjectInformationLength: %lu, ReturnLength: %p) -> NTSTATUS: 0x%lx\n",
-        Utils_getCallingModule(_ReturnAddress()), Handle, ObjectInformationClass, ObjectInformation, ObjectInformationLength, ReturnLength, result);
+        Utils_getModuleName(_ReturnAddress()), Handle, ObjectInformationClass, ObjectInformation, ObjectInformationLength, ReturnLength, result);
 
     return result;
 }
@@ -1011,7 +1011,7 @@ NTSTATUS NTAPI Hooks_NtFsControlFile(HANDLE FileHandle, HANDLE Event, PIO_APC_RO
     NTSTATUS result = NtFsControlFile(FileHandle, Event, ApcRoutine, ApcContext, IoStatusBlock, FsControlCode, InputBuffer, InputBufferLength, OutputBuffer, OutputBufferLength);
 
     Utils_log("%ws: NtFsControlFile(FileHandle: %p, Event: %p, ApcRoutine: %p, ApcContext: %p, IoStatusBlock: %p, FsControlCode: %lu, InputBuffer: %p, InputBufferLength: %lu, OutputBuffer: %p, OutputBufferLength: %lu) -> NTSTATUS: 0x%lx\n",
-        Utils_getCallingModule(_ReturnAddress()), FileHandle, Event, ApcRoutine, ApcContext, IoStatusBlock, FsControlCode, InputBuffer, InputBufferLength, OutputBuffer, OutputBufferLength, result);
+        Utils_getModuleName(_ReturnAddress()), FileHandle, Event, ApcRoutine, ApcContext, IoStatusBlock, FsControlCode, InputBuffer, InputBufferLength, OutputBuffer, OutputBufferLength, result);
 
     return result;
 }
@@ -1021,7 +1021,7 @@ BOOL WINAPI Hooks_GetThreadContext(HANDLE hThread, LPCONTEXT lpContext)
     BOOL result = GetThreadContext(hThread, lpContext);
 
     Utils_log("%ws: GetThreadContext(hThread: %p, lpContext: %p) -> BOOL: %d\n",
-        Utils_getCallingModule(_ReturnAddress()), hThread, lpContext, result);
+        Utils_getModuleName(_ReturnAddress()), hThread, lpContext, result);
 
     return result;
 }
@@ -1031,7 +1031,7 @@ BOOL WINAPI Hooks_GetTokenInformation(HANDLE TokenHandle, TOKEN_INFORMATION_CLAS
     BOOL result = GetTokenInformation(TokenHandle, TokenInformationClass, TokenInformation, TokenInformationLength, ReturnLength);
 
     Utils_log("%ws: GetTokenInformation(TokenHandle: %p, TokenInformationClass: %d, TokenInformation: %p, TokenInformationLength: %d, ReturnLength: %p) -> BOOL: %d\n",
-        Utils_getCallingModule(_ReturnAddress()), TokenHandle, TokenInformationClass, TokenInformation, TokenInformationLength, ReturnLength, result);
+        Utils_getModuleName(_ReturnAddress()), TokenHandle, TokenInformationClass, TokenInformation, TokenInformationLength, ReturnLength, result);
 
     return result;
 }
@@ -1041,7 +1041,7 @@ BOOL WINAPI Hooks_GetUserProfileDirectoryA(HANDLE hToken, LPSTR lpProfileDir, LP
     BOOL result = GetUserProfileDirectoryA(hToken, lpProfileDir, lpcchSize);
 
     Utils_log("%ws: GetUserProfileDirectoryA(hToken: %p, lpProfileDir: %s, lpcchSize: %p) -> BOOL: %d\n",
-        Utils_getCallingModule(_ReturnAddress()), hToken, SAFE_STR(lpProfileDir, ""), lpcchSize, result);
+        Utils_getModuleName(_ReturnAddress()), hToken, SAFE_STR(lpProfileDir, ""), lpcchSize, result);
 
     return result;
 }
@@ -1051,7 +1051,7 @@ BOOL WINAPI Hooks_GetUserProfileDirectoryW(HANDLE hToken, LPWSTR lpProfileDir, L
     BOOL result = GetUserProfileDirectoryW(hToken, lpProfileDir, lpcchSize);
 
     Utils_log("%ws: GetUserProfileDirectoryW(hToken: %p, lpProfileDir: %ws, lpcchSize: %p) -> BOOL: %d\n",
-        Utils_getCallingModule(_ReturnAddress()), hToken, SAFE_STR(lpProfileDir, L""), lpcchSize, result);
+        Utils_getModuleName(_ReturnAddress()), hToken, SAFE_STR(lpProfileDir, L""), lpcchSize, result);
 
     return result;
 }
@@ -1062,7 +1062,7 @@ NTSTATUS NTAPI Hooks_NtDuplicateObject(HANDLE SourceProcessHandle, PHANDLE Sourc
     NTSTATUS result = NtDuplicateObject(SourceProcessHandle, SourceHandle, TargetProcessHandle, TargetHandle, DesiredAccess, InheritHandle, Options);
 
     Utils_log("%ws: NtDuplicateObject(SourceProcessHandle: %p, SourceHandle: %p, TargetProcessHandle: %p, TargetHandle: %p, DesiredAccess: %d, InheritHandle: %d, Options: %lu) -> NTSTATUS: 0x%lx\n",
-        Utils_getCallingModule(_ReturnAddress()), SourceProcessHandle, SourceHandle, TargetProcessHandle, TargetHandle, DesiredAccess, InheritHandle, Options, result);
+        Utils_getModuleName(_ReturnAddress()), SourceProcessHandle, SourceHandle, TargetProcessHandle, TargetHandle, DesiredAccess, InheritHandle, Options, result);
 
     return result;
 }
