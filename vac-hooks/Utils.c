@@ -86,8 +86,11 @@ PCWSTR Utils_getModuleName(PVOID address)
 
         if (GetModuleFileNameW(mbi.AllocationBase, fileName, sizeof(fileName) / sizeof(WCHAR))) {
             PWSTR name = wcsrchr(fileName, L'\\');
-            if (name)
-                return name + 1;
+            if (name) {
+                static WCHAR moduleName[50] = { 0 };
+                swprintf(moduleName, 50, L"%s + 0x%x", name + 1, (DWORD)address - (DWORD)mbi.AllocationBase);
+                return moduleName;
+            }
             return fileName;
         }
     }
