@@ -223,7 +223,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_SetFilePointer;
     else if (!strcmp(lpProcName, "OpenFileById"))
         return (FARPROC)Hooks_OpenFileById;
-
+    else if (!strcmp(lpProcName, "GetMappedFileNameA"))
+        return (FARPROC)Hooks_GetMappedFileNameA;
+        
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1190,6 +1192,16 @@ HANDLE WINAPI Hooks_OpenFileById(HANDLE hVolumeHint, LPFILE_ID_DESCRIPTOR lpFile
 
     Utils_log("%ws: OpenFileById(hVolumeHint: %p, lpFileId: %p, dwDesiredAccess: %d, dwShareMode: %d, lpSecurityAttributes: %p, dwFlagsAndAttributes: %d) -> DWORD: %d\n",
         Utils_getModuleName(_ReturnAddress()), hVolumeHint, lpFileId, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwFlagsAndAttributes, result);
+
+    return result;
+}
+
+DWORD WINAPI Hooks_GetMappedFileNameA(HANDLE hProcess, LPVOID lpv, LPSTR lpFilename, DWORD nSize)
+{
+    DWORD result = GetMappedFileNameA(hProcess, lpv, lpFilename, nSize);
+
+    Utils_log("%ws: GetMappedFileNameA(hProcess: %p, lpv: %p, lpFilename: %s, nSize: %d) -> DWORD: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hProcess, lpv, lpFilename, nSize, result);
 
     return result;
 }
