@@ -107,3 +107,4 @@ HANDLE     WINAPI     Hooks_OpenFileMappingW(DWORD, BOOL, LPCWSTR);
 NTSTATUS   NTAPI      Hooks_RtlDecompressBufferEx(USHORT, PUCHAR, ULONG, PUCHAR, ULONG, PULONG, PVOID);
 ULONG      WINAPI     Hooks_GetTcpTable(PMIB_TCPTABLE, PULONG, BOOL);
 BOOL       WINAPI     Hooks_CloseHandle(HANDLE);
+DWORD      WINAPI     Hooks_SetFilePointer(HANDLE, LONG, PLONG, DWORD);

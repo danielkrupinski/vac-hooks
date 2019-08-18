@@ -219,7 +219,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetTcpTable;
     else if (!strcmp(lpProcName, "CloseHandle"))
         return (FARPROC)Hooks_CloseHandle;
-
+    else if (!strcmp(lpProcName, "SetFilePointer"))
+        return (FARPROC)Hooks_SetFilePointer;
+        
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1166,6 +1168,16 @@ BOOL WINAPI Hooks_CloseHandle(HANDLE hObject)
 
     Utils_log("%ws: CloseHandle(hObject: %p) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), hObject, result);
+
+    return result;
+}
+
+DWORD WINAPI Hooks_SetFilePointer(HANDLE hFile, LONG lDistanceToMove, PLONG lpDistanceToMoveHigh, DWORD dwMoveMethod)
+{
+    DWORD result = SetFilePointer(hFile, lDistanceToMove, lpDistanceToMoveHigh, dwMoveMethod);
+
+    Utils_log("%ws: SetFilePointer(hFile: %p, lDistanceToMove: %ld, lpDistanceToMoveHigh: %p, dwMoveMethod: %d) -> DWORD: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hFile, lDistanceToMove, lpDistanceToMoveHigh, dwMoveMethod, result);
 
     return result;
 }
