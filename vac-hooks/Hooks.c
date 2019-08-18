@@ -237,7 +237,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_IsBadReadPtr;
     else if (!strcmp(lpProcName, "ReadFile"))
         return (FARPROC)Hooks_ReadFile;
-        
+    else if (!strcmp(lpProcName, "GetThreadId"))
+        return (FARPROC)Hooks_GetThreadId;
+
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1274,6 +1276,16 @@ BOOL WINAPI Hooks_ReadFile(HANDLE hFile, LPVOID lpBuffer, DWORD nNumberOfBytesTo
 
     Utils_log("%ws: ReadFile(hFile: %p, lpBuffer: %p, nNumberOfBytesToRead: %d, lpNumberOfBytesRead: %p (%d), lpOverlapped: %p) -> DWORD: %d\n",
         Utils_getModuleName(_ReturnAddress()), hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpNumberOfBytesRead ? *lpNumberOfBytesRead : 0, lpOverlapped, result);
+
+    return result;
+}
+
+DWORD WINAPI Hooks_GetThreadId(HANDLE Thread)
+{
+    DWORD result = GetThreadId(Thread);
+
+    Utils_log("%ws: GetThreadId(Thread: %p) -> DWORD: %d\n",
+        Utils_getModuleName(_ReturnAddress()), Thread, result);
 
     return result;
 }

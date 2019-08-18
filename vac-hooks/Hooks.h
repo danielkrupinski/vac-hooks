@@ -116,4 +116,5 @@ DWORD      WINAPI     Hooks_ResumeThread(HANDLE);
 DWORD64    WINAPI     Hooks_SymGetModuleBase64(HANDLE, DWORD64);
 DWORD      WINAPI     Hooks_GetProcessId(HANDLE);
 BOOL       WINAPI     Hooks_IsBadReadPtr(CONST VOID*, UINT_PTR);
-BOOL      WINAPI      Hooks_ReadFile(HANDLE, LPVOID, DWORD, LPDWORD, LPOVERLAPPED);
+BOOL       WINAPI     Hooks_ReadFile(HANDLE, LPVOID, DWORD, LPDWORD, LPOVERLAPPED);
+DWORD      WINAPI     Hooks_GetThreadId(HANDLE);
