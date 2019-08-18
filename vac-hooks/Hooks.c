@@ -217,6 +217,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_RtlDecompressBufferEx;
     else if (!strcmp(lpProcName, "GetTcpTable"))
         return (FARPROC)Hooks_GetTcpTable;
+    else if (!strcmp(lpProcName, "CloseHandle"))
+        return (FARPROC)Hooks_CloseHandle;
 
     return result;
 }
@@ -1100,6 +1102,16 @@ ULONG WINAPI Hooks_GetTcpTable(PMIB_TCPTABLE TcpTable, PULONG SizePointer, BOOL 
 
     Utils_log("%ws: GetTcpTable(TcpTable: %p { dwNumEntries: %d }, SizePointer: %p, Order: %d) -> ULONG: %lu\n",
         Utils_getModuleName(_ReturnAddress()), TcpTable, TcpTable->dwNumEntries, SizePointer, Order, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_CloseHandle(HANDLE hObject)
+{
+    BOOL result = CloseHandle(hObject);
+
+    Utils_log("%ws: CloseHandle(hObject: %p) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hObject, result);
 
     return result;
 }
