@@ -215,6 +215,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_OpenFileMappingW;
     else if (!strcmp(lpProcName, "RtlDecompressBufferEx"))
         return (FARPROC)Hooks_RtlDecompressBufferEx;
+    else if (!strcmp(lpProcName, "GetTcpTable"))
+        return (FARPROC)Hooks_GetTcpTable;
 
     return result;
 }
@@ -1088,6 +1090,16 @@ NTSTATUS NTAPI Hooks_RtlDecompressBufferEx(USHORT CompressionFormat, PUCHAR Unco
 
     Utils_log("%ws: RtlDecompressBufferEx(CompressionFormat: %u, UncompressedBuffer: %p, UncompressedBufferSize: %lu, CompressedBuffer: %p, CompressedBufferSize: %lu, FinalUncompressedSize: %p, WorkSpace: %p) -> NTSTATUS: 0x%lx\n",
         Utils_getModuleName(_ReturnAddress()), CompressionFormat, UncompressedBuffer, UncompressedBufferSize, CompressedBuffer, CompressedBufferSize, FinalUncompressedSize, WorkSpace, result);
+
+    return result;
+}
+
+ULONG WINAPI Hooks_GetTcpTable(PMIB_TCPTABLE TcpTable, PULONG SizePointer, BOOL Order)
+{
+    ULONG result = GetTcpTable(TcpTable, SizePointer, Order);
+
+    Utils_log("%ws: GetTcpTable(TcpTable: %p { dwNumEntries: %d }, SizePointer: %p, Order: %d) -> ULONG: %lu\n",
+        Utils_getModuleName(_ReturnAddress()), TcpTable, TcpTable->dwNumEntries, SizePointer, Order, result);
 
     return result;
 }

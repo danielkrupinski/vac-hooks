@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Windows.h>
+#include <iphlpapi.h>
 #define SECURITY_WIN32
 #include <security.h>
 #include <TlHelp32.h>
@@ -104,3 +105,4 @@ BOOL       WINAPI     Hooks_GetUserProfileDirectoryW(HANDLE, LPWSTR, LPDWORD);
 NTSTATUS   NTAPI      Hooks_NtDuplicateObject(HANDLE, PHANDLE, HANDLE, PHANDLE, ACCESS_MASK, BOOLEAN, ULONG);
 HANDLE     WINAPI     Hooks_OpenFileMappingW(DWORD, BOOL, LPCWSTR);
 NTSTATUS   NTAPI      Hooks_RtlDecompressBufferEx(USHORT, PUCHAR, ULONG, PUCHAR, ULONG, PULONG, PVOID);
+ULONG      WINAPI     Hooks_GetTcpTable(PMIB_TCPTABLE, PULONG, BOOL);
