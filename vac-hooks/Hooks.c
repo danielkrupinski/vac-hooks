@@ -235,7 +235,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetProcessId;
     else if (!strcmp(lpProcName, "IsBadReadPtr"))
         return (FARPROC)Hooks_IsBadReadPtr;
-
+    else if (!strcmp(lpProcName, "ReadFile"))
+        return (FARPROC)Hooks_ReadFile;
+        
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1262,6 +1264,16 @@ BOOL WINAPI Hooks_IsBadReadPtr(CONST VOID* lp, UINT_PTR ucb)
 
     Utils_log("%ws: IsBadReadPtr(lp: %p, ucb: %u) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), lp, ucb, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_ReadFile(HANDLE hFile, LPVOID lpBuffer, DWORD nNumberOfBytesToRead, LPDWORD lpNumberOfBytesRead, LPOVERLAPPED lpOverlapped)
+{
+    BOOL result = ReadFile(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped);
+
+    Utils_log("%ws: ReadFile(hFile: %p, lpBuffer: %p, nNumberOfBytesToRead: %d, lpNumberOfBytesRead: %p (%d), lpOverlapped: %p) -> DWORD: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpNumberOfBytesRead ? *lpNumberOfBytesRead : 0, lpOverlapped, result);
 
     return result;
 }
