@@ -225,6 +225,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_OpenFileById;
     else if (!strcmp(lpProcName, "GetMappedFileNameA"))
         return (FARPROC)Hooks_GetMappedFileNameA;
+    else if (!strcmp(lpProcName, "SetFilePointerEx"))
+        return (FARPROC)Hooks_SetFilePointerEx;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -1182,6 +1184,16 @@ DWORD WINAPI Hooks_SetFilePointer(HANDLE hFile, LONG lDistanceToMove, PLONG lpDi
 
     Utils_log("%ws: SetFilePointer(hFile: %p, lDistanceToMove: %ld, lpDistanceToMoveHigh: %p, dwMoveMethod: %d) -> DWORD: %d\n",
         Utils_getModuleName(_ReturnAddress()), hFile, lDistanceToMove, lpDistanceToMoveHigh, dwMoveMethod, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_SetFilePointerEx(HANDLE hFile, LARGE_INTEGER liDistanceToMove, PLARGE_INTEGER lpNewFilePointer, DWORD dwMoveMethod)
+{
+    BOOL result = SetFilePointerEx(hFile, liDistanceToMove, lpNewFilePointer, dwMoveMethod);
+
+    Utils_log("%ws: SetFilePointerEx(hFile: %p, liDistanceToMove: %lld, lpNewFilePointer: %p, dwMoveMethod: %d) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hFile, liDistanceToMove, lpNewFilePointer, dwMoveMethod, result);
 
     return result;
 }
