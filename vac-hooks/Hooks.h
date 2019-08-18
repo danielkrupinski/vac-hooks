@@ -1,7 +1,8 @@
 #pragma once
 
-#include <Windows.h>
+#include <dbghelp.h>
 #include <iphlpapi.h>
+#include <Windows.h>
 #define SECURITY_WIN32
 #include <security.h>
 #include <TlHelp32.h>
@@ -112,3 +113,4 @@ BOOL       WINAPI     Hooks_SetFilePointerEx(HANDLE, LARGE_INTEGER, PLARGE_INTEG
 HANDLE     WINAPI     Hooks_OpenFileById(HANDLE, LPFILE_ID_DESCRIPTOR, DWORD, DWORD, LPSECURITY_ATTRIBUTES, DWORD);
 DWORD      WINAPI     Hooks_GetMappedFileNameA(HANDLE, LPVOID, LPSTR, DWORD);
 DWORD      WINAPI     Hooks_ResumeThread(HANDLE);
+DWORD64    WINAPI     Hooks_SymGetModuleBase64(HANDLE, DWORD64);
