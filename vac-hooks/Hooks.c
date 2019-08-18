@@ -231,6 +231,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_ResumeThread;
     else if (!strcmp(lpProcName, "SymGetModuleBase64"))
         return (FARPROC)Hooks_SymGetModuleBase64;
+    else if (!strcmp(lpProcName, "GetProcessId"))
+        return (FARPROC)Hooks_GetProcessId;
 
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -1238,6 +1240,16 @@ DWORD64 WINAPI Hooks_SymGetModuleBase64(HANDLE hProcess, DWORD64 qwAddr)
 
     Utils_log("%ws: SymGetModuleBase64(hProcess, qwAddr) -> DWORD64: %d\n",
         Utils_getModuleName(_ReturnAddress()), hProcess, qwAddr, result);
+
+    return result;
+}
+
+DWORD WINAPI Hooks_GetProcessId(HANDLE Process)
+{
+    DWORD result = GetProcessId(Process);
+
+    Utils_log("%ws: GetProcessId(Process: %p) -> DWORD: %d\n",
+        Utils_getModuleName(_ReturnAddress()), Process, result);
 
     return result;
 }

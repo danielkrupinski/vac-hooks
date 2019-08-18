@@ -114,3 +114,4 @@ HANDLE     WINAPI     Hooks_OpenFileById(HANDLE, LPFILE_ID_DESCRIPTOR, DWORD, DW
 DWORD      WINAPI     Hooks_GetMappedFileNameA(HANDLE, LPVOID, LPSTR, DWORD);
 DWORD      WINAPI     Hooks_ResumeThread(HANDLE);
 DWORD64    WINAPI     Hooks_SymGetModuleBase64(HANDLE, DWORD64);
+DWORD      WINAPI     Hooks_GetProcessId(HANDLE);
