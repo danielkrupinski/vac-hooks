@@ -227,7 +227,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetMappedFileNameA;
     else if (!strcmp(lpProcName, "SetFilePointerEx"))
         return (FARPROC)Hooks_SetFilePointerEx;
-        
+    else if (!strcmp(lpProcName, "ResumeThread"))
+        return (FARPROC)Hooks_ResumeThread;
+
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1214,6 +1216,16 @@ DWORD WINAPI Hooks_GetMappedFileNameA(HANDLE hProcess, LPVOID lpv, LPSTR lpFilen
 
     Utils_log("%ws: GetMappedFileNameA(hProcess: %p, lpv: %p, lpFilename: %s, nSize: %d) -> DWORD: %d\n",
         Utils_getModuleName(_ReturnAddress()), hProcess, lpv, lpFilename, nSize, result);
+
+    return result;
+}
+
+DWORD WINAPI Hooks_ResumeThread(HANDLE hThread)
+{
+    DWORD result = ResumeThread(hThread);
+
+    Utils_log("%ws: ResumeThread(hThread: %p) -> DWORD: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hThread, result);
 
     return result;
 }
