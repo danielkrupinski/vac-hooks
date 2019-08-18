@@ -221,7 +221,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_CloseHandle;
     else if (!strcmp(lpProcName, "SetFilePointer"))
         return (FARPROC)Hooks_SetFilePointer;
-        
+    else if (!strcmp(lpProcName, "OpenFileById"))
+        return (FARPROC)Hooks_OpenFileById;
+
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1178,6 +1180,16 @@ DWORD WINAPI Hooks_SetFilePointer(HANDLE hFile, LONG lDistanceToMove, PLONG lpDi
 
     Utils_log("%ws: SetFilePointer(hFile: %p, lDistanceToMove: %ld, lpDistanceToMoveHigh: %p, dwMoveMethod: %d) -> DWORD: %d\n",
         Utils_getModuleName(_ReturnAddress()), hFile, lDistanceToMove, lpDistanceToMoveHigh, dwMoveMethod, result);
+
+    return result;
+}
+
+HANDLE WINAPI Hooks_OpenFileById(HANDLE hVolumeHint, LPFILE_ID_DESCRIPTOR lpFileId, DWORD dwDesiredAccess, DWORD dwShareMode, LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwFlagsAndAttributes)
+{
+    HANDLE result = OpenFileById(hVolumeHint, lpFileId, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwFlagsAndAttributes);
+
+    Utils_log("%ws: OpenFileById(hVolumeHint: %p, lpFileId: %p, dwDesiredAccess: %d, dwShareMode: %d, lpSecurityAttributes: %p, dwFlagsAndAttributes: %d) -> DWORD: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hVolumeHint, lpFileId, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwFlagsAndAttributes, result);
 
     return result;
 }
