@@ -23,7 +23,7 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
 {
     FARPROC result = GetProcAddress(hModule, lpProcName);
 
-    Utils_log("GetProcAddress(hModule: %p, lpProcName: %s) -> FARPROC: %p \n", hModule, lpProcName, result);
+    Utils_log("GetProcAddress(hModule: %p, lpProcName: %s) -> FARPROC: %p\n", hModule, lpProcName, result);
 
     if (!strcmp(lpProcName, "GetProcAddress"))
         return (FARPROC)Hooks_GetProcAddress;
@@ -220,6 +220,7 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
     else if (!strcmp(lpProcName, "CloseHandle"))
         return (FARPROC)Hooks_CloseHandle;
 
+    Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
 
