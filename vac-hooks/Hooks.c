@@ -239,6 +239,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_ReadFile;
     else if (!strcmp(lpProcName, "GetThreadId"))
         return (FARPROC)Hooks_GetThreadId;
+    else if (!strcmp(lpProcName, "LocalAlloc"))
+        return (FARPROC)Hooks_LocalAlloc;
 
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -1286,6 +1288,16 @@ DWORD WINAPI Hooks_GetThreadId(HANDLE Thread)
 
     Utils_log("%ws: GetThreadId(Thread: %p) -> DWORD: %d\n",
         Utils_getModuleName(_ReturnAddress()), Thread, result);
+
+    return result;
+}
+
+HLOCAL WINAPI Hooks_LocalAlloc(UINT uFlags, SIZE_T uBytes)
+{
+    HLOCAL result = LocalAlloc(uFlags, uBytes);
+
+    Utils_log("%ws: LocalAlloc(uFlags: %u, uBytes: %lu) -> HLOCAL: %p\n",
+        Utils_getModuleName(_ReturnAddress()), uFlags, uBytes, result);
 
     return result;
 }

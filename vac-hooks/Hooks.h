@@ -118,3 +118,4 @@ DWORD      WINAPI     Hooks_GetProcessId(HANDLE);
 BOOL       WINAPI     Hooks_IsBadReadPtr(CONST VOID*, UINT_PTR);
 BOOL       WINAPI     Hooks_ReadFile(HANDLE, LPVOID, DWORD, LPDWORD, LPOVERLAPPED);
 DWORD      WINAPI     Hooks_GetThreadId(HANDLE);
+HLOCAL     WINAPI     Hooks_LocalAlloc(UINT, SIZE_T);
