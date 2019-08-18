@@ -213,6 +213,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_NtDuplicateObject;
     else if (!strcmp(lpProcName, "OpenFileMappingW"))
         return (FARPROC)Hooks_OpenFileMappingW;
+    else if (!strcmp(lpProcName, "RtlDecompressBufferEx"))
+        return (FARPROC)Hooks_RtlDecompressBufferEx;
 
     return result;
 }
@@ -1075,6 +1077,17 @@ HANDLE WINAPI Hooks_OpenFileMappingW(DWORD dwDesiredAccess, BOOL bInheritHandle,
 
     Utils_log("%ws: OpenFileMappingW(dwDesiredAccess: %d, bInheritHandle: %d, lpName: %ws) -> HANDLE: %p\n",
         Utils_getModuleName(_ReturnAddress()), dwDesiredAccess, bInheritHandle, lpName, result);
+
+    return result;
+}
+
+NTSTATUS NTAPI Hooks_RtlDecompressBufferEx(USHORT CompressionFormat, PUCHAR UncompressedBuffer, ULONG UncompressedBufferSize, PUCHAR CompressedBuffer, ULONG CompressedBufferSize, PULONG FinalUncompressedSize, PVOID WorkSpace)
+{
+    NTSTATUS(NTAPI* RtlDecompressBufferEx)(USHORT, PUCHAR, ULONG, PUCHAR, ULONG, PULONG, PVOID) = (PVOID)GetProcAddress(GetModuleHandleW(L"ntdll"), "RtlDecompressBufferEx");
+    NTSTATUS result = RtlDecompressBufferEx(CompressionFormat, UncompressedBuffer, UncompressedBufferSize, CompressedBuffer, CompressedBufferSize, FinalUncompressedSize, WorkSpace);
+
+    Utils_log("%ws: RtlDecompressBufferEx(CompressionFormat: %u, UncompressedBuffer: %p, UncompressedBufferSize: %lu, CompressedBuffer: %p, CompressedBufferSize: %lu, FinalUncompressedSize: %p, WorkSpace: %p) -> NTSTATUS: 0x%lx\n",
+        Utils_getModuleName(_ReturnAddress()), CompressionFormat, UncompressedBuffer, UncompressedBufferSize, CompressedBuffer, CompressedBufferSize, FinalUncompressedSize, WorkSpace, result);
 
     return result;
 }
