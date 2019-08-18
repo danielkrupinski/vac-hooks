@@ -233,6 +233,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_SymGetModuleBase64;
     else if (!strcmp(lpProcName, "GetProcessId"))
         return (FARPROC)Hooks_GetProcessId;
+    else if (!strcmp(lpProcName, "IsBadReadPtr"))
+        return (FARPROC)Hooks_IsBadReadPtr;
 
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -1250,6 +1252,16 @@ DWORD WINAPI Hooks_GetProcessId(HANDLE Process)
 
     Utils_log("%ws: GetProcessId(Process: %p) -> DWORD: %d\n",
         Utils_getModuleName(_ReturnAddress()), Process, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_IsBadReadPtr(CONST VOID* lp, UINT_PTR ucb)
+{
+    BOOL result = IsBadReadPtr(lp, ucb);
+
+    Utils_log("%ws: IsBadReadPtr(lp: %p, ucb: %u) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), lp, ucb, result);
 
     return result;
 }
