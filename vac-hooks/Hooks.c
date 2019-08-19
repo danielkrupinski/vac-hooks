@@ -275,7 +275,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_FindVolumeClose;
     else if (!strcmp(lpProcName, "NtReadVirtualMemory"))
         return (FARPROC)Hooks_NtReadVirtualMemory;
-
+    else if (!strcmp(lpProcName, "NtOpenDirectoryObject"))
+        return (FARPROC)Hooks_NtOpenDirectoryObject;
+        
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1503,6 +1505,17 @@ NTSTATUS NTAPI Hooks_NtReadVirtualMemory(HANDLE ProcessHandle, PVOID BaseAddress
 
     Utils_log("%ws: NtReadVirtualMemory(ProcessHandle: %p, BaseAddress: %p, Buffer: %p, NumberOfBytesToRead: %lu, NumberOfBytesRead: %lu) -> NTSTATUS: 0x%lx\n",
         Utils_getModuleName(_ReturnAddress()), ProcessHandle, BaseAddress, Buffer, NumberOfBytesToRead, SAFE_PTR(NumberOfBytesRead, 0), result);
+
+    return result;
+}
+
+NTSTATUS NTAPI Hooks_NtOpenDirectoryObject(PHANDLE DirectoryHandle, ACCESS_MASK DesiredAccess, POBJECT_ATTRIBUTES ObjectAttributes)
+{
+    NTSTATUS(NTAPI* NtOpenDirectoryObject)(PHANDLE, ACCESS_MASK, POBJECT_ATTRIBUTES) = (PVOID)GetProcAddress(GetModuleHandleW(L"ntdll"), "NtOpenDirectoryObject");
+    NTSTATUS result = NtOpenDirectoryObject(DirectoryHandle, DesiredAccess, ObjectAttributes);
+
+    Utils_log("%ws: NtOpenDirectoryObject(DirectoryHandle: %p, DesiredAccess: %d, ObjectAttributes: %p) -> NTSTATUS: 0x%lx\n",
+        Utils_getModuleName(_ReturnAddress()), DirectoryHandle, DesiredAccess, ObjectAttributes, result);
 
     return result;
 }
