@@ -136,3 +136,4 @@ HDEVINFO   WINAPI     Hooks_SetupDiGetClassDevsA(CONST GUID*, PCSTR, HWND, DWORD
 BOOL       WINAPI     Hooks_SetupDiEnumDeviceInfo(HDEVINFO, DWORD, PSP_DEVINFO_DATA);
 LPVOID     WINAPI     Hooks_HeapAlloc(HANDLE, DWORD, SIZE_T);
 BOOL       WINAPI     Hooks_HeapFree(HANDLE, DWORD, LPVOID);
+BOOL       WINAPI     Hooks_FindVolumeClose(HANDLE);

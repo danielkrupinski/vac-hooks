@@ -271,7 +271,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_HeapAlloc;
     else if (!strcmp(lpProcName, "HeapFree"))
         return (FARPROC)Hooks_HeapFree;
-
+    else if (!strcmp(lpProcName, "FindVolumeClose"))
+        return (FARPROC)Hooks_FindVolumeClose;
+        
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1478,6 +1480,16 @@ BOOL WINAPI Hooks_HeapFree(HANDLE hHeap, DWORD dwFlags, LPVOID lpMem)
 
     Utils_log("%ws: HeapFree(hHeap: %p, dwFlags: %d, lpMem: %p) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), hHeap, dwFlags, lpMem, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_FindVolumeClose(HANDLE hFindVolume)
+{
+    BOOL result = FindVolumeClose(hFindVolume);
+
+    Utils_log("%ws: FindVolumeClose(hFindVolume: %p) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hFindVolume, result);
 
     return result;
 }
