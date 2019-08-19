@@ -243,6 +243,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_LocalAlloc;
     else if (!strcmp(lpProcName, "GetModuleInformation"))
         return (FARPROC)Hooks_GetModuleInformation;
+    else if (!strcmp(lpProcName, "IsWow64Process"))
+        return (FARPROC)Hooks_IsWow64Process;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -1310,6 +1312,16 @@ BOOL WINAPI Hooks_GetModuleInformation(HANDLE hProcess, HMODULE hModule, LPMODUL
 
     Utils_log("%ws: GetModuleInformation(hProcess: %p, hModule: %p, lpmodinfo: %p, cb: %d) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), hProcess, hModule, lpmodinfo, cb, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_IsWow64Process(HANDLE hProcess, PBOOL Wow64Process)
+{
+    BOOL result = IsWow64Process(hProcess, Wow64Process);
+
+    Utils_log("%ws: IsWow64Process(hProcess: %p, Wow64Process: %d) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hProcess, *Wow64Process, result);
 
     return result;
 }
