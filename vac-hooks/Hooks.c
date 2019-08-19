@@ -257,6 +257,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_UnmapViewOfFile;
     else if (!strcmp(lpProcName, "GetVolumeInformationByHandleW"))
         return (FARPROC)Hooks_GetVolumeInformationByHandleW;
+    else if (!strcmp(lpProcName, "EnumProcessModules"))
+        return (FARPROC)Hooks_EnumProcessModules;
 
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -1394,6 +1396,16 @@ BOOL WINAPI Hooks_GetVolumeInformationByHandleW(HANDLE hFile, LPWSTR lpVolumeNam
 
     Utils_log("%ws: GetVolumeInformationByHandleW(hFile: %p, lpVolumeNameBuffer: %ws, nVolumeNameSize: %d, lpVolumeSerialNumber: %d, lpMaximumComponentLength: %d, lpFileSystemFlags: %d, lpFileSystemNameBuffer: %ws, nFileSystemNameSize: %d) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), hFile, SAFE_STR(lpVolumeNameBuffer, L""), nVolumeNameSize, SAFE_PTR(lpVolumeSerialNumber, 0), SAFE_PTR(lpMaximumComponentLength, 0), SAFE_PTR(lpFileSystemFlags, 0), SAFE_STR(lpFileSystemNameBuffer, L""), nFileSystemNameSize, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_EnumProcessModules(HANDLE hProcess, HMODULE* lphModule, DWORD cb, LPDWORD lpcbNeeded)
+{
+    BOOL result = EnumProcessModules(hProcess, lphModule, cb, lpcbNeeded);
+
+    Utils_log("%ws: EnumProcessModules(hProcess: %p, lphModule: %p, cb: %d, lpcbNeeded: %d) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hProcess, lphModule, cb, SAFE_PTR(lpcbNeeded, 0), result);
 
     return result;
 }
