@@ -18,3 +18,4 @@ PCWSTR Utils_getModuleName(PVOID);
 UINT Utils_hashRuntime(PCSTR);
 
 #define SAFE_STR(s, fallback) (s ? s : fallback)
+#define SAFE_PTR(p, fallback) (p ? *p : fallback)
