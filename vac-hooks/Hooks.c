@@ -291,7 +291,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_OpenEventLogA;
     else if (!strcmp(lpProcName, "ReadEventLogA"))
         return (FARPROC)Hooks_ReadEventLogA;
-        
+    else if (!strcmp(lpProcName, "CloseEventLog"))
+        return (FARPROC)Hooks_CloseEventLog;
+
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1598,6 +1600,16 @@ BOOL WINAPI Hooks_ReadEventLogA(HANDLE hEventLog, DWORD dwReadFlags, DWORD dwRec
 
     Utils_log("%ws: ReadEventLogA(hEventLog: %p, dwReadFlags: %d, dwRecordOffset: %d, lpBuffer: %p, nNumberOfBytesToRead: %d, pnBytesRead: %d, pnMinNumberOfBytesNeeded: %d) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), hEventLog, dwReadFlags, dwRecordOffset, lpBuffer, nNumberOfBytesToRead, SAFE_PTR(pnBytesRead, 0), SAFE_PTR(pnMinNumberOfBytesNeeded, 0), result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_CloseEventLog(HANDLE hEventLog)
+{
+    BOOL result = CloseEventLog(hEventLog);
+
+    Utils_log("%ws: CloseEventLog(hEventLog: %p) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hEventLog, result);
 
     return result;
 }
