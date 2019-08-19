@@ -265,6 +265,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetTickCount;
     else if (!strcmp(lpProcName, "SetupDiGetClassDevsA"))
         return (FARPROC)Hooks_SetupDiGetClassDevsA;
+    else if (!strcmp(lpProcName, "SetupDiEnumDeviceInfo"))
+        return (FARPROC)Hooks_SetupDiEnumDeviceInfo;
 
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -1442,6 +1444,16 @@ HDEVINFO WINAPI Hooks_SetupDiGetClassDevsA(const GUID* ClassGuid, PCSTR Enumerat
 
     Utils_log("%ws: SetupDiGetClassDevsA(ClassGuid: %p, Enumerator: %s, hwndParent: %p, Flags: %d) -> HDEVINFO: %p\n",
         Utils_getModuleName(_ReturnAddress()), ClassGuid, SAFE_STR(Enumerator, ""), hwndParent, Flags, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_SetupDiEnumDeviceInfo(HDEVINFO DeviceInfoSet, DWORD MemberIndex, PSP_DEVINFO_DATA DeviceInfoData)
+{
+    BOOL result = SetupDiEnumDeviceInfo(DeviceInfoSet, MemberIndex, DeviceInfoData);
+
+    Utils_log("%ws: SetupDiEnumDeviceInfo(DeviceInfoSet: %p, MemberIndex: %d, DeviceInfoData: %p) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), DeviceInfoSet, MemberIndex, DeviceInfoData, result);
 
     return result;
 }
