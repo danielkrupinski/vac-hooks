@@ -253,6 +253,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetProcessHeap;
     else if (!strcmp(lpProcName, "MapViewOfFile"))
         return (FARPROC)Hooks_MapViewOfFile;
+    else if (!strcmp(lpProcName, "UnmapViewOfFile"))
+        return (FARPROC)Hooks_UnmapViewOfFile;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -1370,6 +1372,16 @@ LPVOID WINAPI Hooks_MapViewOfFile(HANDLE hFileMappingObject, DWORD dwDesiredAcce
 
     Utils_log("%ws: MapViewOfFile(hFileMappingObject: %p, dwDesiredAccess: %d, dwFileOffsetHigh: %d, dwFileOffsetLow: %d, dwNumberOfBytesToMap: %lu) -> LPVOID: %p\n",
         Utils_getModuleName(_ReturnAddress()), hFileMappingObject, dwDesiredAccess, dwFileOffsetHigh, dwFileOffsetLow, dwNumberOfBytesToMap, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_UnmapViewOfFile(LPCVOID lpBaseAddress)
+{
+    BOOL result = UnmapViewOfFile(lpBaseAddress);
+
+    Utils_log("%ws: UnmapViewOfFile(lpBaseAddress: %p) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), lpBaseAddress, result);
 
     return result;
 }
