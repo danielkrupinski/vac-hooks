@@ -197,6 +197,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_SetThreadAffinityMask;
     else if (!strcmp(lpProcName, "Thread32First"))
         return (FARPROC)Hooks_Thread32First;
+    else if (!strcmp(lpProcName, "Thread32Next"))
+        return (FARPROC)Hooks_Thread32Next;
     else if (!strcmp(lpProcName, "NtQueryObject"))
         return (FARPROC)Hooks_NtQueryObject;
     else if (!strcmp(lpProcName, "NtFsControlFile"))
@@ -1092,6 +1094,16 @@ BOOL WINAPI Hooks_Thread32First(HANDLE hSnapshot, LPTHREADENTRY32 lpte)
     BOOL result = Thread32First(hSnapshot, lpte);
 
     Utils_log("%ws: Thread32First(hSnapshot: %p, lpte: %p) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hSnapshot, lpte, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_Thread32Next(HANDLE hSnapshot, LPTHREADENTRY32 lpte)
+{
+    BOOL result = Thread32Next(hSnapshot, lpte);
+
+    Utils_log("%ws: Thread32Next(hSnapshot: %p, lpte: %p) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), hSnapshot, lpte, result);
 
     return result;
