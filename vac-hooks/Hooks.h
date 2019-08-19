@@ -6,6 +6,7 @@
 #define SECURITY_WIN32
 #include <Psapi.h>
 #include <security.h>
+#include <SetupAPI.h>
 #include <TlHelp32.h>
 #include <userenv.h>
 #include <winternl.h>
@@ -131,3 +132,4 @@ BOOL       WINAPI     Hooks_UnmapViewOfFile(LPCVOID);
 BOOL       WINAPI     Hooks_GetVolumeInformationByHandleW(HANDLE, LPWSTR, DWORD, LPDWORD, LPDWORD, LPDWORD, LPWSTR, DWORD);
 BOOL       WINAPI     Hooks_EnumProcessModules(HANDLE, HMODULE*, DWORD, LPDWORD);
 DWORD      WINAPI     Hooks_GetTickCount(VOID);
+HDEVINFO   WINAPI     Hooks_SetupDiGetClassDevsA(CONST GUID*, PCSTR, HWND, DWORD);

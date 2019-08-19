@@ -263,7 +263,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_EnumProcessModules;
     else if (!strcmp(lpProcName, "GetTickCount"))
         return (FARPROC)Hooks_GetTickCount;
-        
+    else if (!strcmp(lpProcName, "SetupDiGetClassDevsA"))
+        return (FARPROC)Hooks_SetupDiGetClassDevsA;
+
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1430,6 +1432,16 @@ DWORD WINAPI Hooks_GetTickCount(VOID)
 
     Utils_log("%ws: GetTickCount() -> DWORD: %d\n",
         Utils_getModuleName(_ReturnAddress()), result);
+
+    return result;
+}
+
+HDEVINFO WINAPI Hooks_SetupDiGetClassDevsA(const GUID* ClassGuid, PCSTR Enumerator, HWND hwndParent, DWORD Flags)
+{
+    HDEVINFO result = SetupDiGetClassDevsA(ClassGuid, Enumerator, hwndParent, Flags);
+
+    Utils_log("%ws: SetupDiGetClassDevsA(ClassGuid: %p, Enumerator: %s, hwndParent: %p, Flags: %d) -> HDEVINFO: %p\n",
+        Utils_getModuleName(_ReturnAddress()), ClassGuid, SAFE_STR(Enumerator, ""), hwndParent, Flags, result);
 
     return result;
 }
