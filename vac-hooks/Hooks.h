@@ -137,3 +137,4 @@ BOOL       WINAPI     Hooks_SetupDiEnumDeviceInfo(HDEVINFO, DWORD, PSP_DEVINFO_D
 LPVOID     WINAPI     Hooks_HeapAlloc(HANDLE, DWORD, SIZE_T);
 BOOL       WINAPI     Hooks_HeapFree(HANDLE, DWORD, LPVOID);
 BOOL       WINAPI     Hooks_FindVolumeClose(HANDLE);
+NTSTATUS   NTAPI      Hooks_NtReadVirtualMemory(HANDLE, PVOID, PVOID, ULONG, PULONG);

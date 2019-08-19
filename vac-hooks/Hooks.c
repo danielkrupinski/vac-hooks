@@ -273,7 +273,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_HeapFree;
     else if (!strcmp(lpProcName, "FindVolumeClose"))
         return (FARPROC)Hooks_FindVolumeClose;
-        
+    else if (!strcmp(lpProcName, "NtReadVirtualMemory"))
+        return (FARPROC)Hooks_NtReadVirtualMemory;
+
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1490,6 +1492,17 @@ BOOL WINAPI Hooks_FindVolumeClose(HANDLE hFindVolume)
 
     Utils_log("%ws: FindVolumeClose(hFindVolume: %p) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), hFindVolume, result);
+
+    return result;
+}
+
+NTSTATUS NTAPI Hooks_NtReadVirtualMemory(HANDLE ProcessHandle, PVOID BaseAddress, PVOID Buffer, ULONG NumberOfBytesToRead, PULONG NumberOfBytesRead)
+{
+    NTSTATUS(NTAPI* NtReadVirtualMemory)(HANDLE, PVOID, PVOID, ULONG, PULONG) = (PVOID)GetProcAddress(GetModuleHandleW(L"ntdll"), "NtReadVirtualMemory");
+    NTSTATUS result = NtReadVirtualMemory(ProcessHandle, BaseAddress, Buffer, NumberOfBytesToRead, NumberOfBytesRead);
+
+    Utils_log("%ws: NtReadVirtualMemory(ProcessHandle: %p, BaseAddress: %p, Buffer: %p, NumberOfBytesToRead: %lu, NumberOfBytesRead: %lu) -> NTSTATUS: 0x%lx\n",
+        Utils_getModuleName(_ReturnAddress()), ProcessHandle, BaseAddress, Buffer, NumberOfBytesToRead, SAFE_PTR(NumberOfBytesRead, 0), result);
 
     return result;
 }
