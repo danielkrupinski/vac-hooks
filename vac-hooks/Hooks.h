@@ -125,3 +125,4 @@ BOOL       WINAPI     Hooks_IsWow64Process(HANDLE, PBOOL);
 UINT       WINAPI     Hooks_GetSystemDirectoryA(LPSTR, UINT);
 UINT       WINAPI     Hooks_GetSystemDirectoryW(LPWSTR, UINT);
 HANDLE     WINAPI     Hooks_GetProcessHeap(VOID);
+LPVOID     WINAPI     Hooks_MapViewOfFile(HANDLE, DWORD, DWORD, DWORD, SIZE_T);

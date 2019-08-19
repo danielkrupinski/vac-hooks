@@ -251,6 +251,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetSystemDirectoryW;
     else if (!strcmp(lpProcName, "GetProcessHeap"))
         return (FARPROC)Hooks_GetProcessHeap;
+    else if (!strcmp(lpProcName, "MapViewOfFile"))
+        return (FARPROC)Hooks_MapViewOfFile;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -1358,6 +1360,16 @@ HANDLE WINAPI Hooks_GetProcessHeap(VOID)
 
     Utils_log("%ws: GetProcessHeap() -> HANDLE: %p\n",
         Utils_getModuleName(_ReturnAddress()), result);
+
+    return result;
+}
+
+LPVOID WINAPI Hooks_MapViewOfFile(HANDLE hFileMappingObject, DWORD dwDesiredAccess, DWORD dwFileOffsetHigh, DWORD dwFileOffsetLow, SIZE_T dwNumberOfBytesToMap)
+{
+    LPVOID result = MapViewOfFile(hFileMappingObject, dwDesiredAccess, dwFileOffsetHigh, dwFileOffsetLow, dwNumberOfBytesToMap);
+
+    Utils_log("%ws: MapViewOfFile(hFileMappingObject: %p, dwDesiredAccess: %d, dwFileOffsetHigh: %d, dwFileOffsetLow: %d, dwNumberOfBytesToMap: %lu) -> LPVOID: %p\n",
+        Utils_getModuleName(_ReturnAddress()), hFileMappingObject, dwDesiredAccess, dwFileOffsetHigh, dwFileOffsetLow, dwNumberOfBytesToMap, result);
 
     return result;
 }
