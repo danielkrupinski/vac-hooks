@@ -127,3 +127,4 @@ UINT       WINAPI     Hooks_GetSystemDirectoryW(LPWSTR, UINT);
 HANDLE     WINAPI     Hooks_GetProcessHeap(VOID);
 LPVOID     WINAPI     Hooks_MapViewOfFile(HANDLE, DWORD, DWORD, DWORD, SIZE_T);
 BOOL       WINAPI     Hooks_UnmapViewOfFile(LPCVOID);
+BOOL       WINAPI     Hooks_GetVolumeInformationByHandleW(HANDLE, LPWSTR, DWORD, LPDWORD, LPDWORD, LPDWORD, LPWSTR, DWORD);

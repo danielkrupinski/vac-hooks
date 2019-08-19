@@ -255,7 +255,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_MapViewOfFile;
     else if (!strcmp(lpProcName, "UnmapViewOfFile"))
         return (FARPROC)Hooks_UnmapViewOfFile;
-        
+    else if (!strcmp(lpProcName, "GetVolumeInformationByHandleW"))
+        return (FARPROC)Hooks_GetVolumeInformationByHandleW;
+
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1382,6 +1384,16 @@ BOOL WINAPI Hooks_UnmapViewOfFile(LPCVOID lpBaseAddress)
 
     Utils_log("%ws: UnmapViewOfFile(lpBaseAddress: %p) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), lpBaseAddress, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_GetVolumeInformationByHandleW(HANDLE hFile, LPWSTR lpVolumeNameBuffer, DWORD nVolumeNameSize, LPDWORD lpVolumeSerialNumber, LPDWORD lpMaximumComponentLength, LPDWORD lpFileSystemFlags, LPWSTR lpFileSystemNameBuffer, DWORD nFileSystemNameSize)
+{
+    BOOL result = GetVolumeInformationByHandleW(hFile, lpVolumeNameBuffer, nVolumeNameSize, lpVolumeSerialNumber, lpMaximumComponentLength, lpFileSystemFlags, lpFileSystemNameBuffer, nFileSystemNameSize);
+
+    Utils_log("%ws: GetVolumeInformationByHandleW(hFile: %p, lpVolumeNameBuffer: %ws, nVolumeNameSize: %d, lpVolumeSerialNumber: %d, lpMaximumComponentLength: %d, lpFileSystemFlags: %d, lpFileSystemNameBuffer: %ws, nFileSystemNameSize: %d) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hFile, SAFE_STR(lpVolumeNameBuffer, L""), nVolumeNameSize, SAFE_PTR(lpVolumeSerialNumber, 0), SAFE_PTR(lpMaximumComponentLength, 0), SAFE_PTR(lpFileSystemFlags, 0), SAFE_STR(lpFileSystemNameBuffer, L""), nFileSystemNameSize, result);
 
     return result;
 }
