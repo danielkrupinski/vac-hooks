@@ -130,3 +130,4 @@ LPVOID     WINAPI     Hooks_MapViewOfFile(HANDLE, DWORD, DWORD, DWORD, SIZE_T);
 BOOL       WINAPI     Hooks_UnmapViewOfFile(LPCVOID);
 BOOL       WINAPI     Hooks_GetVolumeInformationByHandleW(HANDLE, LPWSTR, DWORD, LPDWORD, LPDWORD, LPDWORD, LPWSTR, DWORD);
 BOOL       WINAPI     Hooks_EnumProcessModules(HANDLE, HMODULE*, DWORD, LPDWORD);
+DWORD      WINAPI     Hooks_GetTickCount(VOID);

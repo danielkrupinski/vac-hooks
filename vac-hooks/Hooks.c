@@ -261,7 +261,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetVolumeInformationByHandleW;
     else if (!strcmp(lpProcName, "EnumProcessModules"))
         return (FARPROC)Hooks_EnumProcessModules;
-
+    else if (!strcmp(lpProcName, "GetTickCount"))
+        return (FARPROC)Hooks_GetTickCount;
+        
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1418,6 +1420,16 @@ BOOL WINAPI Hooks_EnumProcessModules(HANDLE hProcess, HMODULE* lphModule, DWORD 
 
     Utils_log("%ws: EnumProcessModules(hProcess: %p, lphModule: %p, cb: %d, lpcbNeeded: %d) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), hProcess, lphModule, cb, SAFE_PTR(lpcbNeeded, 0), result);
+
+    return result;
+}
+
+DWORD WINAPI Hooks_GetTickCount(VOID)
+{
+    DWORD result = GetTickCount();
+
+    Utils_log("%ws: GetTickCount() -> DWORD: %d\n",
+        Utils_getModuleName(_ReturnAddress()), result);
 
     return result;
 }
