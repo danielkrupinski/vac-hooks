@@ -281,6 +281,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_NtOpenDirectoryObject;
     else if (!strcmp(lpProcName, "LocalFree"))
         return (FARPROC)Hooks_LocalFree;
+    else if (!strcmp(lpProcName, "OpenServiceA"))
+        return (FARPROC)Hooks_OpenServiceA;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -1540,6 +1542,16 @@ HLOCAL WINAPI Hooks_LocalFree(HLOCAL hMem)
 
     Utils_log("%ws: LocalFree(hMem: %p) -> HLOCAL: %p\n",
         Utils_getModuleName(_ReturnAddress()), hMem, result);
+
+    return result;
+}
+
+SC_HANDLE WINAPI Hooks_OpenServiceA(SC_HANDLE hSCManager, LPCSTR lpServiceName, DWORD dwDesiredAccess)
+{
+    SC_HANDLE result = OpenServiceA(hSCManager, lpServiceName, dwDesiredAccess);
+
+    Utils_log("%ws: OpenServiceA(hSCManager: %p, lpServiceName: %s, dwDesiredAccess: %d) -> SC_HANDLE: %p\n",
+        Utils_getModuleName(_ReturnAddress()), hSCManager, lpServiceName, dwDesiredAccess, result);
 
     return result;
 }
