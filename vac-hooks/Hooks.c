@@ -1320,8 +1320,8 @@ BOOL WINAPI Hooks_ReadFile(HANDLE hFile, LPVOID lpBuffer, DWORD nNumberOfBytesTo
 {
     BOOL result = ReadFile(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped);
 
-    Utils_log("%ws: ReadFile(hFile: %p, lpBuffer: %p, nNumberOfBytesToRead: %d, lpNumberOfBytesRead: %p (%d), lpOverlapped: %p) -> DWORD: %d\n",
-        Utils_getModuleName(_ReturnAddress()), hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpNumberOfBytesRead ? *lpNumberOfBytesRead : 0, lpOverlapped, result);
+    Utils_log("%ws: ReadFile(hFile: %p, lpBuffer: %p, nNumberOfBytesToRead: %d, lpNumberOfBytesRead: %p (%d), lpOverlapped: %p) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, SAFE_PTR(lpNumberOfBytesRead, 0), lpOverlapped, result);
 
     return result;
 }
