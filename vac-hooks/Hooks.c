@@ -287,7 +287,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_OpenServiceW;
     else if (!strcmp(lpProcName, "GetSystemTimeAsFileTime"))
         return (FARPROC)Hooks_GetSystemTimeAsFileTime;
-
+    else if (!strcmp(lpProcName, "OpenEventLogA"))
+        return (FARPROC)Hooks_OpenEventLogA;
+        
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1576,4 +1578,14 @@ VOID WINAPI Hooks_GetSystemTimeAsFileTime(LPFILETIME lpSystemTimeAsFileTime)
 
     Utils_log("%ws: GetSystemTimeAsFileTime(lpSystemTimeAsFileTime: %p) -> VOID\n",
         Utils_getModuleName(_ReturnAddress()), lpSystemTimeAsFileTime);
+}
+
+HANDLE WINAPI Hooks_OpenEventLogA(LPCSTR lpUNCServerName, LPCSTR lpSourceName)
+{
+    HANDLE result = OpenEventLogA(lpUNCServerName, lpSourceName);
+
+    Utils_log("%ws: OpenEventLogA(lpUNCServerName: %s, lpSourceName: %s) -> HANDLE: %p\n",
+        Utils_getModuleName(_ReturnAddress()), SAFE_STR(lpUNCServerName, ""), SAFE_STR(lpSourceName, ""), result);
+
+    return result;
 }
