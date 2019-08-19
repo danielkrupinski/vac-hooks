@@ -297,7 +297,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_QueryDosDeviceA;
     else if (!strcmp(lpProcName, "QueryDosDeviceW"))
         return (FARPROC)Hooks_QueryDosDeviceW;
-
+    else if (!strcmp(lpProcName, "GetLastError"))
+        return (FARPROC)Hooks_GetLastError;
+        
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1634,6 +1636,16 @@ DWORD WINAPI Hooks_QueryDosDeviceW(LPCWSTR lpDeviceName, LPWSTR lpTargetPath, DW
 
     Utils_log("%ws: QueryDosDeviceW(lpDeviceName: %ws, lpTargetPath: %ws, ucchMax: %d) -> DWORD: %d\n",
         Utils_getModuleName(_ReturnAddress()), SAFE_STR(lpDeviceName, L""), SAFE_STR(lpTargetPath, L""), ucchMax, result);
+
+    return result;
+}
+
+DWORD WINAPI Hooks_GetLastError(VOID)
+{
+    DWORD result = GetLastError();
+
+    Utils_log("%ws: GetLastError() -> DWORD: %d\n",
+        Utils_getModuleName(_ReturnAddress()), result);
 
     return result;
 }

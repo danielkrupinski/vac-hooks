@@ -149,3 +149,4 @@ BOOL       WINAPI     Hooks_ReadEventLogA(HANDLE, DWORD, DWORD, LPVOID, DWORD, D
 BOOL       WINAPI     Hooks_CloseEventLog(HANDLE);
 DWORD      WINAPI     Hooks_QueryDosDeviceA(LPCSTR, LPSTR, DWORD);
 DWORD      WINAPI     Hooks_QueryDosDeviceW(LPCWSTR, LPWSTR, DWORD);
+DWORD      WINAPI     Hooks_GetLastError(VOID);
