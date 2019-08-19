@@ -267,6 +267,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_SetupDiGetClassDevsA;
     else if (!strcmp(lpProcName, "SetupDiEnumDeviceInfo"))
         return (FARPROC)Hooks_SetupDiEnumDeviceInfo;
+    else if (!strcmp(lpProcName, "HeapAlloc"))
+        return (FARPROC)Hooks_HeapAlloc;
 
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -1454,6 +1456,16 @@ BOOL WINAPI Hooks_SetupDiEnumDeviceInfo(HDEVINFO DeviceInfoSet, DWORD MemberInde
 
     Utils_log("%ws: SetupDiEnumDeviceInfo(DeviceInfoSet: %p, MemberIndex: %d, DeviceInfoData: %p) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), DeviceInfoSet, MemberIndex, DeviceInfoData, result);
+
+    return result;
+}
+
+LPVOID WINAPI Hooks_HeapAlloc(HANDLE hHeap, DWORD dwFlags, SIZE_T dwBytes)
+{
+    LPVOID result = HeapAlloc(hHeap, dwFlags, dwBytes);
+
+    Utils_log("%ws: HeapAlloc(hHeap: %p, dwFlags: %d, dwBytes: %lu) -> LPVOID: %p\n",
+        Utils_getModuleName(_ReturnAddress()), hHeap, dwFlags, dwBytes, result);
 
     return result;
 }

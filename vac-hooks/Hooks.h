@@ -134,3 +134,4 @@ BOOL       WINAPI     Hooks_EnumProcessModules(HANDLE, HMODULE*, DWORD, LPDWORD)
 DWORD      WINAPI     Hooks_GetTickCount(VOID);
 HDEVINFO   WINAPI     Hooks_SetupDiGetClassDevsA(CONST GUID*, PCSTR, HWND, DWORD);
 BOOL       WINAPI     Hooks_SetupDiEnumDeviceInfo(HDEVINFO, DWORD, PSP_DEVINFO_DATA);
+LPVOID     WINAPI     Hooks_HeapAlloc(HANDLE, DWORD, SIZE_T);
