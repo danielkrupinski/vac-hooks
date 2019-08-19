@@ -245,6 +245,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetModuleInformation;
     else if (!strcmp(lpProcName, "IsWow64Process"))
         return (FARPROC)Hooks_IsWow64Process;
+    else if (!strcmp(lpProcName, "GetSystemDirectoryA"))
+        return (FARPROC)Hooks_GetSystemDirectoryA;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -1322,6 +1324,16 @@ BOOL WINAPI Hooks_IsWow64Process(HANDLE hProcess, PBOOL Wow64Process)
 
     Utils_log("%ws: IsWow64Process(hProcess: %p, Wow64Process: %d) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), hProcess, *Wow64Process, result);
+
+    return result;
+}
+
+UINT WINAPI Hooks_GetSystemDirectoryA(LPSTR lpBuffer, UINT uSize)
+{
+    UINT result = GetSystemDirectoryA(lpBuffer, uSize);
+
+    Utils_log("%ws: GetSystemDirectoryA(lpBuffer: %s, uSize: %u) -> UINT: %u\n",
+        Utils_getModuleName(_ReturnAddress()), lpBuffer, uSize, result);
 
     return result;
 }

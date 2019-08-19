@@ -122,3 +122,4 @@ DWORD      WINAPI     Hooks_GetThreadId(HANDLE);
 HLOCAL     WINAPI     Hooks_LocalAlloc(UINT, SIZE_T);
 BOOL       WINAPI     Hooks_GetModuleInformation(HANDLE, HMODULE, LPMODULEINFO, DWORD);
 BOOL       WINAPI     Hooks_IsWow64Process(HANDLE, PBOOL);
+UINT       WINAPI     Hooks_GetSystemDirectoryA(LPSTR, UINT);
