@@ -283,7 +283,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_LocalFree;
     else if (!strcmp(lpProcName, "OpenServiceA"))
         return (FARPROC)Hooks_OpenServiceA;
-        
+    else if (!strcmp(lpProcName, "OpenServiceW"))
+        return (FARPROC)Hooks_OpenServiceW;
+
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1551,6 +1553,16 @@ SC_HANDLE WINAPI Hooks_OpenServiceA(SC_HANDLE hSCManager, LPCSTR lpServiceName, 
     SC_HANDLE result = OpenServiceA(hSCManager, lpServiceName, dwDesiredAccess);
 
     Utils_log("%ws: OpenServiceA(hSCManager: %p, lpServiceName: %s, dwDesiredAccess: %d) -> SC_HANDLE: %p\n",
+        Utils_getModuleName(_ReturnAddress()), hSCManager, lpServiceName, dwDesiredAccess, result);
+
+    return result;
+}
+
+SC_HANDLE WINAPI Hooks_OpenServiceW(SC_HANDLE hSCManager, LPCWSTR lpServiceName, DWORD dwDesiredAccess)
+{
+    SC_HANDLE result = OpenServiceW(hSCManager, lpServiceName, dwDesiredAccess);
+
+    Utils_log("%ws: OpenServiceW(hSCManager: %p, lpServiceName: %ws, dwDesiredAccess: %d) -> SC_HANDLE: %p\n",
         Utils_getModuleName(_ReturnAddress()), hSCManager, lpServiceName, dwDesiredAccess, result);
 
     return result;
