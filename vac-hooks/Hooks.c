@@ -279,6 +279,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_NtReadVirtualMemory;
     else if (!strcmp(lpProcName, "NtOpenDirectoryObject"))
         return (FARPROC)Hooks_NtOpenDirectoryObject;
+    else if (!strcmp(lpProcName, "LocalFree"))
+        return (FARPROC)Hooks_LocalFree;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -1528,6 +1530,16 @@ NTSTATUS NTAPI Hooks_NtOpenDirectoryObject(PHANDLE DirectoryHandle, ACCESS_MASK 
 
     Utils_log("%ws: NtOpenDirectoryObject(DirectoryHandle: %p, DesiredAccess: %d, ObjectAttributes: %p) -> NTSTATUS: 0x%lx\n",
         Utils_getModuleName(_ReturnAddress()), DirectoryHandle, DesiredAccess, ObjectAttributes, result);
+
+    return result;
+}
+
+HLOCAL WINAPI Hooks_LocalFree(HLOCAL hMem)
+{
+    HLOCAL result = LocalFree(hMem);
+
+    Utils_log("%ws: LocalFree(hMem: %p) -> HLOCAL: %p\n",
+        Utils_getModuleName(_ReturnAddress()), hMem, result);
 
     return result;
 }

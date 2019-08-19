@@ -140,3 +140,4 @@ BOOL       WINAPI     Hooks_HeapFree(HANDLE, DWORD, LPVOID);
 BOOL       WINAPI     Hooks_FindVolumeClose(HANDLE);
 NTSTATUS   NTAPI      Hooks_NtReadVirtualMemory(HANDLE, PVOID, PVOID, ULONG, PULONG);
 NTSTATUS   WINAPI     Hooks_NtOpenDirectoryObject(PHANDLE, ACCESS_MASK, POBJECT_ATTRIBUTES);
+HLOCAL     WINAPI     Hooks_LocalFree(HLOCAL);
