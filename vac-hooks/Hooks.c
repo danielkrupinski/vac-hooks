@@ -289,6 +289,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetSystemTimeAsFileTime;
     else if (!strcmp(lpProcName, "OpenEventLogA"))
         return (FARPROC)Hooks_OpenEventLogA;
+    else if (!strcmp(lpProcName, "ReadEventLogA"))
+        return (FARPROC)Hooks_ReadEventLogA;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -1586,6 +1588,16 @@ HANDLE WINAPI Hooks_OpenEventLogA(LPCSTR lpUNCServerName, LPCSTR lpSourceName)
 
     Utils_log("%ws: OpenEventLogA(lpUNCServerName: %s, lpSourceName: %s) -> HANDLE: %p\n",
         Utils_getModuleName(_ReturnAddress()), SAFE_STR(lpUNCServerName, ""), SAFE_STR(lpSourceName, ""), result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_ReadEventLogA(HANDLE hEventLog, DWORD dwReadFlags, DWORD dwRecordOffset, LPVOID lpBuffer, DWORD nNumberOfBytesToRead, DWORD* pnBytesRead, DWORD* pnMinNumberOfBytesNeeded)
+{
+    BOOL result = ReadEventLogA(hEventLog, dwReadFlags, dwRecordOffset, lpBuffer, nNumberOfBytesToRead, pnBytesRead, pnMinNumberOfBytesNeeded);
+
+    Utils_log("%ws: ReadEventLogA(hEventLog: %p, dwReadFlags: %d, dwRecordOffset: %d, lpBuffer: %p, nNumberOfBytesToRead: %d, pnBytesRead: %d, pnMinNumberOfBytesNeeded: %d) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hEventLog, dwReadFlags, dwRecordOffset, lpBuffer, nNumberOfBytesToRead, SAFE_PTR(pnBytesRead, 0), SAFE_PTR(pnMinNumberOfBytesNeeded, 0), result);
 
     return result;
 }
