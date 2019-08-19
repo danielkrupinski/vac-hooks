@@ -147,3 +147,4 @@ VOID       WINAPI     Hooks_GetSystemTimeAsFileTime(LPFILETIME);
 HANDLE     WINAPI     Hooks_OpenEventLogA(LPCSTR, LPCSTR);
 BOOL       WINAPI     Hooks_ReadEventLogA(HANDLE, DWORD, DWORD, LPVOID, DWORD, DWORD*, DWORD*);
 BOOL       WINAPI     Hooks_CloseEventLog(HANDLE);
+DWORD      WINAPI     Hooks_QueryDosDeviceA(LPCSTR, LPSTR, DWORD);
