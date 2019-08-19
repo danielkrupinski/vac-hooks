@@ -124,3 +124,4 @@ BOOL       WINAPI     Hooks_GetModuleInformation(HANDLE, HMODULE, LPMODULEINFO, 
 BOOL       WINAPI     Hooks_IsWow64Process(HANDLE, PBOOL);
 UINT       WINAPI     Hooks_GetSystemDirectoryA(LPSTR, UINT);
 UINT       WINAPI     Hooks_GetSystemDirectoryW(LPWSTR, UINT);
+HANDLE     WINAPI     Hooks_GetProcessHeap(VOID);

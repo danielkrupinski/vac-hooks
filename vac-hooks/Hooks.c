@@ -249,6 +249,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetSystemDirectoryA;
     else if (!strcmp(lpProcName, "GetSystemDirectoryW"))
         return (FARPROC)Hooks_GetSystemDirectoryW;
+    else if (!strcmp(lpProcName, "GetProcessHeap"))
+        return (FARPROC)Hooks_GetProcessHeap;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -1346,6 +1348,16 @@ UINT WINAPI Hooks_GetSystemDirectoryW(LPWSTR lpBuffer, UINT uSize)
 
     Utils_log("%ws: GetSystemDirectoryW(lpBuffer: %ws, uSize: %u) -> UINT: %u\n",
         Utils_getModuleName(_ReturnAddress()), lpBuffer, uSize, result);
+
+    return result;
+}
+
+HANDLE WINAPI Hooks_GetProcessHeap(VOID)
+{
+    HANDLE result = GetProcessHeap();
+
+    Utils_log("%ws: GetProcessHeap() -> HANDLE: %p\n",
+        Utils_getModuleName(_ReturnAddress()), result);
 
     return result;
 }
