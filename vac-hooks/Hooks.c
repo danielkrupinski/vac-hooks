@@ -299,6 +299,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_QueryDosDeviceW;
     else if (!strcmp(lpProcName, "GetLastError"))
         return (FARPROC)Hooks_GetLastError;
+    else if (!strcmp(lpProcName, "GetFileInformationByHandle"))
+        return (FARPROC)Hooks_GetFileInformationByHandle;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -1646,6 +1648,16 @@ DWORD WINAPI Hooks_GetLastError(VOID)
 
     Utils_log("%ws: GetLastError() -> DWORD: %d\n",
         Utils_getModuleName(_ReturnAddress()), result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_GetFileInformationByHandle(HANDLE hFile, LPBY_HANDLE_FILE_INFORMATION lpFileInformation)
+{
+    BOOL result = GetFileInformationByHandle(hFile, lpFileInformation);
+
+    Utils_log("%ws: GetFileInformationByHandle(hFile: %p, lpFileInformation: %p) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hFile, lpFileInformation, result);
 
     return result;
 }
