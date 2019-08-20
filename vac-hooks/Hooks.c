@@ -20,6 +20,8 @@ HMODULE WINAPI Hooks_LoadLibraryExW(LPCWSTR lpLibFileName, HANDLE hFile, DWORD d
     Utils_hookImport(lpLibFileName, "kernel32.dll", "VirtualFree", Hooks_VirtualFree);
     Utils_hookImport(lpLibFileName, "kernel32.dll", "VirtualProtect", Hooks_VirtualProtect);
     Utils_hookImport(lpLibFileName, "kernel32.dll", "GetModuleHandleA", Hooks_GetModuleHandleA);
+    Utils_hookImport(lpLibFileName, "kernel32.dll", "GetProcessHeap", Hooks_GetProcessHeap);
+
     return result;
 }
 
