@@ -317,6 +317,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_LoadLibraryA;
     else if (!strcmp(lpProcName, "GetVolumeInformationW"))
         return (FARPROC)Hooks_GetVolumeInformationW;
+    else if (!strcmp(lpProcName, "LoadLibraryExA"))
+        return (FARPROC)Hooks_LoadLibraryExA;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -1744,6 +1746,16 @@ BOOL WINAPI Hooks_GetVolumeInformationW(LPCWSTR lpRootPathName, LPWSTR lpVolumeN
 
     Utils_log("%ws: GetVolumeInformationW(lpRootPathName, lpVolumeNameBuffer, nVolumeNameSize, lpVolumeSerialNumber, lpMaximumComponentLength, lpFileSystemFlags, lpFileSystemNameBuffer, nFileSystemNameSize) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), SAFE_STR(lpRootPathName, L""), SAFE_STR(lpVolumeNameBuffer, L""), nVolumeNameSize, SAFE_PTR(lpVolumeSerialNumber, 0), SAFE_PTR(lpMaximumComponentLength, 0), SAFE_PTR(lpFileSystemFlags, 0), SAFE_STR(lpFileSystemNameBuffer, L""), nFileSystemNameSize, result);
+
+    return result;
+}
+
+HMODULE WINAPI Hooks_LoadLibraryExA(LPCSTR lpLibFileName, HANDLE hFile, DWORD dwFlags)
+{
+    HMODULE result = LoadLibraryExA(lpLibFileName, hFile, dwFlags);
+
+    Utils_log("%ws: LoadLibraryExA(lpLibFileName: %s, hFile: %p, dwFlags: %d) -> HMODULE: %p\n",
+        Utils_getModuleName(_ReturnAddress()), lpLibFileName, hFile, dwFlags, result);
 
     return result;
 }
