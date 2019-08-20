@@ -445,8 +445,8 @@ BOOL WINAPI Hooks_ReadProcessMemory(HANDLE hProcess, LPCVOID lpBaseAddress, LPVO
 {
     BOOL result = ReadProcessMemory(hProcess, lpBaseAddress, lpBuffer, nSize, lpNumberOfBytesRead);
 
-    Utils_log("%ws: ReadProcessMemory(hProcess: %p, lpBaseAddress: %p, lpBuffer: %p, nSize: %d, lpNumberOfBytesRead: %p) -> BOOL: %d\n",
-        Utils_getModuleName(_ReturnAddress()), hProcess, lpBaseAddress, lpBuffer, nSize, lpNumberOfBytesRead, result);
+    Utils_log("%ws: ReadProcessMemory(hProcess: %p, lpBaseAddress: %p, lpBuffer: %p, nSize: %lu, lpNumberOfBytesRead: %lu) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hProcess, lpBaseAddress, lpBuffer, nSize, SAFE_PTR(lpNumberOfBytesRead, 0), result);
 
     return result;
 }
