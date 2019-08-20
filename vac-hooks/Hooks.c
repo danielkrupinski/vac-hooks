@@ -305,7 +305,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetFileInformationByHandleEx;
     else if (!strcmp(lpProcName, "CloseServiceHandle"))
         return (FARPROC)Hooks_CloseServiceHandle;
-       
+    else if (!strcmp(lpProcName, "QueryServiceConfigA"))
+        return (FARPROC)Hooks_QueryServiceConfigA;
+        
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1682,6 +1684,16 @@ BOOL WINAPI Hooks_CloseServiceHandle(SC_HANDLE hSCObject)
 
     Utils_log("%ws: CloseServiceHandle(hSCObject: %p) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), hSCObject, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_QueryServiceConfigA(SC_HANDLE hService, LPQUERY_SERVICE_CONFIGA lpServiceConfig, DWORD cbBufSize, LPDWORD pcbBytesNeeded)
+{
+    BOOL result = QueryServiceConfigA(hService, lpServiceConfig, cbBufSize, pcbBytesNeeded);
+
+    Utils_log("%ws: QueryServiceConfigA(hService: %p, lpServiceConfig: %p, cbBufSize: %d, pcbBytesNeeded: %d) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hService, lpServiceConfig, cbBufSize, SAFE_PTR(pcbBytesNeeded, 0), result);
 
     return result;
 }
