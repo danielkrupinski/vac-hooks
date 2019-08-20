@@ -164,3 +164,4 @@ BOOL       WINAPI     Hooks_FreeLibrary(HMODULE);
 NTSTATUS   NTAPI      Hooks_NtOpenSection(PHANDLE, ACCESS_MASK, POBJECT_ATTRIBUTES);
 NTSTATUS   NTAPI      Hooks_NtQuerySection(HANDLE, DWORD, PVOID, ULONG, PULONG);
 DWORD      WINAPI     Hooks_GetLogicalDriveStringsA(DWORD, LPSTR);
+DWORD      WINAPI     Hooks_GetLogicalDriveStringsW(DWORD, LPWSTR);
