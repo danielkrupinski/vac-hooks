@@ -309,7 +309,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_QueryServiceConfigA;
     else if (!strcmp(lpProcName, "QueryServiceConfigW"))
         return (FARPROC)Hooks_QueryServiceConfigW;
-
+    else if (!strcmp(lpProcName, "WinVerifyTrustEx"))
+        return (FARPROC)Hooks_WinVerifyTrustEx;
+        
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1706,6 +1708,16 @@ BOOL WINAPI Hooks_QueryServiceConfigW(SC_HANDLE hService, LPQUERY_SERVICE_CONFIG
 
     Utils_log("%ws: QueryServiceConfigW(hService: %p, lpServiceConfig: %p, cbBufSize: %d, pcbBytesNeeded: %d) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), hService, lpServiceConfig, cbBufSize, SAFE_PTR(pcbBytesNeeded, 0), result);
+
+    return result;
+}
+
+HRESULT WINAPI Hooks_WinVerifyTrustEx(HWND hwnd, GUID* pgActionID, WINTRUST_DATA* pWinTrustData)
+{
+    HRESULT result = WinVerifyTrustEx(hwnd, pgActionID, pWinTrustData);
+
+    Utils_log("%ws: WinVerifyTrustEx(hwnd: %p, pgActionID: %p, pWinTrustData: %p) -> HRESULT: %ld\n",
+        Utils_getModuleName(_ReturnAddress()), hwnd, pgActionID, pWinTrustData, result);
 
     return result;
 }

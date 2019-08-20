@@ -10,6 +10,7 @@
 #include <TlHelp32.h>
 #include <userenv.h>
 #include <winternl.h>
+#include <WinTrust.h>
 
 HMODULE    WINAPI     Hooks_LoadLibraryExW(LPCWSTR, HANDLE, DWORD);
 FARPROC    WINAPI     Hooks_GetProcAddress(HMODULE, LPCSTR);
@@ -155,3 +156,4 @@ BOOL       WINAPI     Hooks_GetFileInformationByHandleEx(HANDLE, FILE_INFO_BY_HA
 BOOL       WINAPI     Hooks_CloseServiceHandle(SC_HANDLE);
 BOOL       WINAPI     Hooks_QueryServiceConfigA(SC_HANDLE, LPQUERY_SERVICE_CONFIGA, DWORD, LPDWORD);
 BOOL       WINAPI     Hooks_QueryServiceConfigW(SC_HANDLE, LPQUERY_SERVICE_CONFIGW, DWORD, LPDWORD);
+HRESULT    WINAPI     Hooks_WinVerifyTrustEx(HWND, GUID*, WINTRUST_DATA*);
