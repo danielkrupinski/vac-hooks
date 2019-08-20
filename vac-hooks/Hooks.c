@@ -323,6 +323,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_FreeLibrary;
     else if (!strcmp(lpProcName, "NtOpenSection"))
         return (FARPROC)Hooks_NtOpenSection;
+    else if (!strcmp(lpProcName, "NtQuerySection"))
+        return (FARPROC)Hooks_NtQuerySection;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -1781,6 +1783,17 @@ NTSTATUS NTAPI Hooks_NtOpenSection(PHANDLE SectionHandle, ACCESS_MASK DesiredAcc
 
     Utils_log("%ws: NtOpenSection(SectionHandle: %p, DesiredAccess: %d, ObjectAttributes: %p) -> NTSTATUS: 0x%lx\n",
         Utils_getModuleName(_ReturnAddress()), SectionHandle, DesiredAccess, ObjectAttributes, result);
+
+    return result;
+}
+
+NTSTATUS NTAPI Hooks_NtQuerySection(HANDLE SectionHandle, DWORD InformationClass, PVOID InformationBuffer, ULONG InformationBufferSize, PULONG ResultLength)
+{
+    NTSTATUS(NTAPI* NtQuerySection)(HANDLE, DWORD, PVOID, ULONG, PULONG) = (PVOID)GetProcAddress(GetModuleHandleW(L"ntdll"), "NtQuerySection");
+    NTSTATUS result = NtQuerySection(SectionHandle, InformationClass, InformationBuffer, InformationBufferSize, ResultLength);
+
+    Utils_log("%ws: NtQuerySection(SectionHandle: %p, InformationClass: %d, InformationBuffer: %p, InformationBufferSize: %lu, ResultLength: %lu) -> NTSTATUS: 0x%lx\n",
+        Utils_getModuleName(_ReturnAddress()), SectionHandle, InformationClass, InformationBuffer, InformationBufferSize, SAFE_PTR(ResultLength, 0), result);
 
     return result;
 }
