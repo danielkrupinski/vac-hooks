@@ -157,3 +157,4 @@ BOOL       WINAPI     Hooks_CloseServiceHandle(SC_HANDLE);
 BOOL       WINAPI     Hooks_QueryServiceConfigA(SC_HANDLE, LPQUERY_SERVICE_CONFIGA, DWORD, LPDWORD);
 BOOL       WINAPI     Hooks_QueryServiceConfigW(SC_HANDLE, LPQUERY_SERVICE_CONFIGW, DWORD, LPDWORD);
 HRESULT    WINAPI     Hooks_WinVerifyTrustEx(HWND, GUID*, WINTRUST_DATA*);
+HMODULE    WINAPI     Hooks_LoadLibraryA(LPCSTR);

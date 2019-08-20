@@ -313,7 +313,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_QueryServiceConfigW;
     else if (!strcmp(lpProcName, "WinVerifyTrustEx"))
         return (FARPROC)Hooks_WinVerifyTrustEx;
-        
+    else if (!strcmp(lpProcName, "LoadLibraryA"))
+        return (FARPROC)Hooks_LoadLibraryA;
+       
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1720,6 +1722,16 @@ HRESULT WINAPI Hooks_WinVerifyTrustEx(HWND hwnd, GUID* pgActionID, WINTRUST_DATA
 
     Utils_log("%ws: WinVerifyTrustEx(hwnd: %p, pgActionID: %p, pWinTrustData: %p) -> HRESULT: %ld\n",
         Utils_getModuleName(_ReturnAddress()), hwnd, pgActionID, pWinTrustData, result);
+
+    return result;
+}
+
+HMODULE WINAPI Hooks_LoadLibraryA(LPCSTR lpLibFileName)
+{
+    HMODULE result = LoadLibraryA(lpLibFileName);
+
+    Utils_log("%ws: LoadLibraryA(lpLibFileName: %s) -> HMODULE: %p\n",
+        Utils_getModuleName(_ReturnAddress()), lpLibFileName, result);
 
     return result;
 }
