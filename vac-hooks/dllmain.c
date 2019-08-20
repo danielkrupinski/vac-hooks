@@ -6,7 +6,7 @@
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
     if (ul_reason_for_call == DLL_PROCESS_ATTACH) {
-        PBYTE toPatch = Utils_findPattern(L"steamservice", "\x74\x47\x6A\x01\x6A\x00", 0);
+        PBYTE toPatch = Utils_findPattern(L"steamservice", "\x74\x47\x6A\x01\x6A", 0);
         if (toPatch) {
             DWORD old;
             VirtualProtect(toPatch, 1, PAGE_EXECUTE_READWRITE, &old);
