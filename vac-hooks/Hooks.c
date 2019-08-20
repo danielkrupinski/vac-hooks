@@ -1780,7 +1780,7 @@ BOOL WINAPI Hooks_FreeLibrary(HMODULE hLibModule)
 {
     BOOL result = FreeLibrary(hLibModule);
 
-    Utils_log("%ws: FreeLibrary(hLibModule) -> BOOL: %d\n",
+    Utils_log("%ws: FreeLibrary(hLibModule: %p) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), hLibModule, result);
 
     return result;
