@@ -151,3 +151,4 @@ DWORD      WINAPI     Hooks_QueryDosDeviceA(LPCSTR, LPSTR, DWORD);
 DWORD      WINAPI     Hooks_QueryDosDeviceW(LPCWSTR, LPWSTR, DWORD);
 DWORD      WINAPI     Hooks_GetLastError(VOID);
 BOOL       WINAPI     Hooks_GetFileInformationByHandle(HANDLE, LPBY_HANDLE_FILE_INFORMATION);
+BOOL       WINAPI     Hooks_GetFileInformationByHandleEx(HANDLE, FILE_INFO_BY_HANDLE_CLASS, LPVOID, DWORD);

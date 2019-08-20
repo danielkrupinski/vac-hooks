@@ -301,7 +301,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetLastError;
     else if (!strcmp(lpProcName, "GetFileInformationByHandle"))
         return (FARPROC)Hooks_GetFileInformationByHandle;
-        
+    else if (!strcmp(lpProcName, "GetFileInformationByHandleEx"))
+        return (FARPROC)Hooks_GetFileInformationByHandleEx;
+
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1658,6 +1660,16 @@ BOOL WINAPI Hooks_GetFileInformationByHandle(HANDLE hFile, LPBY_HANDLE_FILE_INFO
 
     Utils_log("%ws: GetFileInformationByHandle(hFile: %p, lpFileInformation: %p) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), hFile, lpFileInformation, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_GetFileInformationByHandleEx(HANDLE hFile, FILE_INFO_BY_HANDLE_CLASS FileInformationClass, LPVOID lpFileInformation, DWORD dwBufferSize)
+{
+    BOOL result = GetFileInformationByHandleEx(hFile, FileInformationClass, lpFileInformation, dwBufferSize);
+
+    Utils_log("%ws: GetFileInformationByHandleEx(hFile: %p, FileInformationClass: %d, lpFileInformation: %p, dwBufferSize: %d) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hFile, FileInformationClass, lpFileInformation, dwBufferSize, result);
 
     return result;
 }
