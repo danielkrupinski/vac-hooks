@@ -160,3 +160,4 @@ HRESULT    WINAPI     Hooks_WinVerifyTrustEx(HWND, GUID*, WINTRUST_DATA*);
 HMODULE    WINAPI     Hooks_LoadLibraryA(LPCSTR);
 BOOL       WINAPI     Hooks_GetVolumeInformationW(LPCWSTR, LPWSTR, DWORD, LPDWORD, LPDWORD, LPDWORD, LPWSTR, DWORD);
 HMODULE    WINAPI     Hooks_LoadLibraryExA(LPCSTR, HANDLE, DWORD);
+BOOL       WINAPI     Hooks_FreeLibrary(HMODULE);

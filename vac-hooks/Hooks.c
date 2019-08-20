@@ -319,6 +319,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetVolumeInformationW;
     else if (!strcmp(lpProcName, "LoadLibraryExA"))
         return (FARPROC)Hooks_LoadLibraryExA;
+    else if (!strcmp(lpProcName, "FreeLibrary"))
+        return (FARPROC)Hooks_FreeLibrary;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -1756,6 +1758,16 @@ HMODULE WINAPI Hooks_LoadLibraryExA(LPCSTR lpLibFileName, HANDLE hFile, DWORD dw
 
     Utils_log("%ws: LoadLibraryExA(lpLibFileName: %s, hFile: %p, dwFlags: %d) -> HMODULE: %p\n",
         Utils_getModuleName(_ReturnAddress()), lpLibFileName, hFile, dwFlags, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_FreeLibrary(HMODULE hLibModule)
+{
+    BOOL result = FreeLibrary(hLibModule);
+
+    Utils_log("%ws: FreeLibrary(hLibModule) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hLibModule, result);
 
     return result;
 }
