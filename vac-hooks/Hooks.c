@@ -77,6 +77,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_OutputDebugStringA;
     else if (!strcmp(lpProcName, "GetFileVersionInfoA"))
         return (FARPROC)Hooks_GetFileVersionInfoA;
+    else if (!strcmp(lpProcName, "GetFileVersionInfoW"))
+        return (FARPROC)Hooks_GetFileVersionInfoW;
     else if (!strcmp(lpProcName, "GetFileVersionInfoSizeA"))
         return (FARPROC)Hooks_GetFileVersionInfoSizeA;
     else if (!strcmp(lpProcName, "GetFileVersionInfoSizeW"))
