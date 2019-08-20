@@ -321,6 +321,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_LoadLibraryExA;
     else if (!strcmp(lpProcName, "FreeLibrary"))
         return (FARPROC)Hooks_FreeLibrary;
+    else if (!strcmp(lpProcName, "NtOpenSection"))
+        return (FARPROC)Hooks_NtOpenSection;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -1768,6 +1770,17 @@ BOOL WINAPI Hooks_FreeLibrary(HMODULE hLibModule)
 
     Utils_log("%ws: FreeLibrary(hLibModule) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), hLibModule, result);
+
+    return result;
+}
+
+NTSTATUS NTAPI Hooks_NtOpenSection(PHANDLE SectionHandle, ACCESS_MASK DesiredAccess, POBJECT_ATTRIBUTES ObjectAttributes)
+{
+    NTSTATUS(NTAPI* NtOpenSection)(PHANDLE, ACCESS_MASK, POBJECT_ATTRIBUTES) = (PVOID)GetProcAddress(GetModuleHandleW(L"ntdll"), "NtOpenSection");
+    NTSTATUS result = NtOpenSection(SectionHandle, DesiredAccess, ObjectAttributes);
+
+    Utils_log("%ws: NtOpenSection(SectionHandle: %p, DesiredAccess: %d, ObjectAttributes: %p) -> NTSTATUS: 0x%lx\n",
+        Utils_getModuleName(_ReturnAddress()), SectionHandle, DesiredAccess, ObjectAttributes, result);
 
     return result;
 }
