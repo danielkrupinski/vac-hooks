@@ -303,7 +303,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetFileInformationByHandle;
     else if (!strcmp(lpProcName, "GetFileInformationByHandleEx"))
         return (FARPROC)Hooks_GetFileInformationByHandleEx;
-
+    else if (!strcmp(lpProcName, "CloseServiceHandle"))
+        return (FARPROC)Hooks_CloseServiceHandle;
+       
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1670,6 +1672,16 @@ BOOL WINAPI Hooks_GetFileInformationByHandleEx(HANDLE hFile, FILE_INFO_BY_HANDLE
 
     Utils_log("%ws: GetFileInformationByHandleEx(hFile: %p, FileInformationClass: %d, lpFileInformation: %p, dwBufferSize: %d) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), hFile, FileInformationClass, lpFileInformation, dwBufferSize, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_CloseServiceHandle(SC_HANDLE hSCObject)
+{
+    BOOL result = CloseServiceHandle(hSCObject);
+
+    Utils_log("%ws: CloseServiceHandle(hSCObject: %p) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hSCObject, result);
 
     return result;
 }
