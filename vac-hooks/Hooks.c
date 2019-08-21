@@ -337,6 +337,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetLogicalDriveStringsW;
     else if (!strcmp(lpProcName, "GetModuleHandleExA"))
         return (FARPROC)Hooks_GetModuleHandleExA;
+    else if (!strcmp(lpProcName, "Module32FirstW"))
+        return (FARPROC)Hooks_Module32FirstW;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -1836,6 +1838,16 @@ BOOL WINAPI Hooks_GetModuleHandleExA(DWORD dwFlags, LPCSTR lpModuleName, HMODULE
 
     Utils_log("%ws: GetModuleHandleExA(dwFlags: %d, lpModuleName: %s, phModule: %p) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), dwFlags, lpModuleName, phModule, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_Module32FirstW(HANDLE hSnapshot, LPMODULEENTRY32W lpme)
+{
+    BOOL result = Module32FirstW(hSnapshot, lpme);
+
+    Utils_log("%ws: Module32FirstW(hSnapshot: %p, lpme: %p) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hSnapshot, lpme, result);
 
     return result;
 }

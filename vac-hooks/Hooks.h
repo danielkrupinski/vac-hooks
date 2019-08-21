@@ -166,3 +166,4 @@ NTSTATUS   NTAPI      Hooks_NtQuerySection(HANDLE, DWORD, PVOID, ULONG, PULONG);
 DWORD      WINAPI     Hooks_GetLogicalDriveStringsA(DWORD, LPSTR);
 DWORD      WINAPI     Hooks_GetLogicalDriveStringsW(DWORD, LPWSTR);
 BOOL       WINAPI     Hooks_GetModuleHandleExA(DWORD, LPCSTR, HMODULE*);
+BOOL       WINAPI     Hooks_Module32FirstW(HANDLE, LPMODULEENTRY32W);
