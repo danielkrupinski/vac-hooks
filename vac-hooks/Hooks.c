@@ -347,7 +347,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_SymFunctionTableAccess64;
     else if (!strcmp(lpProcName, "GetUdpTable"))
         return (FARPROC)Hooks_GetUdpTable;
-
+    else if (!strcmp(lpProcName, "CryptDecodeObject"))
+        return (FARPROC)Hooks_CryptDecodeObject;
+        
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1896,6 +1898,16 @@ ULONG WINAPI Hooks_GetUdpTable(PMIB_UDPTABLE UdpTable, PULONG SizePointer, BOOL 
 
     Utils_log("%ws: GetUdpTable(UdpTable: %p, SizePointer: %lu, Order: %d) -> ULONG: %lu\n",
         Utils_getModuleName(_ReturnAddress()), UdpTable, SAFE_PTR(SizePointer, 0), Order, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_CryptDecodeObject(DWORD dwCertEncodingType, LPCSTR lpszStructType, const BYTE* pbEncoded, DWORD cbEncoded, DWORD dwFlags, void* pvStructInfo, DWORD* pcbStructInfo)
+{
+    BOOL result = CryptDecodeObject(dwCertEncodingType, lpszStructType, pbEncoded, cbEncoded, dwFlags, pvStructInfo, pcbStructInfo);
+
+    Utils_log("%ws: CryptDecodeObject(dwCertEncodingType: %d, lpszStructType: %s, pbEncoded: %d, cbEncoded: %d, dwFlags: %d, pvStructInfo: %p, pcbStructInfo: %d) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), dwCertEncodingType, SAFE_STR(lpszStructType, ""), SAFE_PTR(pbEncoded, 0), cbEncoded, dwFlags, pvStructInfo, SAFE_PTR(pcbStructInfo, 0), result);
 
     return result;
 }
