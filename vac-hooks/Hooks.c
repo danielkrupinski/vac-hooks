@@ -345,7 +345,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_SetupDiDestroyDeviceInfoList;
     else if (!strcmp(lpProcName, "SymFunctionTableAccess64"))
         return (FARPROC)Hooks_SymFunctionTableAccess64;
-        
+    else if (!strcmp(lpProcName, "GetUdpTable"))
+        return (FARPROC)Hooks_GetUdpTable;
+
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1884,6 +1886,16 @@ PVOID WINAPI Hooks_SymFunctionTableAccess64(HANDLE hProcess, DWORD64 AddrBase)
 
     Utils_log("%ws: SymFunctionTableAccess64(hProcess: %p, AddrBase: %llu) -> PVOID: %p\n",
         Utils_getModuleName(_ReturnAddress()), hProcess, AddrBase, result);
+
+    return result;
+}
+
+ULONG WINAPI Hooks_GetUdpTable(PMIB_UDPTABLE UdpTable, PULONG SizePointer, BOOL Order)
+{
+    ULONG result = GetUdpTable(UdpTable, SizePointer, Order);
+
+    Utils_log("%ws: GetUdpTable(UdpTable: %p, SizePointer: %lu, Order: %d) -> ULONG: %lu\n",
+        Utils_getModuleName(_ReturnAddress()), UdpTable, SAFE_PTR(SizePointer, 0), Order, result);
 
     return result;
 }

@@ -170,3 +170,4 @@ BOOL       WINAPI     Hooks_Module32FirstW(HANDLE, LPMODULEENTRY32W);
 BOOL       WINAPI     Hooks_Module32NextW(HANDLE, LPMODULEENTRY32W);
 BOOL       WINAPI     Hooks_SetupDiDestroyDeviceInfoList(HDEVINFO);
 PVOID      WINAPI     Hooks_SymFunctionTableAccess64(HANDLE, DWORD64);
+ULONG      WINAPI     Hooks_GetUdpTable(PMIB_UDPTABLE, PULONG, BOOL);
