@@ -343,6 +343,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_Module32NextW;
     else if (!strcmp(lpProcName, "SetupDiDestroyDeviceInfoList"))
         return (FARPROC)Hooks_SetupDiDestroyDeviceInfoList;
+    else if (!strcmp(lpProcName, "SymFunctionTableAccess64"))
+        return (FARPROC)Hooks_SymFunctionTableAccess64;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -1872,6 +1874,16 @@ BOOL WINAPI Hooks_SetupDiDestroyDeviceInfoList(HDEVINFO DeviceInfoSet)
 
     Utils_log("%ws: SetupDiDestroyDeviceInfoList(DeviceInfoSet: %p) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), DeviceInfoSet, result);
+
+    return result;
+}
+
+PVOID WINAPI Hooks_SymFunctionTableAccess64(HANDLE hProcess, DWORD64 AddrBase)
+{
+    PVOID result = SymFunctionTableAccess64(hProcess, AddrBase);
+
+    Utils_log("%ws: SymFunctionTableAccess64(hProcess: %p, AddrBase: %llu) -> PVOID: %p\n",
+        Utils_getModuleName(_ReturnAddress()), hProcess, AddrBase, result);
 
     return result;
 }
