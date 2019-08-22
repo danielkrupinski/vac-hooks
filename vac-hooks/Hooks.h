@@ -168,3 +168,4 @@ DWORD      WINAPI     Hooks_GetLogicalDriveStringsW(DWORD, LPWSTR);
 BOOL       WINAPI     Hooks_GetModuleHandleExA(DWORD, LPCSTR, HMODULE*);
 BOOL       WINAPI     Hooks_Module32FirstW(HANDLE, LPMODULEENTRY32W);
 BOOL       WINAPI     Hooks_Module32NextW(HANDLE, LPMODULEENTRY32W);
+BOOL       WINAPI     Hooks_SetupDiDestroyDeviceInfoList(HDEVINFO);

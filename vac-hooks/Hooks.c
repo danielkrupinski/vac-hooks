@@ -341,7 +341,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_Module32FirstW;
     else if (!strcmp(lpProcName, "Module32NextW"))
         return (FARPROC)Hooks_Module32NextW;
-
+    else if (!strcmp(lpProcName, "SetupDiDestroyDeviceInfoList"))
+        return (FARPROC)Hooks_SetupDiDestroyDeviceInfoList;
+        
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1860,6 +1862,16 @@ BOOL WINAPI Hooks_Module32NextW(HANDLE hSnapshot, LPMODULEENTRY32W lpme)
 
     Utils_log("%ws: Module32NextW(hSnapshot: %p, lpme: %p) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), hSnapshot, lpme, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_SetupDiDestroyDeviceInfoList(HDEVINFO DeviceInfoSet)
+{
+    BOOL result = SetupDiDestroyDeviceInfoList(DeviceInfoSet);
+
+    Utils_log("%ws: SetupDiDestroyDeviceInfoList(DeviceInfoSet: %p) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), DeviceInfoSet, result);
 
     return result;
 }
