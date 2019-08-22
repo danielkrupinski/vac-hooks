@@ -349,7 +349,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetUdpTable;
     else if (!strcmp(lpProcName, "CryptDecodeObject"))
         return (FARPROC)Hooks_CryptDecodeObject;
-        
+    else if (!strcmp(lpProcName, "CryptMsgClose"))
+        return (FARPROC)Hooks_CryptMsgClose;
+       
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1908,6 +1910,16 @@ BOOL WINAPI Hooks_CryptDecodeObject(DWORD dwCertEncodingType, LPCSTR lpszStructT
 
     Utils_log("%ws: CryptDecodeObject(dwCertEncodingType: %d, lpszStructType: %s, pbEncoded: %d, cbEncoded: %d, dwFlags: %d, pvStructInfo: %p, pcbStructInfo: %d) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), dwCertEncodingType, SAFE_STR(lpszStructType, ""), SAFE_PTR(pbEncoded, 0), cbEncoded, dwFlags, pvStructInfo, SAFE_PTR(pcbStructInfo, 0), result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_CryptMsgClose(HCRYPTMSG hCryptMsg)
+{
+    BOOL result = CryptMsgClose(hCryptMsg);
+
+    Utils_log("%ws: CryptMsgClose(hCryptMsg: %p) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hCryptMsg, result);
 
     return result;
 }

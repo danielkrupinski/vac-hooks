@@ -172,3 +172,4 @@ BOOL       WINAPI     Hooks_SetupDiDestroyDeviceInfoList(HDEVINFO);
 PVOID      WINAPI     Hooks_SymFunctionTableAccess64(HANDLE, DWORD64);
 ULONG      WINAPI     Hooks_GetUdpTable(PMIB_UDPTABLE, PULONG, BOOL);
 BOOL       WINAPI     Hooks_CryptDecodeObject(DWORD, LPCSTR, const BYTE*, DWORD, DWORD, void*, DWORD*);
+BOOL       WINAPI     Hooks_CryptMsgClose(HCRYPTMSG);
