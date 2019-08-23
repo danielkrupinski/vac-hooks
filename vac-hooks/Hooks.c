@@ -361,7 +361,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_VerQueryValueA;
     else if (!strcmp(lpProcName, "VerQueryValueW"))
         return (FARPROC)Hooks_VerQueryValueW;
-       
+    else if (!strcmp(lpProcName, "CryptQueryObject"))
+        return (FARPROC)Hooks_CryptQueryObject;
+        
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1981,6 +1983,16 @@ BOOL APIENTRY Hooks_VerQueryValueW(LPCVOID pBlock, LPCWSTR lpSubBlock, LPVOID* l
 
     Utils_log("%ws: VerQueryValueW(pBlock: %p, lpSubBlock: %ws, lplpBuffer: %p, puLen: %u) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), pBlock, SAFE_STR(lpSubBlock, L""), lplpBuffer, SAFE_PTR(puLen, 0), result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_CryptQueryObject(DWORD dwObjectType, const void* pvObject, DWORD dwExpectedContentTypeFlags, DWORD dwExpectedFormatTypeFlags, DWORD dwFlags, DWORD* pdwMsgAndCertEncodingType, DWORD* pdwContentType, DWORD* pdwFormatType, HCERTSTORE* phCertStore, HCRYPTMSG* phMsg, const void** ppvContext)
+{
+    BOOL result = CryptQueryObject(dwObjectType, pvObject, dwExpectedContentTypeFlags, dwExpectedFormatTypeFlags, dwFlags, pdwMsgAndCertEncodingType, pdwContentType, pdwFormatType, phCertStore, phMsg, ppvContext);
+
+    Utils_log("%ws: CryptQueryObject(dwObjectType: %d, pvObject: %p, dwExpectedContentTypeFlags: %d, dwExpectedFormatTypeFlags: %d, dwFlags: %d, pdwMsgAndCertEncodingType: %d, pdwContentType: %d, pdwFormatType: %d, phCertStore: %p, phMsg: %p, ppvContext: %p) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), dwObjectType, pvObject, dwExpectedContentTypeFlags, dwExpectedFormatTypeFlags, dwFlags, SAFE_PTR(pdwMsgAndCertEncodingType, 0), SAFE_PTR(pdwContentType, 0), SAFE_PTR(pdwFormatType, 0), SAFE_PTR(phCertStore, NULL), SAFE_PTR(phMsg, NULL), SAFE_PTR(ppvContext, NULL), result);
 
     return result;
 }
