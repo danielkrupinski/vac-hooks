@@ -176,4 +176,5 @@ BOOL              WINAPI     Hooks_CryptMsgClose(HCRYPTMSG);
 PCCERT_CONTEXT    WINAPI     Hooks_CertFindCertificateInStore(HCERTSTORE, DWORD, DWORD, DWORD, const void*, PCCERT_CONTEXT);
 BOOL              WINAPI     Hooks_CertCloseStore(HCERTSTORE, DWORD);
 NTSTATUS          NTAPI      Hooks_NtMapViewOfSection(HANDLE, HANDLE, PVOID*, ULONG, ULONG, PLARGE_INTEGER, PULONG, DWORD, ULONG, ULONG);
+BOOL              APIENTRY   Hooks_VerQueryValueA(LPCVOID, LPCSTR, LPVOID*, PUINT);
 BOOL              APIENTRY   Hooks_VerQueryValueW(LPCVOID, LPCWSTR, LPVOID*, PUINT);

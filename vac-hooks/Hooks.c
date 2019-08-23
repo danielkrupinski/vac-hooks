@@ -357,6 +357,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_CertCloseStore;
     else if (!strcmp(lpProcName, "NtMapViewOfSection"))
         return (FARPROC)Hooks_NtMapViewOfSection;
+    else if (!strcmp(lpProcName, "VerQueryValueA"))
+        return (FARPROC)Hooks_VerQueryValueA;
     else if (!strcmp(lpProcName, "VerQueryValueW"))
         return (FARPROC)Hooks_VerQueryValueW;
        
@@ -1959,6 +1961,16 @@ NTSTATUS NTAPI Hooks_NtMapViewOfSection(HANDLE SectionHandle, HANDLE ProcessHand
 
     Utils_log("%ws: NtMapViewOfSection(SectionHandle: %p, ProcessHandle: %p, BaseAddress: %p, ZeroBits: %lu, CommitSize: %lu, SectionOffset: %p, ViewSize: %p, InheritDisposition: %d, AllocationType: %lu, Protect: %lu) -> NTSTATUS: 0x%lx\n",
         Utils_getModuleName(_ReturnAddress()), SectionHandle, ProcessHandle, BaseAddress, ZeroBits, CommitSize, SectionOffset, ViewSize, InheritDisposition, AllocationType, Protect, result);
+
+    return result;
+}
+
+BOOL APIENTRY Hooks_VerQueryValueA(LPCVOID pBlock, LPCSTR lpSubBlock, LPVOID* lplpBuffer, PUINT puLen)
+{
+    BOOL result = VerQueryValueA(pBlock, lpSubBlock, lplpBuffer, puLen);
+
+    Utils_log("%ws: VerQueryValueA(pBlock: %p, lpSubBlock: %s, lplpBuffer: %p, puLen: %u) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), pBlock, SAFE_STR(lpSubBlock, ""), lplpBuffer, SAFE_PTR(puLen, 0), result);
 
     return result;
 }
