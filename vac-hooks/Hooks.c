@@ -363,6 +363,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_VerQueryValueW;
     else if (!strcmp(lpProcName, "CryptQueryObject"))
         return (FARPROC)Hooks_CryptQueryObject;
+    else if (!strcmp(lpProcName, "LookupPrivilegeValueA"))
+        return (FARPROC)Hooks_LookupPrivilegeValueA;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -1993,6 +1995,16 @@ BOOL WINAPI Hooks_CryptQueryObject(DWORD dwObjectType, const void* pvObject, DWO
 
     Utils_log("%ws: CryptQueryObject(dwObjectType: %d, pvObject: %p, dwExpectedContentTypeFlags: %d, dwExpectedFormatTypeFlags: %d, dwFlags: %d, pdwMsgAndCertEncodingType: %d, pdwContentType: %d, pdwFormatType: %d, phCertStore: %p, phMsg: %p, ppvContext: %p) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), dwObjectType, pvObject, dwExpectedContentTypeFlags, dwExpectedFormatTypeFlags, dwFlags, SAFE_PTR(pdwMsgAndCertEncodingType, 0), SAFE_PTR(pdwContentType, 0), SAFE_PTR(pdwFormatType, 0), SAFE_PTR(phCertStore, NULL), SAFE_PTR(phMsg, NULL), SAFE_PTR(ppvContext, NULL), result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_LookupPrivilegeValueA(LPCSTR lpSystemName, LPCSTR lpName, PLUID lpLuid)
+{
+    BOOL result = LookupPrivilegeValueA(lpSystemName, lpName, lpLuid);
+
+    Utils_log("%ws: LookupPrivilegeValueA(lpSystemName: %s, lpName: %s, lpLuid: %p) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), SAFE_STR(lpSystemName, ""), SAFE_STR(lpName, ""), lpLuid, result);
 
     return result;
 }
