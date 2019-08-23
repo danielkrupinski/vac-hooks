@@ -174,3 +174,4 @@ ULONG             WINAPI     Hooks_GetUdpTable(PMIB_UDPTABLE, PULONG, BOOL);
 BOOL              WINAPI     Hooks_CryptDecodeObject(DWORD, LPCSTR, const BYTE*, DWORD, DWORD, void*, DWORD*);
 BOOL              WINAPI     Hooks_CryptMsgClose(HCRYPTMSG);
 PCCERT_CONTEXT    WINAPI     Hooks_CertFindCertificateInStore(HCERTSTORE, DWORD, DWORD, DWORD, const void*, PCCERT_CONTEXT);
+BOOL              WINAPI     Hooks_CertCloseStore(HCERTSTORE, DWORD);
