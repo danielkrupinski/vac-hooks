@@ -365,6 +365,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_CryptQueryObject;
     else if (!strcmp(lpProcName, "LookupPrivilegeValueA"))
         return (FARPROC)Hooks_LookupPrivilegeValueA;
+    else if (!strcmp(lpProcName, "NtClose"))
+        return (FARPROC)Hooks_NtClose;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -2005,6 +2007,16 @@ BOOL WINAPI Hooks_LookupPrivilegeValueA(LPCSTR lpSystemName, LPCSTR lpName, PLUI
 
     Utils_log("%ws: LookupPrivilegeValueA(lpSystemName: %s, lpName: %s, lpLuid: %p) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), SAFE_STR(lpSystemName, ""), SAFE_STR(lpName, ""), lpLuid, result);
+
+    return result;
+}
+
+NTSTATUS NTAPI Hooks_NtClose(HANDLE Handle)
+{
+    NTSTATUS result = NtClose(Handle);
+
+    Utils_log("%ws: NtClose(Handle: %p) -> NTSTATUS: 0x%lx\n",
+        Utils_getModuleName(_ReturnAddress()), Handle, result);
 
     return result;
 }

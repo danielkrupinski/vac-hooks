@@ -180,3 +180,4 @@ BOOL              APIENTRY   Hooks_VerQueryValueA(LPCVOID, LPCSTR, LPVOID*, PUIN
 BOOL              APIENTRY   Hooks_VerQueryValueW(LPCVOID, LPCWSTR, LPVOID*, PUINT);
 BOOL              WINAPI     Hooks_CryptQueryObject(DWORD, const void*, DWORD, DWORD, DWORD, DWORD*, DWORD*, DWORD*, HCERTSTORE*, HCRYPTMSG*, const void**);
 BOOL              WINAPI     Hooks_LookupPrivilegeValueA(LPCSTR, LPCSTR, PLUID);
+NTSTATUS          NTAPI      Hooks_NtClose(HANDLE Handle);
