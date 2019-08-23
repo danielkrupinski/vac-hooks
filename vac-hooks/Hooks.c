@@ -351,7 +351,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_CryptDecodeObject;
     else if (!strcmp(lpProcName, "CryptMsgClose"))
         return (FARPROC)Hooks_CryptMsgClose;
-       
+    else if (!strcmp(lpProcName, "CertFindCertificateInStore"))
+        return (FARPROC)Hooks_CertFindCertificateInStore;
+        
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -1920,6 +1922,16 @@ BOOL WINAPI Hooks_CryptMsgClose(HCRYPTMSG hCryptMsg)
 
     Utils_log("%ws: CryptMsgClose(hCryptMsg: %p) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), hCryptMsg, result);
+
+    return result;
+}
+
+PCCERT_CONTEXT WINAPI Hooks_CertFindCertificateInStore(HCERTSTORE hCertStore, DWORD dwCertEncodingType, DWORD dwFindFlags, DWORD dwFindType, const void* pvFindPara, PCCERT_CONTEXT pPrevCertContext)
+{
+    PCCERT_CONTEXT result = CertFindCertificateInStore(hCertStore, dwCertEncodingType, dwFindFlags, dwFindType, pvFindPara, pPrevCertContext);
+
+    Utils_log("%ws: CertFindCertificateInStore(hCertStore: %p, dwCertEncodingType: %d, dwFindFlags: %d, dwFindType: %d, pvFindPara: %p, pPrevCertContext: %p) -> PCCERT_CONTEXT: %p\n",
+        Utils_getModuleName(_ReturnAddress()), hCertStore, dwCertEncodingType, dwFindFlags, dwFindType, pvFindPara, pPrevCertContext, result);
 
     return result;
 }
