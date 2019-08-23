@@ -355,6 +355,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_CertFindCertificateInStore;
     else if (!strcmp(lpProcName, "CertCloseStore"))
         return (FARPROC)Hooks_CertCloseStore;
+    else if (!strcmp(lpProcName, "NtMapViewOfSection"))
+        return (FARPROC)Hooks_NtMapViewOfSection;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -1944,6 +1946,17 @@ BOOL WINAPI Hooks_CertCloseStore(HCERTSTORE hCertStore, DWORD dwFlags)
 
     Utils_log("%ws: CertCloseStore(hCertStore: %p, dwFlags: %d) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), hCertStore, dwFlags, result);
+
+    return result;
+}
+
+NTSTATUS NTAPI Hooks_NtMapViewOfSection(HANDLE SectionHandle, HANDLE ProcessHandle, PVOID* BaseAddress, ULONG ZeroBits, ULONG CommitSize, PLARGE_INTEGER SectionOffset, PULONG ViewSize, DWORD InheritDisposition, ULONG AllocationType, ULONG Protect)
+{
+    NTSTATUS(NTAPI* NtMapViewOfSection)(HANDLE, HANDLE, PVOID*, ULONG, ULONG, PLARGE_INTEGER, PULONG, DWORD, ULONG, ULONG) = (PVOID)GetProcAddress(GetModuleHandleW(L"ntdll"), "NtMapViewOfSection");
+    NTSTATUS result = NtMapViewOfSection(SectionHandle, ProcessHandle, BaseAddress, ZeroBits, CommitSize, SectionOffset, ViewSize, InheritDisposition, AllocationType, Protect);
+
+    Utils_log("%ws: NtMapViewOfSection(SectionHandle: %p, ProcessHandle: %p, BaseAddress: %p, ZeroBits: %lu, CommitSize: %lu, SectionOffset: %p, ViewSize: %p, InheritDisposition: %d, AllocationType: %lu, Protect: %lu) -> NTSTATUS: 0x%lx\n",
+        Utils_getModuleName(_ReturnAddress()), SectionHandle, ProcessHandle, BaseAddress, ZeroBits, CommitSize, SectionOffset, ViewSize, InheritDisposition, AllocationType, Protect, result);
 
     return result;
 }
