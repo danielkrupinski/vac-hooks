@@ -1823,7 +1823,7 @@ BOOL WINAPI Hooks_GetVolumeInformationW(LPCWSTR lpRootPathName, LPWSTR lpVolumeN
 {
     BOOL result = GetVolumeInformationW(lpRootPathName, lpVolumeNameBuffer, nVolumeNameSize, lpVolumeSerialNumber, lpMaximumComponentLength, lpFileSystemFlags, lpFileSystemNameBuffer, nFileSystemNameSize);
 
-    Utils_log("%ws: GetVolumeInformationW(lpRootPathName, lpVolumeNameBuffer, nVolumeNameSize, lpVolumeSerialNumber, lpMaximumComponentLength, lpFileSystemFlags, lpFileSystemNameBuffer, nFileSystemNameSize) -> BOOL: %d\n",
+    Utils_log("%ws: GetVolumeInformationW(lpRootPathName: %ws, lpVolumeNameBuffer: %ws, nVolumeNameSize: %d, lpVolumeSerialNumber: %d, lpMaximumComponentLength: %d, lpFileSystemFlags: %d, lpFileSystemNameBuffer: %ws, nFileSystemNameSize: %d) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), SAFE_STR(lpRootPathName, L""), SAFE_STR(lpVolumeNameBuffer, L""), nVolumeNameSize, SAFE_PTR(lpVolumeSerialNumber, 0), SAFE_PTR(lpMaximumComponentLength, 0), SAFE_PTR(lpFileSystemFlags, 0), SAFE_STR(lpFileSystemNameBuffer, L""), nFileSystemNameSize, result);
 
     return result;
