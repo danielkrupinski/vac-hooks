@@ -21,6 +21,7 @@ HMODULE WINAPI Hooks_LoadLibraryExW(LPCWSTR lpLibFileName, HANDLE hFile, DWORD d
     Utils_hookImport(lpLibFileName, "kernel32.dll", "VirtualProtect", Hooks_VirtualProtect);
     Utils_hookImport(lpLibFileName, "kernel32.dll", "GetModuleHandleA", Hooks_GetModuleHandleA);
     Utils_hookImport(lpLibFileName, "kernel32.dll", "GetProcessHeap", Hooks_GetProcessHeap);
+    Utils_hookImport(lpLibFileName, "kernel32.dll", "CompareStringW", Hooks_CompareStringW);
 
     return result;
 }
@@ -367,6 +368,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_LookupPrivilegeValueA;
     else if (!strcmp(lpProcName, "NtClose"))
         return (FARPROC)Hooks_NtClose;
+    else if (!strcmp(lpProcName, "CompareStringW"))
+        return (FARPROC)Hooks_CompareStringW;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -2017,6 +2020,16 @@ NTSTATUS NTAPI Hooks_NtClose(HANDLE Handle)
 
     Utils_log("%ws: NtClose(Handle: %p) -> NTSTATUS: 0x%lx\n",
         Utils_getModuleName(_ReturnAddress()), Handle, result);
+
+    return result;
+}
+
+int WINAPI Hooks_CompareStringW(LCID Locale, DWORD dwCmpFlags, PCNZWCH lpString1, int cchCount1, PCNZWCH lpString2, int cchCount2)
+{
+    int result = CompareStringW(Locale, dwCmpFlags, lpString1, cchCount1, lpString2, cchCount2);
+
+    Utils_log("%ws: CompareStringW(Locale: %d, dwCmpFlags: %d, lpString1: %ws, cchCount1: %d, lpString2: %ws, cchCount2: %d) -> int: %d\n",
+        Utils_getModuleName(_ReturnAddress()), Locale, dwCmpFlags, lpString1, cchCount1, lpString2, cchCount2, result);
 
     return result;
 }

@@ -181,3 +181,4 @@ BOOL              APIENTRY   Hooks_VerQueryValueW(LPCVOID, LPCWSTR, LPVOID*, PUI
 BOOL              WINAPI     Hooks_CryptQueryObject(DWORD, const void*, DWORD, DWORD, DWORD, DWORD*, DWORD*, DWORD*, HCERTSTORE*, HCRYPTMSG*, const void**);
 BOOL              WINAPI     Hooks_LookupPrivilegeValueA(LPCSTR, LPCSTR, PLUID);
 NTSTATUS          NTAPI      Hooks_NtClose(HANDLE Handle);
+int               WINAPI     Hooks_CompareStringW(LCID, DWORD, PCNZWCH, int, PCNZWCH, int);
