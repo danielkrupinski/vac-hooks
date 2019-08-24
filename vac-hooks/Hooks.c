@@ -13,7 +13,8 @@ HMODULE WINAPI Hooks_LoadLibraryExW(LPCWSTR lpLibFileName, HANDLE hFile, DWORD d
 {
     HMODULE result = LoadLibraryExW(lpLibFileName, hFile, dwFlags);
 
-    Utils_log("LoadLibraryExW(lpLibFileName: %ws, hFile: %p, dwFlags: %d) -> HMODULE: %p\n", lpLibFileName, hFile, dwFlags, result);
+    Utils_log("%ws: LoadLibraryExW(lpLibFileName: %ws, hFile: %p, dwFlags: %d) -> HMODULE: %p\n",
+        Utils_getModuleName(_ReturnAddress()), lpLibFileName, hFile, dwFlags, result);
 
     Utils_hookImport(lpLibFileName, "kernel32.dll", "GetProcAddress", Hooks_GetProcAddress);
     Utils_hookImport(lpLibFileName, "kernel32.dll", "VirtualAlloc", Hooks_VirtualAlloc);
@@ -30,7 +31,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
 {
     FARPROC result = GetProcAddress(hModule, lpProcName);
 
-    Utils_log("GetProcAddress(hModule: %p, lpProcName: %s) -> FARPROC: %p\n", hModule, lpProcName, result);
+    Utils_log("%ws: GetProcAddress(hModule: %p, lpProcName: %s) -> FARPROC: %p\n",
+        Utils_getModuleName(_ReturnAddress()), hModule, lpProcName, result);
 
     if (!strcmp(lpProcName, "GetProcAddress"))
         return (FARPROC)Hooks_GetProcAddress;
@@ -910,7 +912,8 @@ BOOL WINAPI Hooks_VirtualProtect(LPVOID lpAddress, SIZE_T dwSize, DWORD flNewPro
 {
     BOOL result = VirtualProtect(lpAddress, dwSize, flNewProtect, lpflOldProtect);
 
-    Utils_log("VirtualProtect(lpAddress: %p, dwSize: %d, flNewProtect: %d, lpflOldProtect: %d) -> BOOL: %d\n", lpAddress, dwSize, flNewProtect, *lpflOldProtect, result);
+    Utils_log("%ws: VirtualProtect(lpAddress: %p, dwSize: %d, flNewProtect: %d, lpflOldProtect: %d) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), lpAddress, dwSize, flNewProtect, *lpflOldProtect, result);
 
     return result;
 }
@@ -919,7 +922,8 @@ SIZE_T WINAPI Hooks_VirtualQuery(LPCVOID lpAddress, PMEMORY_BASIC_INFORMATION lp
 {
     SIZE_T result = VirtualQuery(lpAddress, lpBuffer, dwLength);
 
-    Utils_log("VirtualQuery(lpAddress: %p, lpBuffer: %p, dwLength: %d) -> SIZE_T: %d\n", lpAddress, lpBuffer, dwLength, result);
+    Utils_log("%ws: VirtualQuery(lpAddress: %p, lpBuffer: %p, dwLength: %d) -> SIZE_T: %d\n",
+        Utils_getModuleName(_ReturnAddress()), lpAddress, lpBuffer, dwLength, result);
 
     return result;
 }
@@ -929,7 +933,8 @@ SIZE_T WINAPI Hooks_VirtualQueryEx(HANDLE hProcess, LPCVOID lpAddress, PMEMORY_B
     SIZE_T result = VirtualQueryEx(hProcess, lpAddress, lpBuffer, dwLength);
     WCHAR moduleName[MAX_PATH] = { 0 };
     GetModuleFileNameExW(hProcess, lpBuffer->AllocationBase, moduleName, MAX_PATH);
-    Utils_log("VirtualQueryEx(hProcess: %p, lpAddress: %p, lpBuffer: %p {BaseAddress: %p, AllocationBase: %p (%ws), AllocationProtect: %d, RegionSize: %d, State: %d, Protect: %d, Type: %d}, dwLength: %d) -> SIZE_T: %d\n", hProcess, lpAddress, lpBuffer, lpBuffer->BaseAddress, lpBuffer->AllocationBase, moduleName, lpBuffer->AllocationProtect, lpBuffer->RegionSize, lpBuffer->State, lpBuffer->Protect, lpBuffer->Type, dwLength, result);
+    Utils_log("%ws: VirtualQueryEx(hProcess: %p, lpAddress: %p, lpBuffer: %p {BaseAddress: %p, AllocationBase: %p (%ws), AllocationProtect: %d, RegionSize: %d, State: %d, Protect: %d, Type: %d}, dwLength: %d) -> SIZE_T: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hProcess, lpAddress, lpBuffer, lpBuffer->BaseAddress, lpBuffer->AllocationBase, moduleName, lpBuffer->AllocationProtect, lpBuffer->RegionSize, lpBuffer->State, lpBuffer->Protect, lpBuffer->Type, dwLength, result);
 
     return result;
 }
@@ -938,7 +943,8 @@ DWORD WINAPI Hooks_SuspendThread(HANDLE hThread)
 {
     DWORD result = SuspendThread(hThread);
 
-    Utils_log("SuspendThread(hThread: %p) -> DWORD: %d\n", hThread, result);
+    Utils_log("%ws: SuspendThread(hThread: %p) -> DWORD: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hThread, result);
 
     return result;
 }
@@ -947,7 +953,8 @@ BOOL WINAPI Hooks_SwitchToThread(VOID)
 {
     BOOL result = SwitchToThread();
 
-    Utils_log("SwitchToThread() -> BOOL: %d\n", result);
+    Utils_log("%ws: SwitchToThread() -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), result);
 
     return result;
 }
@@ -956,7 +963,8 @@ BOOLEAN WINAPI Hooks_Wow64EnableWow64FsRedirection(BOOLEAN Wow64FsEnableRedirect
 {
     BOOLEAN result = Wow64EnableWow64FsRedirection(Wow64FsEnableRedirection);
 
-    Utils_log("Wow64EnableWow64FsRedirection(Wow64FsEnableRedirection: %d) -> BOOLEAN: %d\n", Wow64FsEnableRedirection, result);
+    Utils_log("%ws: Wow64EnableWow64FsRedirection(Wow64FsEnableRedirection: %d) -> BOOLEAN: %d\n",
+        Utils_getModuleName(_ReturnAddress()), Wow64FsEnableRedirection, result);
 
     return result;
 }
@@ -965,7 +973,8 @@ LONG WINAPI Hooks_WinVerifyTrust(HWND hwnd, GUID* pgActionID, LPVOID pWVTData)
 {
     LONG result = WinVerifyTrust(hwnd, pgActionID, pWVTData);
 
-    Utils_log("WinVerifyTrust(hwnd: %d, pgActionID: %p, pWVTData: %p) -> LONG: %ld\n", hwnd, pgActionID, pWVTData, result);
+    Utils_log("%ws: WinVerifyTrust(hwnd: %d, pgActionID: %p, pWVTData: %p) -> LONG: %ld\n",
+        Utils_getModuleName(_ReturnAddress()), hwnd, pgActionID, pWVTData, result);
 
     return result;
 }
@@ -974,14 +983,16 @@ VOID WINAPI Hooks_Sleep(DWORD dwMilliseconds)
 {
     Sleep(dwMilliseconds);
 
-    Utils_log("Sleep(dwMilliseconds: %d) -> VOID\n", dwMilliseconds);
+    Utils_log("%ws: Sleep(dwMilliseconds: %d) -> VOID\n",
+        Utils_getModuleName(_ReturnAddress()), dwMilliseconds);
 }
 
 HANDLE WINAPI Hooks_CreateFileMappingW(HANDLE hFile, LPSECURITY_ATTRIBUTES lpFileMappingAttributes, DWORD flProtect, DWORD dwMaximumSizeHigh, DWORD dwMaximumSizeLow, LPCWSTR lpName)
 {
     HANDLE result = CreateFileMappingW(hFile, lpFileMappingAttributes, flProtect, dwMaximumSizeHigh, dwMaximumSizeLow, lpName);
 
-    Utils_log("CreateFileMappingW(hFile: %p, lpFileMappingAttributes: %p, flProtect: %d, dwMaximumSizeHigh: %d, dwMaximumSizeLow: %d, lpName: %ws) -> HANDLE: %p\n", hFile, lpFileMappingAttributes, flProtect, dwMaximumSizeHigh, dwMaximumSizeLow, lpName, result);
+    Utils_log("%ws: CreateFileMappingW(hFile: %p, lpFileMappingAttributes: %p, flProtect: %d, dwMaximumSizeHigh: %d, dwMaximumSizeLow: %d, lpName: %ws) -> HANDLE: %p\n",
+        Utils_getModuleName(_ReturnAddress()), hFile, lpFileMappingAttributes, flProtect, dwMaximumSizeHigh, dwMaximumSizeLow, lpName, result);
 
     return result;
 }
@@ -990,7 +1001,8 @@ BOOL WINAPI Hooks_OpenProcessToken(HANDLE ProcessHandle, DWORD DesiredAccess, PH
 {
     BOOL result = OpenProcessToken(ProcessHandle, DesiredAccess, TokenHandle);
 
-    Utils_log("OpenProcessToken(ProcessHandle: %p, DesiredAccess: %d, TokenHandle %p) -> BOOL: %d\n", ProcessHandle, DesiredAccess, TokenHandle, result);
+    Utils_log("%ws: OpenProcessToken(ProcessHandle: %p, DesiredAccess: %d, TokenHandle %p) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), ProcessHandle, DesiredAccess, TokenHandle, result);
 
     return result;
 }
@@ -999,7 +1011,8 @@ BOOL WINAPI Hooks_EnumServicesStatusA(SC_HANDLE hSCManager, DWORD dwServiceType,
 {
     BOOL result = EnumServicesStatusA(hSCManager, dwServiceType, dwServiceState, lpServices, cbBufSize, pcbBytesNeeded, lpServicesReturned, lpResumeHandle);
 
-    Utils_log("EnumServicesStatusA(hSCManager: %p, dwServiceType: %d, dwServiceState: %d, lpServices: %p, cbBufSize: %d, pcbBytesNeeded: %p, lpServicesReturned: %p, lpResumeHandle: %p) -> BOOL: %d\n", hSCManager, dwServiceType, dwServiceState, lpServices, cbBufSize, pcbBytesNeeded, lpServicesReturned, lpResumeHandle, result);
+    Utils_log("%ws: EnumServicesStatusA(hSCManager: %p, dwServiceType: %d, dwServiceState: %d, lpServices: %p, cbBufSize: %d, pcbBytesNeeded: %p, lpServicesReturned: %p, lpResumeHandle: %p) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hSCManager, dwServiceType, dwServiceState, lpServices, cbBufSize, pcbBytesNeeded, lpServicesReturned, lpResumeHandle, result);
 
     return result;
 }
@@ -1008,7 +1021,8 @@ BOOL WINAPI Hooks_EnumServicesStatusW(SC_HANDLE hSCManager, DWORD dwServiceType,
 {
     BOOL result = EnumServicesStatusW(hSCManager, dwServiceType, dwServiceState, lpServices, cbBufSize, pcbBytesNeeded, lpServicesReturned, lpResumeHandle);
 
-    Utils_log("EnumServicesStatusW(hSCManager: %p, dwServiceType: %d, dwServiceState: %d, lpServices: %p, cbBufSize: %d, pcbBytesNeeded: %p, lpServicesReturned: %p, lpResumeHandle: %p) -> BOOL: %d\n", hSCManager, dwServiceType, dwServiceState, lpServices, cbBufSize, pcbBytesNeeded, lpServicesReturned, lpResumeHandle, result);
+    Utils_log("%ws: EnumServicesStatusW(hSCManager: %p, dwServiceType: %d, dwServiceState: %d, lpServices: %p, cbBufSize: %d, pcbBytesNeeded: %p, lpServicesReturned: %p, lpResumeHandle: %p) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hSCManager, dwServiceType, dwServiceState, lpServices, cbBufSize, pcbBytesNeeded, lpServicesReturned, lpResumeHandle, result);
 
     return result;
 }
@@ -1017,7 +1031,8 @@ HANDLE WINAPI Hooks_FindFirstVolumeW(LPWSTR lpszVolumeName, DWORD cchBufferLengt
 {
     HANDLE result = FindFirstVolumeW(lpszVolumeName, cchBufferLength);
 
-    Utils_log("FindFirstVolumeW(lpszVolumeName: %ws, cchBufferLength: %d) -> HANDLE: %p\n", lpszVolumeName, cchBufferLength, result);
+    Utils_log("%ws: FindFirstVolumeW(lpszVolumeName: %ws, cchBufferLength: %d) -> HANDLE: %p\n",
+        Utils_getModuleName(_ReturnAddress()), lpszVolumeName, cchBufferLength, result);
 
     return result;
 }
@@ -1026,7 +1041,8 @@ BOOL WINAPI Hooks_FindNextVolumeW(HANDLE hFindVolume, LPWSTR lpszVolumeName, DWO
 {
     BOOL result = FindNextVolumeW(hFindVolume, lpszVolumeName, cchBufferLength);
 
-    Utils_log("FindNextVolumeW(hFindVolume: %p, lpszVolumeName: %ws, cchBufferLength: %d) -> BOOL: %d\n", hFindVolume, lpszVolumeName, cchBufferLength, result);
+    Utils_log("%ws: FindNextVolumeW(hFindVolume: %p, lpszVolumeName: %ws, cchBufferLength: %d) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hFindVolume, lpszVolumeName, cchBufferLength, result);
 
     return result;
 }
@@ -1035,7 +1051,8 @@ BOOL WINAPI Hooks_FlushInstructionCache(HANDLE hProcess, LPCVOID lpBaseAddress, 
 {
     BOOL result = FlushInstructionCache(hProcess, lpBaseAddress, dwSize);
 
-    Utils_log("FlushInstructionCache(hProcess: %p, lpBaseAddress: %p, dwSize: %d) -> BOOL: %d\n", hProcess, lpBaseAddress, dwSize, result);
+    Utils_log("%ws: FlushInstructionCache(hProcess: %p, lpBaseAddress: %p, dwSize: %d) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hProcess, lpBaseAddress, dwSize, result);
 
     return result;
 }
@@ -1044,7 +1061,8 @@ BOOL WINAPI Hooks_GetVolumePathNamesForVolumeNameW(LPCWSTR lpszVolumeName, LPWCH
 {
     BOOL result = GetVolumePathNamesForVolumeNameW(lpszVolumeName, lpszVolumePathNames, cchBufferLength, lpcchReturnLength);
 
-    Utils_log("GetVolumePathNamesForVolumeNameW(lpszVolumeName: %ws, lpszVolumePathNames: %ws, cchBufferLength: %d, lpcchReturnLength: %p) -> BOOL: %d\n", lpszVolumeName, lpszVolumePathNames, cchBufferLength, lpcchReturnLength, result);
+    Utils_log("%ws: GetVolumePathNamesForVolumeNameW(lpszVolumeName: %ws, lpszVolumePathNames: %ws, cchBufferLength: %d, lpcchReturnLength: %p) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), lpszVolumeName, lpszVolumePathNames, cchBufferLength, lpcchReturnLength, result);
 
     return result;
 }
@@ -1053,7 +1071,8 @@ DWORD WINAPI Hooks_GetWindowThreadProcessId(HWND hWnd, LPDWORD lpdwProcessId)
 {
     DWORD result = GetWindowThreadProcessId(hWnd, lpdwProcessId);
 
-    Utils_log("GetWindowThreadProcessId(hWnd: %p, lpdwProcessId: %p) -> DWORD: %d\n", hWnd, lpdwProcessId, result);
+    Utils_log("%ws: GetWindowThreadProcessId(hWnd: %p, lpdwProcessId: %p) -> DWORD: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hWnd, lpdwProcessId, result);
 
     return result;
 }
@@ -1062,7 +1081,8 @@ BOOL WINAPI Hooks_Heap32First(LPHEAPENTRY32 lphe, DWORD th32ProcessID, ULONG_PTR
 {
     BOOL result = Heap32First(lphe, th32ProcessID, th32HeapID);
 
-    Utils_log("Heap32First(lphe: %p, th32ProcessID: %d, th32HeapID: %lu) -> BOOL: %d\n", lphe, th32ProcessID, th32HeapID, result);
+    Utils_log("%ws: Heap32First(lphe: %p, th32ProcessID: %d, th32HeapID: %lu) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), lphe, th32ProcessID, th32HeapID, result);
 
     return result;
 }
@@ -1071,7 +1091,8 @@ NTSTATUS NTAPI Hooks_NtQuerySystemInformation(SYSTEM_INFORMATION_CLASS SystemInf
 {
     NTSTATUS result = NtQuerySystemInformation(SystemInformationClass, SystemInformation, SystemInformationLength, ReturnLength);
 
-    Utils_log("NtQuerySystemInformation(SystemInformationClass: %d, SystemInformation: %p, SystemInformationLength: %lu, ReturnLength: %p) -> NTSTATUS: 0x%lx\n", SystemInformationClass, SystemInformation, SystemInformationLength, ReturnLength, result);
+    Utils_log("%ws: NtQuerySystemInformation(SystemInformationClass: %d, SystemInformation: %p, SystemInformationLength: %lu, ReturnLength: %p) -> NTSTATUS: 0x%lx\n",
+        Utils_getModuleName(_ReturnAddress()), SystemInformationClass, SystemInformation, SystemInformationLength, ReturnLength, result);
 
     return result;
 }
@@ -1080,7 +1101,8 @@ BOOL NTAPI Hooks_ConvertSidToStringSidA(PSID Sid, LPSTR* StringSid)
 {
     BOOL result = ConvertSidToStringSidA(Sid, StringSid);
 
-    Utils_log("ConvertSidToStringSidA(Sid: %p, StringSid: %s) -> BOOL: %d\n", Sid, *StringSid, result);
+    Utils_log("%ws: ConvertSidToStringSidA(Sid: %p, StringSid: %s) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), Sid, *StringSid, result);
 
     return result;
 }
@@ -1089,7 +1111,8 @@ BOOL WINAPI Hooks_CryptMsgGetParam(HCRYPTMSG hCryptMsg, DWORD dwParamType, DWORD
 {
     BOOL result = CryptMsgGetParam(hCryptMsg, dwParamType, dwIndex, pvData, pcbData);
 
-    Utils_log("CryptMsgGetParam(hCryptMsg: %p, dwParamType: %d, dwIndex: %d, pvData: %p, pcbData: %p) -> BOOL: %d\n", hCryptMsg, dwParamType, dwIndex, pvData, pcbData, result);
+    Utils_log("%ws: CryptMsgGetParam(hCryptMsg: %p, dwParamType: %d, dwIndex: %d, pvData: %p, pcbData: %p) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hCryptMsg, dwParamType, dwIndex, pvData, pcbData, result);
 
     return result;
 }
@@ -1098,7 +1121,8 @@ NTSTATUS NTAPI Hooks_NtQueryInformationProcess(HANDLE ProcessHandle, PROCESSINFO
 {
     NTSTATUS result = NtQueryInformationProcess(ProcessHandle, ProcessInformationClass, ProcessInformation, ProcessInformationLength, ReturnLength);
 
-    Utils_log("NtQueryInformationProcess(ProcessHandle: %p, ProcessInformationClass: %d, ProcessInformation: %p, ProcessInformationLength: %lu, ReturnLength: %p) -> NTSTATUS: 0x%lx\n", ProcessHandle, ProcessInformationClass, ProcessInformation, ProcessInformationLength, ReturnLength, result);
+    Utils_log("%ws: NtQueryInformationProcess(ProcessHandle: %p, ProcessInformationClass: %d, ProcessInformation: %p, ProcessInformationLength: %lu, ReturnLength: %p) -> NTSTATUS: 0x%lx\n",
+        Utils_getModuleName(_ReturnAddress()), ProcessHandle, ProcessInformationClass, ProcessInformation, ProcessInformationLength, ReturnLength, result);
 
     return result;
 }
@@ -1107,7 +1131,8 @@ PVOID WINAPI Hooks_EncodePointer(PVOID Ptr)
 {
     PVOID result = EncodePointer(Ptr);
 
-    Utils_log("EncodePointer(Ptr: %p) -> PVOID: %p\n", Ptr, result);
+    Utils_log("%ws: EncodePointer(Ptr: %p) -> PVOID: %p\n",
+        Utils_getModuleName(_ReturnAddress()), Ptr, result);
 
     return result;
 }
@@ -1116,7 +1141,8 @@ NTSTATUS NTAPI Hooks_NtQueryInformationThread(HANDLE ThreadHandle, THREADINFOCLA
 {
     NTSTATUS result = NtQueryInformationThread(ThreadHandle, ThreadInformationClass, ThreadInformation, ThreadInformationLength, ReturnLength);
 
-    Utils_log("NtQueryInformationThread(ThreadHandle: %p, ThreadInformationClass: %d, ThreadInformation: %p, ThreadInformationLength: %lu, ReturnLength: %p) -> NTSTATUS: 0x%lx\n", ThreadHandle, ThreadInformationClass, ThreadInformation, ThreadInformationLength, ReturnLength, result);
+    Utils_log("%ws: NtQueryInformationThread(ThreadHandle: %p, ThreadInformationClass: %d, ThreadInformation: %p, ThreadInformationLength: %lu, ReturnLength: %p) -> NTSTATUS: 0x%lx\n",
+        Utils_getModuleName(_ReturnAddress()), ThreadHandle, ThreadInformationClass, ThreadInformation, ThreadInformationLength, ReturnLength, result);
 
     return result;
 }
@@ -1125,7 +1151,8 @@ SC_HANDLE WINAPI Hooks_OpenSCManagerA(LPCSTR lpMachineName, LPCSTR lpDatabaseNam
 {
     SC_HANDLE result = OpenSCManagerA(lpMachineName, lpDatabaseName, dwDesiredAccess);
 
-    Utils_log("OpenSCManagerA(lpMachineName: %s, lpDatabaseName: %s, dwDesiredAccess: %d) -> SC_HANDLE: %p\n", SAFE_STR(lpMachineName, ""), SAFE_STR(lpDatabaseName, ""), dwDesiredAccess, result);
+    Utils_log("%ws: OpenSCManagerA(lpMachineName: %s, lpDatabaseName: %s, dwDesiredAccess: %d) -> SC_HANDLE: %p\n",
+        Utils_getModuleName(_ReturnAddress()), SAFE_STR(lpMachineName, ""), SAFE_STR(lpDatabaseName, ""), dwDesiredAccess, result);
 
     return result;
 }
@@ -1134,7 +1161,8 @@ HANDLE WINAPI Hooks_OpenThread(DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD
 {
     HANDLE result = OpenThread(dwDesiredAccess, bInheritHandle, dwThreadId);
 
-    Utils_log("OpenThread(dwDesiredAccess: %d, bInheritHandle: %d, dwThreadId: %d) -> HANDLE: %p\n", dwDesiredAccess, bInheritHandle, dwThreadId, result);
+    Utils_log("%ws: OpenThread(dwDesiredAccess: %d, bInheritHandle: %d, dwThreadId: %d) -> HANDLE: %p\n",
+        Utils_getModuleName(_ReturnAddress()), dwDesiredAccess, bInheritHandle, dwThreadId, result);
 
     return result;
 }
