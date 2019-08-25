@@ -23,6 +23,7 @@ HMODULE WINAPI Hooks_LoadLibraryExW(LPCWSTR lpLibFileName, HANDLE hFile, DWORD d
     Utils_hookImport(lpLibFileName, "kernel32.dll", "GetModuleHandleA", Hooks_GetModuleHandleA);
     Utils_hookImport(lpLibFileName, "kernel32.dll", "GetProcessHeap", Hooks_GetProcessHeap);
     Utils_hookImport(lpLibFileName, "kernel32.dll", "CompareStringW", Hooks_CompareStringW);
+    Utils_hookImport(lpLibFileName, "kernel32.dll", "lstrlenW", Hooks_lstrlenW);
 
     return result;
 }
@@ -392,7 +393,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_NtQueryDirectoryObject;
     else if (!strcmp(lpProcName, "RtlGetCompressionWorkSpaceSize"))
         return (FARPROC)Hooks_RtlGetCompressionWorkSpaceSize;
-        
+    else if (!strcmp(lpProcName, "lstrlenW"))
+        return (FARPROC)Hooks_lstrlenW;
+
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -2180,6 +2183,16 @@ NTSTATUS NTAPI Hooks_RtlGetCompressionWorkSpaceSize(ULONG CompressionFormat, PUL
 
     Utils_log("%ws: RtlGetCompressionWorkSpaceSize(CompressionFormat: %lu, pNeededBufferSize: %lu, pUnknown: %lu) -> NTSTATUS: 0x%lx\n",
         Utils_getModuleName(_ReturnAddress()), CompressionFormat, SAFE_PTR(pNeededBufferSize, 0), SAFE_PTR(pUnknown, 0), result);
+
+    return result;
+}
+
+int WINAPI Hooks_lstrlenW(LPCWSTR lpString)
+{
+    int result = lstrlenW(lpString);
+
+    Utils_log("%ws: lstrlenW(lpString: %ws) -> int: %d\n",
+        Utils_getModuleName(_ReturnAddress()), lpString, result);
 
     return result;
 }
