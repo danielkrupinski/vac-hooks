@@ -388,6 +388,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_CertFreeCertificateContext;
     else if (!strcmp(lpProcName, "GetSystemInfo"))
         return (FARPROC)Hooks_GetSystemInfo;
+    else if (!strcmp(lpProcName, "NtQueryDirectoryObject"))
+        return (FARPROC)Hooks_NtQueryDirectoryObject;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -2153,7 +2155,18 @@ BOOL WINAPI Hooks_CertFreeCertificateContext(PCCERT_CONTEXT pCertContext)
 VOID WINAPI Hooks_GetSystemInfo(LPSYSTEM_INFO lpSystemInfo)
 {
     GetSystemInfo(lpSystemInfo);
-
+    
     Utils_log("%ws: GetSystemInfo(lpSystemInfo: %p) -> VOID\n",
         Utils_getModuleName(_ReturnAddress()), lpSystemInfo);
+}
+
+NTSTATUS NTAPI Hooks_NtQueryDirectoryObject(HANDLE DirectoryObjectHandle, PVOID DirObjInformation, ULONG BufferLength, BOOLEAN GetNextIndex, BOOLEAN IgnoreInputIndex, PULONG ObjectIndex, PULONG DataWritten)
+{
+    NTSTATUS(NTAPI* NtQueryDirectoryObject)(HANDLE, PVOID, ULONG, BOOLEAN, BOOLEAN, PULONG, PULONG) = (PVOID)GetProcAddress(GetModuleHandleW(L"ntdll"), "NtQueryDirectoryObject");
+    NTSTATUS result = NtQueryDirectoryObject(DirectoryObjectHandle, DirObjInformation, BufferLength, GetNextIndex, IgnoreInputIndex, ObjectIndex, DataWritten);
+
+    Utils_log("%ws: NtQueryDirectoryObject(DirectoryObjectHandle: %p, DirObjInformation: %p, BufferLength: %lu, GetNextIndex: %d, IgnoreInputIndex: %d, ObjectIndex: %lu, DataWritten: %lu) -> NTSTATUS: 0x%lx\n",
+        Utils_getModuleName(_ReturnAddress()), DirectoryObjectHandle, DirObjInformation, BufferLength, GetNextIndex, IgnoreInputIndex, SAFE_PTR(ObjectIndex, 0), SAFE_PTR(DataWritten, 0), result);
+
+    return result;
 }
