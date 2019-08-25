@@ -191,3 +191,4 @@ BOOL              WINAPI     Hooks_CryptHashCertificate(HCRYPTPROV_LEGACY, ALG_I
 BOOL              WINAPI     Hooks_CertFreeCertificateContext(PCCERT_CONTEXT);
 VOID              WINAPI     Hooks_GetSystemInfo(LPSYSTEM_INFO);
 NTSTATUS          NTAPI      Hooks_NtQueryDirectoryObject(HANDLE, PVOID, ULONG, BOOLEAN, BOOLEAN, PULONG, PULONG);
+NTSTATUS          NTAPI      Hooks_RtlGetCompressionWorkSpaceSize(ULONG, PULONG, PULONG);

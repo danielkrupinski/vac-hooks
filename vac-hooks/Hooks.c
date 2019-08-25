@@ -390,6 +390,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetSystemInfo;
     else if (!strcmp(lpProcName, "NtQueryDirectoryObject"))
         return (FARPROC)Hooks_NtQueryDirectoryObject;
+    else if (!strcmp(lpProcName, "RtlGetCompressionWorkSpaceSize"))
+        return (FARPROC)Hooks_RtlGetCompressionWorkSpaceSize;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -2167,6 +2169,17 @@ NTSTATUS NTAPI Hooks_NtQueryDirectoryObject(HANDLE DirectoryObjectHandle, PVOID 
 
     Utils_log("%ws: NtQueryDirectoryObject(DirectoryObjectHandle: %p, DirObjInformation: %p, BufferLength: %lu, GetNextIndex: %d, IgnoreInputIndex: %d, ObjectIndex: %lu, DataWritten: %lu) -> NTSTATUS: 0x%lx\n",
         Utils_getModuleName(_ReturnAddress()), DirectoryObjectHandle, DirObjInformation, BufferLength, GetNextIndex, IgnoreInputIndex, SAFE_PTR(ObjectIndex, 0), SAFE_PTR(DataWritten, 0), result);
+
+    return result;
+}
+
+NTSTATUS NTAPI Hooks_RtlGetCompressionWorkSpaceSize(ULONG CompressionFormat, PULONG pNeededBufferSize, PULONG pUnknown)
+{
+    NTSTATUS(NTAPI* RtlGetCompressionWorkSpaceSize)(ULONG, PULONG, PULONG) = (PVOID)GetProcAddress(GetModuleHandleW(L"ntdll"), "RtlGetCompressionWorkSpaceSize");
+    NTSTATUS result = RtlGetCompressionWorkSpaceSize(CompressionFormat, pNeededBufferSize, pUnknown);
+
+    Utils_log("%ws: RtlGetCompressionWorkSpaceSize(CompressionFormat: %lu, pNeededBufferSize: %lu, pUnknown: %lu) -> NTSTATUS: 0x%lx\n",
+        Utils_getModuleName(_ReturnAddress()), CompressionFormat, SAFE_PTR(pNeededBufferSize, 0), SAFE_PTR(pUnknown, 0), result);
 
     return result;
 }
