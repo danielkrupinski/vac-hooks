@@ -382,6 +382,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_GetVersionExW;
     else if (!strcmp(lpProcName, "SetupDiGetDeviceRegistryPropertyA"))
         return (FARPROC)Hooks_SetupDiGetDeviceRegistryPropertyA;
+    else if (!strcmp(lpProcName, "CryptHashCertificate"))
+        return (FARPROC)Hooks_CryptHashCertificate;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -2120,6 +2122,16 @@ BOOL WINAPI Hooks_SetupDiGetDeviceRegistryPropertyA(HDEVINFO DeviceInfoSet, PSP_
 
     Utils_log("%ws: SetupDiGetDeviceRegistryPropertyA(DeviceInfoSet: %p, DeviceInfoData: %p, Property: %d, PropertyRegDataType: %d, PropertyBuffer: %p, PropertyBufferSize: %d, RequiredSize: %d) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), DeviceInfoSet, DeviceInfoData, Property, SAFE_PTR(PropertyRegDataType, 0), PropertyBuffer, PropertyBufferSize, SAFE_PTR(RequiredSize, 0), result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_CryptHashCertificate(HCRYPTPROV_LEGACY hCryptProv, ALG_ID Algid, DWORD dwFlags, const BYTE* pbEncoded, DWORD cbEncoded, BYTE* pbComputedHash, DWORD* pcbComputedHash)
+{
+    BOOL result = CryptHashCertificate(hCryptProv, Algid, dwFlags, pbEncoded, cbEncoded, pbComputedHash, pcbComputedHash);
+
+    Utils_log("%ws: CryptHashCertificate(hCryptProv: %lu, Algid: %u, dwFlags: %d, pbEncoded: %p, cbEncoded: %d, pbComputedHash: %p, pcbComputedHash: %d) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hCryptProv, Algid, dwFlags, pbEncoded, cbEncoded, pbComputedHash, SAFE_PTR(pcbComputedHash, 0), result);
 
     return result;
 }
