@@ -386,6 +386,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_CryptHashCertificate;
     else if (!strcmp(lpProcName, "CertFreeCertificateContext"))
         return (FARPROC)Hooks_CertFreeCertificateContext;
+    else if (!strcmp(lpProcName, "GetSystemInfo"))
+        return (FARPROC)Hooks_GetSystemInfo;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -2146,4 +2148,12 @@ BOOL WINAPI Hooks_CertFreeCertificateContext(PCCERT_CONTEXT pCertContext)
         Utils_getModuleName(_ReturnAddress()), pCertContext, result);
 
     return result;
+}
+
+VOID WINAPI Hooks_GetSystemInfo(LPSYSTEM_INFO lpSystemInfo)
+{
+    GetSystemInfo(lpSystemInfo);
+
+    Utils_log("%ws: GetSystemInfo(lpSystemInfo: %p) -> VOID\n",
+        Utils_getModuleName(_ReturnAddress()), lpSystemInfo);
 }
