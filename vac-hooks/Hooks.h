@@ -182,3 +182,4 @@ BOOL              WINAPI     Hooks_CryptQueryObject(DWORD, const void*, DWORD, D
 BOOL              WINAPI     Hooks_LookupPrivilegeValueA(LPCSTR, LPCSTR, PLUID);
 NTSTATUS          NTAPI      Hooks_NtClose(HANDLE Handle);
 int               WINAPI     Hooks_CompareStringW(LCID, DWORD, PCNZWCH, int, PCNZWCH, int);
+BOOL              WINAPI     Hooks_StackWalk64(DWORD, HANDLE, HANDLE, LPSTACKFRAME64, PVOID, PREAD_PROCESS_MEMORY_ROUTINE64, PFUNCTION_TABLE_ACCESS_ROUTINE64, PGET_MODULE_BASE_ROUTINE64, PTRANSLATE_ADDRESS_ROUTINE64);

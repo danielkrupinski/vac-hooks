@@ -372,6 +372,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_NtClose;
     else if (!strcmp(lpProcName, "CompareStringW"))
         return (FARPROC)Hooks_CompareStringW;
+    else if (!strcmp(lpProcName, "StackWalk64"))
+        return (FARPROC)Hooks_StackWalk64;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -2058,6 +2060,16 @@ int WINAPI Hooks_CompareStringW(LCID Locale, DWORD dwCmpFlags, PCNZWCH lpString1
 
     Utils_log("%ws: CompareStringW(Locale: %d, dwCmpFlags: %d, lpString1: %ws, cchCount1: %d, lpString2: %ws, cchCount2: %d) -> int: %d\n",
         Utils_getModuleName(_ReturnAddress()), Locale, dwCmpFlags, lpString1, cchCount1, lpString2, cchCount2, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_StackWalk64(DWORD MachineType, HANDLE hProcess, HANDLE hThread, LPSTACKFRAME64 StackFrame, PVOID ContextRecord, PREAD_PROCESS_MEMORY_ROUTINE64 ReadMemoryRoutine, PFUNCTION_TABLE_ACCESS_ROUTINE64 FunctionTableAccessRoutine, PGET_MODULE_BASE_ROUTINE64 GetModuleBaseRoutine, PTRANSLATE_ADDRESS_ROUTINE64 TranslateAddress)
+{
+    BOOL result = StackWalk64(MachineType, hProcess, hThread, StackFrame, ContextRecord, ReadMemoryRoutine, FunctionTableAccessRoutine, GetModuleBaseRoutine, TranslateAddress);
+
+    Utils_log("%ws: StackWalk64(MachineType: %d, hProcess: %p, hThread: %p, StackFrame: %p, ContextRecord: %p, ReadMemoryRoutine: %p, FunctionTableAccessRoutine: %p, GetModuleBaseRoutine: %p, TranslateAddress: %p) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), MachineType, hProcess, hThread, StackFrame, ContextRecord, ReadMemoryRoutine, FunctionTableAccessRoutine, GetModuleBaseRoutine, TranslateAddress, result);
 
     return result;
 }
