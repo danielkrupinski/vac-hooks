@@ -376,6 +376,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_StackWalk64;
     else if (!strcmp(lpProcName, "WideCharToMultiByte"))
         return (FARPROC)Hooks_WideCharToMultiByte;
+    else if (!strcmp(lpProcName, "GetVersionExW"))
+        return (FARPROC)Hooks_GetVersionExW;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -2082,6 +2084,17 @@ int WINAPI Hooks_WideCharToMultiByte(UINT CodePage, DWORD dwFlags, LPCWCH lpWide
 
     Utils_log("%ws: WideCharToMultiByte(CodePage: %u, dwFlags: %d, lpWideCharStr: %ws, cchWideChar: %d, lpMultiByteStr: %s, cbMultiByte: %d, lpDefaultChar: %s, lpUsedDefaultChar: %d) -> int: %d\n",
         Utils_getModuleName(_ReturnAddress()), CodePage, dwFlags, SAFE_STR(lpWideCharStr, L""), cchWideChar, SAFE_STR(lpMultiByteStr, ""), cbMultiByte, SAFE_STR(lpDefaultChar, ""), SAFE_PTR(lpUsedDefaultChar, 0), result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_GetVersionExW(LPOSVERSIONINFOW lpVersionInformation)
+{
+    BOOL(WINAPI* GetVersionExW)(LPOSVERSIONINFOW) = (PVOID)GetProcAddress(GetModuleHandleW(L"kernel32"), "GetVersionExW");
+    BOOL result = GetVersionExW(lpVersionInformation);
+
+    Utils_log("%ws: GetVersionExW(lpVersionInformation: %p {dwOSVersionInfoSize: %d, dwMajorVersion : %d, dwMinorVersion: %d, dwBuildNumber: %d, dwPlatformId :%d}) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), lpVersionInformation, lpVersionInformation->dwOSVersionInfoSize, lpVersionInformation->dwMajorVersion, lpVersionInformation->dwMinorVersion, lpVersionInformation->dwBuildNumber, lpVersionInformation->dwPlatformId, result);
 
     return result;
 }
