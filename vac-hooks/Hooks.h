@@ -188,3 +188,4 @@ BOOL              WINAPI     Hooks_GetVersionExA(LPOSVERSIONINFOA);
 BOOL              WINAPI     Hooks_GetVersionExW(LPOSVERSIONINFOW);
 BOOL              WINAPI     Hooks_SetupDiGetDeviceRegistryPropertyA(HDEVINFO, PSP_DEVINFO_DATA, DWORD, PDWORD, PBYTE, DWORD, PDWORD);
 BOOL              WINAPI     Hooks_CryptHashCertificate(HCRYPTPROV_LEGACY, ALG_ID, DWORD, const BYTE*, DWORD, BYTE*, DWORD*);
+BOOL              WINAPI     Hooks_CertFreeCertificateContext(PCCERT_CONTEXT);

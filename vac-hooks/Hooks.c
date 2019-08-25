@@ -384,6 +384,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_SetupDiGetDeviceRegistryPropertyA;
     else if (!strcmp(lpProcName, "CryptHashCertificate"))
         return (FARPROC)Hooks_CryptHashCertificate;
+    else if (!strcmp(lpProcName, "CertFreeCertificateContext"))
+        return (FARPROC)Hooks_CertFreeCertificateContext;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -2132,6 +2134,16 @@ BOOL WINAPI Hooks_CryptHashCertificate(HCRYPTPROV_LEGACY hCryptProv, ALG_ID Algi
 
     Utils_log("%ws: CryptHashCertificate(hCryptProv: %lu, Algid: %u, dwFlags: %d, pbEncoded: %p, cbEncoded: %d, pbComputedHash: %p, pcbComputedHash: %d) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), hCryptProv, Algid, dwFlags, pbEncoded, cbEncoded, pbComputedHash, SAFE_PTR(pcbComputedHash, 0), result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_CertFreeCertificateContext(PCCERT_CONTEXT pCertContext)
+{
+    BOOL result = CertFreeCertificateContext(pCertContext);
+
+    Utils_log("%ws: CertFreeCertificateContext(pCertContext: %p) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), pCertContext, result);
 
     return result;
 }
