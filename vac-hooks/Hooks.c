@@ -378,6 +378,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_WideCharToMultiByte;
     else if (!strcmp(lpProcName, "GetVersionExW"))
         return (FARPROC)Hooks_GetVersionExW;
+    else if (!strcmp(lpProcName, "SetupDiGetDeviceRegistryPropertyA"))
+        return (FARPROC)Hooks_SetupDiGetDeviceRegistryPropertyA;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -2095,6 +2097,16 @@ BOOL WINAPI Hooks_GetVersionExW(LPOSVERSIONINFOW lpVersionInformation)
 
     Utils_log("%ws: GetVersionExW(lpVersionInformation: %p {dwOSVersionInfoSize: %d, dwMajorVersion : %d, dwMinorVersion: %d, dwBuildNumber: %d, dwPlatformId :%d}) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), lpVersionInformation, lpVersionInformation->dwOSVersionInfoSize, lpVersionInformation->dwMajorVersion, lpVersionInformation->dwMinorVersion, lpVersionInformation->dwBuildNumber, lpVersionInformation->dwPlatformId, result);
+
+    return result;
+}
+
+BOOL WINAPI Hooks_SetupDiGetDeviceRegistryPropertyA(HDEVINFO DeviceInfoSet, PSP_DEVINFO_DATA DeviceInfoData, DWORD Property, PDWORD PropertyRegDataType, PBYTE PropertyBuffer, DWORD PropertyBufferSize, PDWORD RequiredSize)
+{
+    BOOL result = SetupDiGetDeviceRegistryPropertyA(DeviceInfoSet, DeviceInfoData, Property, PropertyRegDataType, PropertyBuffer, PropertyBufferSize, RequiredSize);
+
+    Utils_log("%ws: SetupDiGetDeviceRegistryPropertyA(DeviceInfoSet: %p, DeviceInfoData: %p, Property: %d, PropertyRegDataType: %d, PropertyBuffer: %p, PropertyBufferSize: %d, RequiredSize: %d) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), DeviceInfoSet, DeviceInfoData, Property, SAFE_PTR(PropertyRegDataType, 0), PropertyBuffer, PropertyBufferSize, SAFE_PTR(RequiredSize, 0), result);
 
     return result;
 }
