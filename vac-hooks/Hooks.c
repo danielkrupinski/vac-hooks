@@ -374,6 +374,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_CompareStringW;
     else if (!strcmp(lpProcName, "StackWalk64"))
         return (FARPROC)Hooks_StackWalk64;
+    else if (!strcmp(lpProcName, "WideCharToMultiByte"))
+        return (FARPROC)Hooks_WideCharToMultiByte;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -2070,6 +2072,16 @@ BOOL WINAPI Hooks_StackWalk64(DWORD MachineType, HANDLE hProcess, HANDLE hThread
 
     Utils_log("%ws: StackWalk64(MachineType: %d, hProcess: %p, hThread: %p, StackFrame: %p, ContextRecord: %p, ReadMemoryRoutine: %p, FunctionTableAccessRoutine: %p, GetModuleBaseRoutine: %p, TranslateAddress: %p) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), MachineType, hProcess, hThread, StackFrame, ContextRecord, ReadMemoryRoutine, FunctionTableAccessRoutine, GetModuleBaseRoutine, TranslateAddress, result);
+
+    return result;
+}
+
+int WINAPI Hooks_WideCharToMultiByte(UINT CodePage, DWORD dwFlags, LPCWCH lpWideCharStr, int cchWideChar, LPSTR lpMultiByteStr, int cbMultiByte, LPCCH lpDefaultChar, LPBOOL lpUsedDefaultChar)
+{
+    int result = WideCharToMultiByte(CodePage, dwFlags, lpWideCharStr, cchWideChar, lpMultiByteStr, cbMultiByte, lpDefaultChar, lpUsedDefaultChar);
+
+    Utils_log("%ws: WideCharToMultiByte(CodePage: %u, dwFlags: %d, lpWideCharStr: %ws, cchWideChar: %d, lpMultiByteStr: %s, cbMultiByte: %d, lpDefaultChar: %s, lpUsedDefaultChar: %d) -> int: %d\n",
+        Utils_getModuleName(_ReturnAddress()), CodePage, dwFlags, SAFE_STR(lpWideCharStr, L""), cchWideChar, SAFE_STR(lpMultiByteStr, ""), cbMultiByte, SAFE_STR(lpDefaultChar, ""), SAFE_PTR(lpUsedDefaultChar, 0), result);
 
     return result;
 }
