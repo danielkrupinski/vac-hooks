@@ -9,6 +9,8 @@
 #include "Hooks.h"
 #include "Utils.h"
 
+#define LOG_FILTER TRUE
+
 HMODULE WINAPI Hooks_LoadLibraryExW(LPCWSTR lpLibFileName, HANDLE hFile, DWORD dwFlags)
 {
     HMODULE result = LoadLibraryExW(lpLibFileName, hFile, dwFlags);
@@ -32,8 +34,10 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
 {
     FARPROC result = GetProcAddress(hModule, lpProcName);
 
+#if !LOG_FILTER
     Utils_log("%ws: GetProcAddress(hModule: %p, lpProcName: %s) -> FARPROC: %p\n",
         Utils_getModuleName(_ReturnAddress()), hModule, lpProcName, result);
+#endif
 
     if (!strcmp(lpProcName, "GetProcAddress"))
         return (FARPROC)Hooks_GetProcAddress;
@@ -795,8 +799,10 @@ HANDLE WINAPI Hooks_GetCurrentProcess(VOID)
 {
     HANDLE result = GetCurrentProcess();
 
+#if !LOG_FILTER
     Utils_log("%ws: GetCurrentProcess() -> HANDLE: %p\n",
         Utils_getModuleName(_ReturnAddress()), result);
+#endif
 
     return result;;
 }
@@ -1516,8 +1522,10 @@ BOOL WINAPI Hooks_IsWow64Process(HANDLE hProcess, PBOOL Wow64Process)
 {
     BOOL result = IsWow64Process(hProcess, Wow64Process);
 
+#if !LOG_FILTER
     Utils_log("%ws: IsWow64Process(hProcess: %p, Wow64Process: %d) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), hProcess, *Wow64Process, result);
+#endif
 
     return result;
 }
@@ -1546,8 +1554,10 @@ HANDLE WINAPI Hooks_GetProcessHeap(VOID)
 {
     HANDLE result = GetProcessHeap();
 
+#if !LOG_FILTER
     Utils_log("%ws: GetProcessHeap() -> HANDLE: %p\n",
         Utils_getModuleName(_ReturnAddress()), result);
+#endif
 
     return result;
 }
@@ -1856,8 +1866,10 @@ HMODULE WINAPI Hooks_LoadLibraryExA(LPCSTR lpLibFileName, HANDLE hFile, DWORD dw
 {
     HMODULE result = LoadLibraryExA(lpLibFileName, hFile, dwFlags);
 
+#if !LOG_FILTER
     Utils_log("%ws: LoadLibraryExA(lpLibFileName: %s, hFile: %p, dwFlags: %d) -> HMODULE: %p\n",
         Utils_getModuleName(_ReturnAddress()), lpLibFileName, hFile, dwFlags, result);
+#endif
 
     return result;
 }
@@ -1866,8 +1878,10 @@ BOOL WINAPI Hooks_FreeLibrary(HMODULE hLibModule)
 {
     BOOL result = FreeLibrary(hLibModule);
 
+#if !LOG_FILTER
     Utils_log("%ws: FreeLibrary(hLibModule: %p) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), hLibModule, result);
+#endif
 
     return result;
 }
