@@ -1235,8 +1235,12 @@ NTSTATUS NTAPI Hooks_NtQueryVirtualMemory(HANDLE ProcessHandle, PVOID BaseAddres
     extern NTSTATUS(NTAPI NtQueryVirtualMemory)(HANDLE, PVOID, DWORD, PVOID, ULONG, PULONG);
     NTSTATUS result = NtQueryVirtualMemory(ProcessHandle, BaseAddress, MemoryInformationClass, Buffer, Length, ResultLength);
 
-    Utils_log("%ws: NtQueryVirtualMemory(ProcessHandle: %p, BaseAddress: %p, MemoryInformationClass: %d, Buffer: %p, Length: %lu, ResultLength: %p) -> NTSTATUS: 0x%lx\n",
-        Utils_getModuleName(_ReturnAddress()), ProcessHandle, BaseAddress, MemoryInformationClass, Buffer, Length, ResultLength, result);
+    WCHAR moduleName[MAX_PATH] = { 0 };
+    MEMORY_BASIC_INFORMATION* mbi = Buffer;
+    GetModuleFileNameExW(ProcessHandle, mbi->AllocationBase, moduleName, MAX_PATH);
+
+    Utils_log("%ws: NtQueryVirtualMemory(ProcessHandle: %p, BaseAddress: %p, MemoryInformationClass: %d, Buffer: %p {BaseAddress: %p, AllocationBase: %p (%ws), AllocationProtect: %d, RegionSize: %d, State: %d, Protect: %d, Type: %d}, Length: %lu, ResultLength: %p) -> NTSTATUS: 0x%lx\n",
+        Utils_getModuleName(_ReturnAddress()), ProcessHandle, BaseAddress, MemoryInformationClass, Buffer, mbi->BaseAddress, mbi->AllocationBase, moduleName, mbi->AllocationProtect, mbi->RegionSize, mbi->State, mbi->Protect, mbi->Type, Length, ResultLength, result);
 
     return result;
 }
