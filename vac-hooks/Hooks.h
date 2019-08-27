@@ -193,3 +193,4 @@ VOID              WINAPI     Hooks_GetSystemInfo(LPSYSTEM_INFO);
 NTSTATUS          NTAPI      Hooks_NtQueryDirectoryObject(HANDLE, PVOID, ULONG, BOOLEAN, BOOLEAN, PULONG, PULONG);
 NTSTATUS          NTAPI      Hooks_RtlGetCompressionWorkSpaceSize(ULONG, PULONG, PULONG);
 int               WINAPI     Hooks_lstrlenW(LPCWSTR);
+LPWSTR            WINAPI     Hooks_lstrcatW(LPWSTR, LPCWSTR);

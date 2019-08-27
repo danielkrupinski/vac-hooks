@@ -26,7 +26,8 @@ HMODULE WINAPI Hooks_LoadLibraryExW(LPCWSTR lpLibFileName, HANDLE hFile, DWORD d
     Utils_hookImport(lpLibFileName, "kernel32.dll", "GetProcessHeap", Hooks_GetProcessHeap);
     Utils_hookImport(lpLibFileName, "kernel32.dll", "CompareStringW", Hooks_CompareStringW);
     Utils_hookImport(lpLibFileName, "kernel32.dll", "lstrlenW", Hooks_lstrlenW);
-
+    Utils_hookImport(lpLibFileName, "kernel32.dll", "lstrcatW", Hooks_lstrcatW);
+    
     return result;
 }
 
@@ -399,7 +400,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_RtlGetCompressionWorkSpaceSize;
     else if (!strcmp(lpProcName, "lstrlenW"))
         return (FARPROC)Hooks_lstrlenW;
-
+    else if (!strcmp(lpProcName, "lstrcatW"))
+        return (FARPROC)Hooks_lstrcatW;
+        
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
 }
@@ -2207,6 +2210,16 @@ int WINAPI Hooks_lstrlenW(LPCWSTR lpString)
 
     Utils_log("%ws: lstrlenW(lpString: %ws) -> int: %d\n",
         Utils_getModuleName(_ReturnAddress()), lpString, result);
+
+    return result;
+}
+
+LPWSTR WINAPI Hooks_lstrcatW(LPWSTR lpString1, LPCWSTR lpString2)
+{
+    LPWSTR result = lstrcatW(lpString1, lpString2);
+
+    Utils_log("%ws: lstrcatW(lpString1: %ws, lpString2: %ws) -> LPWSTR: %ws\n",
+        Utils_getModuleName(_ReturnAddress()), lpString1, lpString2, result);
 
     return result;
 }
