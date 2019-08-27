@@ -27,6 +27,7 @@ HMODULE WINAPI Hooks_LoadLibraryExW(LPCWSTR lpLibFileName, HANDLE hFile, DWORD d
     Utils_hookImport(lpLibFileName, "kernel32.dll", "CompareStringW", Hooks_CompareStringW);
     Utils_hookImport(lpLibFileName, "kernel32.dll", "lstrlenW", Hooks_lstrlenW);
     Utils_hookImport(lpLibFileName, "kernel32.dll", "lstrcatW", Hooks_lstrcatW);
+    Utils_hookImport(lpLibFileName, "kernel32.dll", "GetSystemInfo", Hooks_GetSystemInfo);
     
     return result;
 }
