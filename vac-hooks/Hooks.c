@@ -1204,8 +1204,8 @@ BOOL WINAPI Hooks_Process32FirstW(HANDLE hSnapshot, LPPROCESSENTRY32W lppe)
 {
     BOOL result = Process32FirstW(hSnapshot, lppe);
 
-    Utils_log("%ws: Process32FirstW(hSnapshot: %p, lppe: %p) -> BOOL: %d\n",
-        Utils_getModuleName(_ReturnAddress()), hSnapshot, lppe, result);
+    Utils_log("%ws: Process32FirstW(hSnapshot: %p, lppe: %p {th32ProcessID: %d}) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hSnapshot, lppe, lppe->th32ProcessID, result);
 
     return result;
 }
@@ -1214,8 +1214,8 @@ BOOL WINAPI Hooks_Process32NextW(HANDLE hSnapshot, LPPROCESSENTRY32W lppe)
 {
     BOOL result = Process32NextW(hSnapshot, lppe);
 
-    Utils_log("%ws: Process32NextW(hSnapshot: %p, lppe: %p) -> BOOL: %d\n",
-        Utils_getModuleName(_ReturnAddress()), hSnapshot, lppe, result);
+    Utils_log("%ws: Process32NextW(hSnapshot: %p, lppe: %p {th32ProcessID: %d}) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), hSnapshot, lppe, lppe->th32ProcessID, result);
 
     return result;
 }
