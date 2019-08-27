@@ -1,3 +1,4 @@
+#include <shlwapi.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <Windows.h>
@@ -85,12 +86,8 @@ PCWSTR Utils_getModuleName(PVOID address)
         static WCHAR fileName[MAX_PATH] = { 0 };
 
         if (GetModuleFileNameW(mbi.AllocationBase, fileName, sizeof(fileName) / sizeof(WCHAR))) {
-            PWSTR name = wcsrchr(fileName, L'\\');
-            if (name) {
-                static WCHAR moduleName[50] = { 0 };
-                swprintf(moduleName, 50, L"%s + 0x%x", name + 1, (DWORD)address - (DWORD)mbi.AllocationBase);
-                return moduleName;
-            }
+            PathStripPathW(fileName);
+            swprintf(fileName + lstrlenW(fileName), MAX_PATH - lstrlenW(fileName), L" + 0x%x", (DWORD)address - (DWORD)mbi.AllocationBase);
             return fileName;
         }
     }
