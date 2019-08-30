@@ -35,11 +35,15 @@ HMODULE WINAPI Hooks_LoadLibraryExW(LPCWSTR lpLibFileName, HANDLE hFile, DWORD d
 FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
 {
     FARPROC result = GetProcAddress(hModule, lpProcName);
+    static UINT index = 0;
+    if (!strcmp(lpProcName, "LoadLibraryExA"))
+        index = 0;
 
 #if !LOG_FILTER
-    Utils_log("%ws: GetProcAddress(hModule: %p, lpProcName: %s) -> FARPROC: %p\n",
-        Utils_getModuleName(_ReturnAddress()), hModule, lpProcName, result);
+    Utils_log("%ws: GetProcAddress(hModule: %p, lpProcName: %s (%u)) -> FARPROC: %p\n",
+        Utils_getModuleName(_ReturnAddress()), hModule, lpProcName, index, result);
 #endif
+    index++;
 
     if (!strcmp(lpProcName, "GetProcAddress"))
         return (FARPROC)Hooks_GetProcAddress;
