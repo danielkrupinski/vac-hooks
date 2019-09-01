@@ -194,10 +194,4 @@ NTSTATUS          NTAPI      Hooks_NtQueryDirectoryObject(HANDLE, PVOID, ULONG, 
 NTSTATUS          NTAPI      Hooks_RtlGetCompressionWorkSpaceSize(ULONG, PULONG, PULONG);
 int               WINAPI     Hooks_lstrlenW(LPCWSTR);
 LPWSTR            WINAPI     Hooks_lstrcatW(LPWSTR, LPCWSTR);
-NTSTATUS NTAPI Hooks_NtWow64QueryVirtualMemory64(
-    HANDLE   ProcessHandle,
-    PVOID64  BaseAddress,
-   DWORD    MemoryInformationClass,
-   PVOID   Buffer,
-   ULONG64  Length,
-    PULONG64  ResultLength);
+NTSTATUS          NTAPI      Hooks_NtWow64QueryVirtualMemory64(HANDLE, PVOID64, DWORD, PVOID, ULONG64, PULONG64);
