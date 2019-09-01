@@ -9,7 +9,7 @@
 #include "Hooks.h"
 #include "Utils.h"
 
-#define LOG_FILTER TRUE
+#define LOG_FILTER FALSE
 
 HMODULE WINAPI Hooks_LoadLibraryExW(LPCWSTR lpLibFileName, HANDLE hFile, DWORD dwFlags)
 {
@@ -407,6 +407,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
         return (FARPROC)Hooks_lstrlenW;
     else if (!strcmp(lpProcName, "lstrcatW"))
         return (FARPROC)Hooks_lstrcatW;
+    else if (!strcmp(lpProcName, "NtWow64QueryVirtualMemory64"))
+        return (FARPROC)Hooks_NtWow64QueryVirtualMemory64;
         
     Utils_log("Function not hooked: %s\n", lpProcName);
     return result;
@@ -2234,5 +2236,24 @@ LPWSTR WINAPI Hooks_lstrcatW(LPWSTR lpString1, LPCWSTR lpString2)
     Utils_log("%ws: lstrcatW(lpString1: %ws, lpString2: %ws) -> LPWSTR: %ws\n",
         Utils_getModuleName(_ReturnAddress()), lpString1, lpString2, result);
 
+    return result;
+}
+
+NTSTATUS NTAPI Hooks_NtWow64QueryVirtualMemory64(HANDLE ProcessHandle, PVOID64 BaseAddress, DWORD MemoryInformationClass, PVOID Buffer, ULONG64 Length, PULONG64 ResultLength)
+{
+    NTSTATUS(NTAPI* NtWow64QueryVirtualMemory64)(HANDLE, PVOID64, DWORD, PVOID, ULONG64, PULONG64) = (PVOID)GetProcAddress(GetModuleHandleW(L"ntdll"), "NtWow64QueryVirtualMemory64");
+    NTSTATUS result = NtWow64QueryVirtualMemory64(ProcessHandle, BaseAddress, MemoryInformationClass, Buffer, Length, ResultLength);
+
+    if (!MemoryInformationClass) {
+        WCHAR moduleName[MAX_PATH] = { 0 };
+        MEMORY_BASIC_INFORMATION64* mbi = Buffer;
+        GetModuleFileNameExW(ProcessHandle, (HMODULE)mbi->AllocationBase, moduleName, MAX_PATH);
+
+        Utils_log("%ws: NtWow64QueryVirtualMemory64(ProcessHandle: %p, BaseAddress: %llu, MemoryInformationClass: %d, Buffer: %p {BaseAddress: %llu, AllocationBase: %llu (%ws), AllocationProtect: %d, RegionSize: %llu, State: %d, Protect: %d, Type: %d}, Length: %llu, ResultLength: %p) -> NTSTATUS: 0x%lx\n",
+            Utils_getModuleName(_ReturnAddress()), ProcessHandle, BaseAddress, MemoryInformationClass, Buffer, mbi->BaseAddress, mbi->AllocationBase, moduleName, mbi->AllocationProtect, mbi->RegionSize, mbi->State, mbi->Protect, mbi->Type, Length, ResultLength, result);
+    } else {
+        Utils_log("%ws: NtWow64QueryVirtualMemory64(ProcessHandle: %p, BaseAddress: %llu, MemoryInformationClass: %d, Buffer: %p, Length: %llu, ResultLength: %p) -> NTSTATUS: 0x%lx\n",
+            Utils_getModuleName(_ReturnAddress()), ProcessHandle, BaseAddress, MemoryInformationClass, Buffer, Length, ResultLength, result);
+    }
     return result;
 }
