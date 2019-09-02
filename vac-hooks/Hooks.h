@@ -1,10 +1,10 @@
 #pragma once
 
 #include <dbghelp.h>
-#include <iphlpapi.h>
 #include <Windows.h>
-#define SECURITY_WIN32
+#include <iphlpapi.h>
 #include <Psapi.h>
+#define SECURITY_WIN32
 #include <security.h>
 #include <SetupAPI.h>
 #include <TlHelp32.h>
@@ -180,7 +180,7 @@ BOOL              APIENTRY   Hooks_VerQueryValueA(LPCVOID, LPCSTR, LPVOID*, PUIN
 BOOL              APIENTRY   Hooks_VerQueryValueW(LPCVOID, LPCWSTR, LPVOID*, PUINT);
 BOOL              WINAPI     Hooks_CryptQueryObject(DWORD, const void*, DWORD, DWORD, DWORD, DWORD*, DWORD*, DWORD*, HCERTSTORE*, HCRYPTMSG*, const void**);
 BOOL              WINAPI     Hooks_LookupPrivilegeValueA(LPCSTR, LPCSTR, PLUID);
-NTSTATUS          NTAPI      Hooks_NtClose(HANDLE Handle);
+NTSTATUS          NTAPI      Hooks_NtClose(HANDLE);
 int               WINAPI     Hooks_CompareStringW(LCID, DWORD, PCNZWCH, int, PCNZWCH, int);
 BOOL              WINAPI     Hooks_StackWalk64(DWORD, HANDLE, HANDLE, LPSTACKFRAME64, PVOID, PREAD_PROCESS_MEMORY_ROUTINE64, PFUNCTION_TABLE_ACCESS_ROUTINE64, PGET_MODULE_BASE_ROUTINE64, PTRANSLATE_ADDRESS_ROUTINE64);
 int               WINAPI     Hooks_WideCharToMultiByte(UINT, DWORD, LPCWCH, int, LPSTR, int, LPCCH, LPBOOL);
