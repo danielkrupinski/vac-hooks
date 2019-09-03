@@ -31,5 +31,5 @@ After injection you should see `vac-hooks.txt` log file in **Steam installation 
 - hook all functions from the [list](https://gist.github.com/danielkrupinski/2a73c9eda55d0a9b9648617bfa68737d)
 - hook all statically imported functions (IAT)
 
-### See also
+## See also
 - [VAC](https://github.com/danielkrupinski/vac) - source code of Valve Anti-Cheat obtained from disassembly of compiled modules
