@@ -2137,24 +2137,24 @@ int WINAPI Hooks_WideCharToMultiByte(UINT CodePage, DWORD dwFlags, LPCWCH lpWide
     return result;
 }
 
-BOOL WINAPI Hooks_GetVersionExA(LPOSVERSIONINFOA lpVersionInformation)
+BOOL WINAPI Hooks_GetVersionExA(LPOSVERSIONINFOEXA lpVersionInformation)
 {
     extern BOOL(WINAPI GetVersionExA)(LPOSVERSIONINFOA);
-    BOOL result = GetVersionExA(lpVersionInformation);
+    BOOL result = GetVersionExA((LPOSVERSIONINFOA)lpVersionInformation);
 
-    Utils_log("%ws: GetVersionExA(lpVersionInformation: %p {dwOSVersionInfoSize: %d, dwMajorVersion : %d, dwMinorVersion: %d, dwBuildNumber: %d, dwPlatformId :%d}) -> BOOL: %d\n",
-        Utils_getModuleName(_ReturnAddress()), lpVersionInformation, lpVersionInformation->dwOSVersionInfoSize, lpVersionInformation->dwMajorVersion, lpVersionInformation->dwMinorVersion, lpVersionInformation->dwBuildNumber, lpVersionInformation->dwPlatformId, result);
+    Utils_log("%ws: GetVersionExA(lpVersionInformation: %p {dwOSVersionInfoSize: %d, dwMajorVersion : %d, dwMinorVersion: %d, dwBuildNumber: %d, dwPlatformId :%d, wServicePackMajor: %u, wServicePackMinor: %u, wSuiteMask: %u, wProductType: %u}) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), lpVersionInformation, lpVersionInformation->dwOSVersionInfoSize, lpVersionInformation->dwMajorVersion, lpVersionInformation->dwMinorVersion, lpVersionInformation->dwBuildNumber, lpVersionInformation->dwPlatformId, lpVersionInformation->wServicePackMajor, lpVersionInformation->wServicePackMinor, lpVersionInformation->wSuiteMask, lpVersionInformation->wProductType, result);
 
     return result;
 }
 
-BOOL WINAPI Hooks_GetVersionExW(LPOSVERSIONINFOW lpVersionInformation)
+BOOL WINAPI Hooks_GetVersionExW(LPOSVERSIONINFOEXW lpVersionInformation)
 {
     extern BOOL(WINAPI GetVersionExW)(LPOSVERSIONINFOW);
-    BOOL result = GetVersionExW(lpVersionInformation);
+    BOOL result = GetVersionExW((LPOSVERSIONINFOW)lpVersionInformation);
 
-    Utils_log("%ws: GetVersionExW(lpVersionInformation: %p {dwOSVersionInfoSize: %d, dwMajorVersion : %d, dwMinorVersion: %d, dwBuildNumber: %d, dwPlatformId :%d}) -> BOOL: %d\n",
-        Utils_getModuleName(_ReturnAddress()), lpVersionInformation, lpVersionInformation->dwOSVersionInfoSize, lpVersionInformation->dwMajorVersion, lpVersionInformation->dwMinorVersion, lpVersionInformation->dwBuildNumber, lpVersionInformation->dwPlatformId, result);
+    Utils_log("%ws: GetVersionExW(lpVersionInformation: %p {dwOSVersionInfoSize: %d, dwMajorVersion : %d, dwMinorVersion: %d, dwBuildNumber: %d, dwPlatformId :%d, wServicePackMajor: %u, wServicePackMinor: %u, wSuiteMask: %u, wProductType: %u}) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), lpVersionInformation, lpVersionInformation->dwOSVersionInfoSize, lpVersionInformation->dwMajorVersion, lpVersionInformation->dwMinorVersion, lpVersionInformation->dwBuildNumber, lpVersionInformation->dwPlatformId, lpVersionInformation->wServicePackMajor, lpVersionInformation->wServicePackMinor, lpVersionInformation->wSuiteMask, lpVersionInformation->wProductType, result);
 
     return result;
 }
