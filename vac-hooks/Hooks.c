@@ -45,372 +45,375 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
 #endif
     index++;
 
-    if (!strcmp(lpProcName, "GetProcAddress"))
-        return (FARPROC)Hooks_GetProcAddress;
-    else if (!strcmp(lpProcName, "OpenProcess"))
-        return (FARPROC)Hooks_OpenProcess;
-    else if (!strcmp(lpProcName, "GetProcessImageFileNameA"))
-        return (FARPROC)Hooks_GetProcessImageFileNameA;
-    else if (!strcmp(lpProcName, "GetProcessImageFileNameW"))
-        return (FARPROC)Hooks_GetProcessImageFileNameW;
-    else if (!strcmp(lpProcName, "GetWindowTextW"))
-        return (FARPROC)Hooks_GetWindowTextW;
-    else if (!strcmp(lpProcName, "QueryFullProcessImageNameW"))
-        return (FARPROC)Hooks_QueryFullProcessImageNameW;
-    else if (!strcmp(lpProcName, "GetModuleBaseNameA"))
-        return (FARPROC)Hooks_GetModuleBaseNameA;
-    else if (!strcmp(lpProcName, "GetModuleBaseNameW"))
-        return (FARPROC)Hooks_GetModuleBaseNameW;
-    else if (!strcmp(lpProcName, "GetModuleFileNameA"))
-        return (FARPROC)Hooks_GetModuleFileNameA;
-    else if (!strcmp(lpProcName, "GetModuleFileNameExA"))
-        return (FARPROC)Hooks_GetModuleFileNameExA;
-    else if (!strcmp(lpProcName, "GetModuleFileNameExW"))
-        return (FARPROC)Hooks_GetModuleFileNameExW;
-    else if (!strcmp(lpProcName, "GetComputerNameExW"))
-        return (FARPROC)Hooks_GetComputerNameExW;
-    else if (!strcmp(lpProcName, "CreateRemoteThread"))
-        return (FARPROC)Hooks_CreateRemoteThread;
-    else if (!strcmp(lpProcName, "NtOpenProcess"))
-        return (FARPROC)Hooks_NtOpenProcess;
-    else if (!strcmp(lpProcName, "ReadProcessMemory"))
-        return (FARPROC)Hooks_ReadProcessMemory;
-    else if (!strcmp(lpProcName, "WriteProcessMemory"))
-        return (FARPROC)Hooks_WriteProcessMemory;
-    else if (!strcmp(lpProcName, "MultiByteToWideChar"))
-        return (FARPROC)Hooks_MultiByteToWideChar;
-    else if (!strcmp(lpProcName, "GetUserNameExW"))
-        return (FARPROC)Hooks_GetUserNameExW;
-    else if (!strcmp(lpProcName, "GetDriveTypeW"))
-        return (FARPROC)Hooks_GetDriveTypeW;
-    else if (!strcmp(lpProcName, "RegEnumKeyExA"))
-        return (FARPROC)Hooks_RegEnumKeyExA;
-    else if (!strcmp(lpProcName, "RegOpenKeyExA"))
-        return (FARPROC)Hooks_RegOpenKeyExA;
-    else if (!strcmp(lpProcName, "RegCloseKey"))
-        return (FARPROC)Hooks_RegCloseKey;
-    else if (!strcmp(lpProcName, "RegQueryInfoKeyA"))
-        return (FARPROC)Hooks_RegQueryInfoKeyA;
-    else if (!strcmp(lpProcName, "RegQueryValueExA"))
-        return (FARPROC)Hooks_RegQueryValueExA;
-    else if (!strcmp(lpProcName, "OutputDebugStringA"))
-        return (FARPROC)Hooks_OutputDebugStringA;
-    else if (!strcmp(lpProcName, "GetFileVersionInfoA"))
-        return (FARPROC)Hooks_GetFileVersionInfoA;
-    else if (!strcmp(lpProcName, "GetFileVersionInfoW"))
-        return (FARPROC)Hooks_GetFileVersionInfoW;
-    else if (!strcmp(lpProcName, "GetFileVersionInfoSizeA"))
-        return (FARPROC)Hooks_GetFileVersionInfoSizeA;
-    else if (!strcmp(lpProcName, "GetFileVersionInfoSizeW"))
-        return (FARPROC)Hooks_GetFileVersionInfoSizeW;
-    else if (!strcmp(lpProcName, "GetFileSize"))
-        return (FARPROC)Hooks_GetFileSize;
-    else if (!strcmp(lpProcName, "GetFileSizeEx"))
-        return (FARPROC)Hooks_GetFileSizeEx;
-    else if (!strcmp(lpProcName, "GetWindowInfo"))
-        return (FARPROC)Hooks_GetWindowInfo;
-    else if (!strcmp(lpProcName, "GetWindowsDirectoryA"))
-        return (FARPROC)Hooks_GetWindowsDirectoryA;
-    else if (!strcmp(lpProcName, "GetWindowsDirectoryW"))
-        return (FARPROC)Hooks_GetWindowsDirectoryW;
-    else if (!strcmp(lpProcName, "GetModuleHandleA"))
-        return (FARPROC)Hooks_GetModuleHandleA;
-    else if (!strcmp(lpProcName, "AddVectoredExceptionHandler"))
-        return (FARPROC)Hooks_AddVectoredExceptionHandler;
-    else if (!strcmp(lpProcName, "AdjustTokenPrivileges"))
-        return (FARPROC)Hooks_AdjustTokenPrivileges;
-    else if (!strcmp(lpProcName, "CertGetNameStringW"))
-        return (FARPROC)Hooks_CertGetNameStringW;
-    else if (!strcmp(lpProcName, "CreateFileA"))
-        return (FARPROC)Hooks_CreateFileA;
-    else if (!strcmp(lpProcName, "CreateFileW"))
-        return (FARPROC)Hooks_CreateFileW;
-    else if (!strcmp(lpProcName, "GetCurrentProcess"))
-        return (FARPROC)Hooks_GetCurrentProcess;
-    else if (!strcmp(lpProcName, "GetCurrentProcessId"))
-        return (FARPROC)Hooks_GetCurrentProcessId;
-    else if (!strcmp(lpProcName, "GetCurrentThread"))
-        return (FARPROC)Hooks_GetCurrentThread;
-    else if (!strcmp(lpProcName, "GetCurrentThreadId"))
-        return (FARPROC)Hooks_GetCurrentThreadId;
-    else if (!strcmp(lpProcName, "CreateToolhelp32Snapshot"))
-        return (FARPROC)Hooks_CreateToolhelp32Snapshot;
-    else if (!strcmp(lpProcName, "EnumChildWindows"))
-        return (FARPROC)Hooks_EnumChildWindows;
-    else if (!strcmp(lpProcName, "EnumProcesses"))
-        return (FARPROC)Hooks_EnumProcesses;
-    else if (!strcmp(lpProcName, "EnumWindows"))
-        return (FARPROC)Hooks_EnumWindows;
-    else if (!strcmp(lpProcName, "GetProcessTimes"))
-        return (FARPROC)Hooks_GetProcessTimes;
-    else if (!strcmp(lpProcName, "WaitForSingleObject"))
-        return (FARPROC)Hooks_WaitForSingleObject;
-    else if (!strcmp(lpProcName, "VirtualAlloc"))
-        return (FARPROC)Hooks_VirtualAlloc;
-    else if (!strcmp(lpProcName, "VirtualAllocEx"))
-        return (FARPROC)Hooks_VirtualAllocEx;
-    else if (!strcmp(lpProcName, "VirtualFree"))
-        return (FARPROC)Hooks_VirtualFree;
-    else if (!strcmp(lpProcName, "VirtualFreeEx"))
-        return (FARPROC)Hooks_VirtualFreeEx;
-    else if (!strcmp(lpProcName, "VirtualProtect"))
-        return (FARPROC)Hooks_VirtualProtect;
-    else if (!strcmp(lpProcName, "VirtualQuery"))
-        return (FARPROC)Hooks_VirtualQuery;
-    else if (!strcmp(lpProcName, "VirtualQueryEx"))
-        return (FARPROC)Hooks_VirtualQueryEx;
-    else if (!strcmp(lpProcName, "SuspendThread"))
-        return (FARPROC)Hooks_SuspendThread;
-    else if (!strcmp(lpProcName, "SwitchToThread"))
-        return (FARPROC)Hooks_SwitchToThread;
-    else if (!strcmp(lpProcName, "Wow64EnableWow64FsRedirection"))
-        return (FARPROC)Hooks_Wow64EnableWow64FsRedirection;
-    else if (!strcmp(lpProcName, "WinVerifyTrust"))
-        return (FARPROC)Hooks_WinVerifyTrust;
-    else if (!strcmp(lpProcName, "Sleep"))
-        return (FARPROC)Hooks_Sleep;
-    else if (!strcmp(lpProcName, "CreateFileMappingW"))
-        return (FARPROC)Hooks_CreateFileMappingW;
-    else if (!strcmp(lpProcName, "OpenProcessToken"))
-        return (FARPROC)Hooks_OpenProcessToken;
-    else if (!strcmp(lpProcName, "EnumServicesStatusA"))
-        return (FARPROC)Hooks_EnumServicesStatusA;
-    else if (!strcmp(lpProcName, "EnumServicesStatusW"))
-        return (FARPROC)Hooks_EnumServicesStatusW;
-    else if (!strcmp(lpProcName, "FindFirstVolumeW"))
-        return (FARPROC)Hooks_FindFirstVolumeW;
-    else if (!strcmp(lpProcName, "FindNextVolumeW"))
-        return (FARPROC)Hooks_FindNextVolumeW;
-    else if (!strcmp(lpProcName, "FlushInstructionCache"))
-        return (FARPROC)Hooks_FlushInstructionCache;
-    else if (!strcmp(lpProcName, "GetVolumePathNamesForVolumeNameW"))
-        return (FARPROC)Hooks_GetVolumePathNamesForVolumeNameW;
-    else if (!strcmp(lpProcName, "GetWindowThreadProcessId"))
-        return (FARPROC)Hooks_GetWindowThreadProcessId;
-    else if (!strcmp(lpProcName, "Heap32First"))
-        return (FARPROC)Hooks_Heap32First;
-    else if (!strcmp(lpProcName, "NtQuerySystemInformation"))
-        return (FARPROC)Hooks_NtQuerySystemInformation;
-    else if (!strcmp(lpProcName, "ConvertSidToStringSidA"))
-        return (FARPROC)Hooks_ConvertSidToStringSidA;
-    else if (!strcmp(lpProcName, "CryptMsgGetParam"))
-        return (FARPROC)Hooks_CryptMsgGetParam;
-    else if (!strcmp(lpProcName, "NtQueryInformationProcess"))
-        return (FARPROC)Hooks_NtQueryInformationProcess;
-    else if (!strcmp(lpProcName, "EncodePointer"))
-        return (FARPROC)Hooks_EncodePointer;
-    else if (!strcmp(lpProcName, "NtQueryInformationThread"))
-        return (FARPROC)Hooks_NtQueryInformationThread;
-    else if (!strcmp(lpProcName, "OpenSCManagerA"))
-        return (FARPROC)Hooks_OpenSCManagerA;
-    else if (!strcmp(lpProcName, "OpenThread"))
-        return (FARPROC)Hooks_OpenThread;
-    else if (!strcmp(lpProcName, "Process32FirstW"))
-        return (FARPROC)Hooks_Process32FirstW;
-    else if (!strcmp(lpProcName, "Process32NextW"))
-        return (FARPROC)Hooks_Process32NextW;
-    else if (!strcmp(lpProcName, "WriteFile"))
-        return (FARPROC)Hooks_WriteFile;
-    else if (!strcmp(lpProcName, "NtQueryVirtualMemory"))
-        return (FARPROC)Hooks_NtQueryVirtualMemory;
-    else if (!strcmp(lpProcName, "SetLastError"))
-        return (FARPROC)Hooks_SetLastError;
-    else if (!strcmp(lpProcName, "SetThreadAffinityMask"))
-        return (FARPROC)Hooks_SetThreadAffinityMask;
-    else if (!strcmp(lpProcName, "Thread32First"))
-        return (FARPROC)Hooks_Thread32First;
-    else if (!strcmp(lpProcName, "Thread32Next"))
-        return (FARPROC)Hooks_Thread32Next;
-    else if (!strcmp(lpProcName, "NtQueryObject"))
-        return (FARPROC)Hooks_NtQueryObject;
-    else if (!strcmp(lpProcName, "NtFsControlFile"))
-        return (FARPROC)Hooks_NtFsControlFile;
-    else if (!strcmp(lpProcName, "GetThreadContext"))
-        return (FARPROC)Hooks_GetThreadContext;
-    else if (!strcmp(lpProcName, "GetTokenInformation"))
-        return (FARPROC)Hooks_GetTokenInformation;
-    else if (!strcmp(lpProcName, "GetUserProfileDirectoryA"))
-        return (FARPROC)Hooks_GetUserProfileDirectoryA;
-    else if (!strcmp(lpProcName, "GetUserProfileDirectoryW"))
-        return (FARPROC)Hooks_GetUserProfileDirectoryW;
-    else if (!strcmp(lpProcName, "NtDuplicateObject"))
-        return (FARPROC)Hooks_NtDuplicateObject;
-    else if (!strcmp(lpProcName, "OpenFileMappingW"))
-        return (FARPROC)Hooks_OpenFileMappingW;
-    else if (!strcmp(lpProcName, "RtlDecompressBufferEx"))
-        return (FARPROC)Hooks_RtlDecompressBufferEx;
-    else if (!strcmp(lpProcName, "GetTcpTable"))
-        return (FARPROC)Hooks_GetTcpTable;
-    else if (!strcmp(lpProcName, "CloseHandle"))
-        return (FARPROC)Hooks_CloseHandle;
-    else if (!strcmp(lpProcName, "SetFilePointer"))
-        return (FARPROC)Hooks_SetFilePointer;
-    else if (!strcmp(lpProcName, "OpenFileById"))
-        return (FARPROC)Hooks_OpenFileById;
-    else if (!strcmp(lpProcName, "GetMappedFileNameA"))
-        return (FARPROC)Hooks_GetMappedFileNameA;
-    else if (!strcmp(lpProcName, "GetMappedFileNameW"))
-        return (FARPROC)Hooks_GetMappedFileNameW;
-    else if (!strcmp(lpProcName, "SetFilePointerEx"))
-        return (FARPROC)Hooks_SetFilePointerEx;
-    else if (!strcmp(lpProcName, "ResumeThread"))
-        return (FARPROC)Hooks_ResumeThread;
-    else if (!strcmp(lpProcName, "SymGetModuleBase64"))
-        return (FARPROC)Hooks_SymGetModuleBase64;
-    else if (!strcmp(lpProcName, "GetProcessId"))
-        return (FARPROC)Hooks_GetProcessId;
-    else if (!strcmp(lpProcName, "IsBadReadPtr"))
-        return (FARPROC)Hooks_IsBadReadPtr;
-    else if (!strcmp(lpProcName, "ReadFile"))
-        return (FARPROC)Hooks_ReadFile;
-    else if (!strcmp(lpProcName, "GetThreadId"))
-        return (FARPROC)Hooks_GetThreadId;
-    else if (!strcmp(lpProcName, "LocalAlloc"))
-        return (FARPROC)Hooks_LocalAlloc;
-    else if (!strcmp(lpProcName, "GetModuleInformation"))
-        return (FARPROC)Hooks_GetModuleInformation;
-    else if (!strcmp(lpProcName, "IsWow64Process"))
-        return (FARPROC)Hooks_IsWow64Process;
-    else if (!strcmp(lpProcName, "GetSystemDirectoryA"))
-        return (FARPROC)Hooks_GetSystemDirectoryA;
-    else if (!strcmp(lpProcName, "GetSystemDirectoryW"))
-        return (FARPROC)Hooks_GetSystemDirectoryW;
-    else if (!strcmp(lpProcName, "GetProcessHeap"))
-        return (FARPROC)Hooks_GetProcessHeap;
-    else if (!strcmp(lpProcName, "MapViewOfFile"))
-        return (FARPROC)Hooks_MapViewOfFile;
-    else if (!strcmp(lpProcName, "UnmapViewOfFile"))
-        return (FARPROC)Hooks_UnmapViewOfFile;
-    else if (!strcmp(lpProcName, "GetVolumeInformationByHandleW"))
-        return (FARPROC)Hooks_GetVolumeInformationByHandleW;
-    else if (!strcmp(lpProcName, "EnumProcessModules"))
-        return (FARPROC)Hooks_EnumProcessModules;
-    else if (!strcmp(lpProcName, "GetTickCount"))
-        return (FARPROC)Hooks_GetTickCount;
-    else if (!strcmp(lpProcName, "SetupDiGetClassDevsA"))
-        return (FARPROC)Hooks_SetupDiGetClassDevsA;
-    else if (!strcmp(lpProcName, "SetupDiEnumDeviceInfo"))
-        return (FARPROC)Hooks_SetupDiEnumDeviceInfo;
-    else if (!strcmp(lpProcName, "HeapAlloc"))
-        return (FARPROC)Hooks_HeapAlloc;
-    else if (!strcmp(lpProcName, "HeapFree"))
-        return (FARPROC)Hooks_HeapFree;
-    else if (!strcmp(lpProcName, "FindVolumeClose"))
-        return (FARPROC)Hooks_FindVolumeClose;
-    else if (!strcmp(lpProcName, "NtReadVirtualMemory"))
-        return (FARPROC)Hooks_NtReadVirtualMemory;
-    else if (!strcmp(lpProcName, "NtOpenDirectoryObject"))
-        return (FARPROC)Hooks_NtOpenDirectoryObject;
-    else if (!strcmp(lpProcName, "LocalFree"))
-        return (FARPROC)Hooks_LocalFree;
-    else if (!strcmp(lpProcName, "OpenServiceA"))
-        return (FARPROC)Hooks_OpenServiceA;
-    else if (!strcmp(lpProcName, "OpenServiceW"))
-        return (FARPROC)Hooks_OpenServiceW;
-    else if (!strcmp(lpProcName, "GetSystemTimeAsFileTime"))
-        return (FARPROC)Hooks_GetSystemTimeAsFileTime;
-    else if (!strcmp(lpProcName, "OpenEventLogA"))
-        return (FARPROC)Hooks_OpenEventLogA;
-    else if (!strcmp(lpProcName, "ReadEventLogA"))
-        return (FARPROC)Hooks_ReadEventLogA;
-    else if (!strcmp(lpProcName, "CloseEventLog"))
-        return (FARPROC)Hooks_CloseEventLog;
-    else if (!strcmp(lpProcName, "QueryDosDeviceA"))
-        return (FARPROC)Hooks_QueryDosDeviceA;
-    else if (!strcmp(lpProcName, "QueryDosDeviceW"))
-        return (FARPROC)Hooks_QueryDosDeviceW;
-    else if (!strcmp(lpProcName, "GetLastError"))
-        return (FARPROC)Hooks_GetLastError;
-    else if (!strcmp(lpProcName, "GetFileInformationByHandle"))
-        return (FARPROC)Hooks_GetFileInformationByHandle;
-    else if (!strcmp(lpProcName, "GetFileInformationByHandleEx"))
-        return (FARPROC)Hooks_GetFileInformationByHandleEx;
-    else if (!strcmp(lpProcName, "CloseServiceHandle"))
-        return (FARPROC)Hooks_CloseServiceHandle;
-    else if (!strcmp(lpProcName, "QueryServiceConfigA"))
-        return (FARPROC)Hooks_QueryServiceConfigA;
-    else if (!strcmp(lpProcName, "QueryServiceConfigW"))
-        return (FARPROC)Hooks_QueryServiceConfigW;
-    else if (!strcmp(lpProcName, "WinVerifyTrustEx"))
-        return (FARPROC)Hooks_WinVerifyTrustEx;
-    else if (!strcmp(lpProcName, "LoadLibraryA"))
-        return (FARPROC)Hooks_LoadLibraryA;
-    else if (!strcmp(lpProcName, "GetVolumeInformationW"))
-        return (FARPROC)Hooks_GetVolumeInformationW;
-    else if (!strcmp(lpProcName, "LoadLibraryExA"))
-        return (FARPROC)Hooks_LoadLibraryExA;
-    else if (!strcmp(lpProcName, "FreeLibrary"))
-        return (FARPROC)Hooks_FreeLibrary;
-    else if (!strcmp(lpProcName, "NtOpenSection"))
-        return (FARPROC)Hooks_NtOpenSection;
-    else if (!strcmp(lpProcName, "NtQuerySection"))
-        return (FARPROC)Hooks_NtQuerySection;
-    else if (!strcmp(lpProcName, "GetLogicalDriveStringsA"))
-        return (FARPROC)Hooks_GetLogicalDriveStringsA;
-    else if (!strcmp(lpProcName, "GetLogicalDriveStringsW"))
-        return (FARPROC)Hooks_GetLogicalDriveStringsW;
-    else if (!strcmp(lpProcName, "GetModuleHandleExA"))
-        return (FARPROC)Hooks_GetModuleHandleExA;
-    else if (!strcmp(lpProcName, "Module32FirstW"))
-        return (FARPROC)Hooks_Module32FirstW;
-    else if (!strcmp(lpProcName, "Module32NextW"))
-        return (FARPROC)Hooks_Module32NextW;
-    else if (!strcmp(lpProcName, "SetupDiDestroyDeviceInfoList"))
-        return (FARPROC)Hooks_SetupDiDestroyDeviceInfoList;
-    else if (!strcmp(lpProcName, "SymFunctionTableAccess64"))
-        return (FARPROC)Hooks_SymFunctionTableAccess64;
-    else if (!strcmp(lpProcName, "GetUdpTable"))
-        return (FARPROC)Hooks_GetUdpTable;
-    else if (!strcmp(lpProcName, "CryptDecodeObject"))
-        return (FARPROC)Hooks_CryptDecodeObject;
-    else if (!strcmp(lpProcName, "CryptMsgClose"))
-        return (FARPROC)Hooks_CryptMsgClose;
-    else if (!strcmp(lpProcName, "CertFindCertificateInStore"))
-        return (FARPROC)Hooks_CertFindCertificateInStore;
-    else if (!strcmp(lpProcName, "CertCloseStore"))
-        return (FARPROC)Hooks_CertCloseStore;
-    else if (!strcmp(lpProcName, "NtMapViewOfSection"))
-        return (FARPROC)Hooks_NtMapViewOfSection;
-    else if (!strcmp(lpProcName, "VerQueryValueA"))
-        return (FARPROC)Hooks_VerQueryValueA;
-    else if (!strcmp(lpProcName, "VerQueryValueW"))
-        return (FARPROC)Hooks_VerQueryValueW;
-    else if (!strcmp(lpProcName, "CryptQueryObject"))
-        return (FARPROC)Hooks_CryptQueryObject;
-    else if (!strcmp(lpProcName, "LookupPrivilegeValueA"))
-        return (FARPROC)Hooks_LookupPrivilegeValueA;
-    else if (!strcmp(lpProcName, "NtClose"))
-        return (FARPROC)Hooks_NtClose;
-    else if (!strcmp(lpProcName, "CompareStringW"))
-        return (FARPROC)Hooks_CompareStringW;
-    else if (!strcmp(lpProcName, "StackWalk64"))
-        return (FARPROC)Hooks_StackWalk64;
-    else if (!strcmp(lpProcName, "WideCharToMultiByte"))
-        return (FARPROC)Hooks_WideCharToMultiByte;
-    else if (!strcmp(lpProcName, "GetVersionExA"))
-        return (FARPROC)Hooks_GetVersionExA;
-    else if (!strcmp(lpProcName, "GetVersionExW"))
-        return (FARPROC)Hooks_GetVersionExW;
-    else if (!strcmp(lpProcName, "SetupDiGetDeviceRegistryPropertyA"))
-        return (FARPROC)Hooks_SetupDiGetDeviceRegistryPropertyA;
-    else if (!strcmp(lpProcName, "CryptHashCertificate"))
-        return (FARPROC)Hooks_CryptHashCertificate;
-    else if (!strcmp(lpProcName, "CertFreeCertificateContext"))
-        return (FARPROC)Hooks_CertFreeCertificateContext;
-    else if (!strcmp(lpProcName, "GetSystemInfo"))
-        return (FARPROC)Hooks_GetSystemInfo;
-    else if (!strcmp(lpProcName, "NtQueryDirectoryObject"))
-        return (FARPROC)Hooks_NtQueryDirectoryObject;
-    else if (!strcmp(lpProcName, "RtlGetCompressionWorkSpaceSize"))
-        return (FARPROC)Hooks_RtlGetCompressionWorkSpaceSize;
-    else if (!strcmp(lpProcName, "lstrlenW"))
-        return (FARPROC)Hooks_lstrlenW;
-    else if (!strcmp(lpProcName, "lstrcatW"))
-        return (FARPROC)Hooks_lstrcatW;
-    else if (!strcmp(lpProcName, "NtWow64QueryVirtualMemory64"))
-        return (FARPROC)Hooks_NtWow64QueryVirtualMemory64;
-        
-    Utils_log("Function not hooked: %s\n", lpProcName);
+    if (result) {
+        if (!strcmp(lpProcName, "GetProcAddress"))
+            return (FARPROC)Hooks_GetProcAddress;
+        else if (!strcmp(lpProcName, "OpenProcess"))
+            return (FARPROC)Hooks_OpenProcess;
+        else if (!strcmp(lpProcName, "GetProcessImageFileNameA"))
+            return (FARPROC)Hooks_GetProcessImageFileNameA;
+        else if (!strcmp(lpProcName, "GetProcessImageFileNameW"))
+            return (FARPROC)Hooks_GetProcessImageFileNameW;
+        else if (!strcmp(lpProcName, "GetWindowTextW"))
+            return (FARPROC)Hooks_GetWindowTextW;
+        else if (!strcmp(lpProcName, "QueryFullProcessImageNameW"))
+            return (FARPROC)Hooks_QueryFullProcessImageNameW;
+        else if (!strcmp(lpProcName, "GetModuleBaseNameA"))
+            return (FARPROC)Hooks_GetModuleBaseNameA;
+        else if (!strcmp(lpProcName, "GetModuleBaseNameW"))
+            return (FARPROC)Hooks_GetModuleBaseNameW;
+        else if (!strcmp(lpProcName, "GetModuleFileNameA"))
+            return (FARPROC)Hooks_GetModuleFileNameA;
+        else if (!strcmp(lpProcName, "GetModuleFileNameExA"))
+            return (FARPROC)Hooks_GetModuleFileNameExA;
+        else if (!strcmp(lpProcName, "GetModuleFileNameExW"))
+            return (FARPROC)Hooks_GetModuleFileNameExW;
+        else if (!strcmp(lpProcName, "GetComputerNameExW"))
+            return (FARPROC)Hooks_GetComputerNameExW;
+        else if (!strcmp(lpProcName, "CreateRemoteThread"))
+            return (FARPROC)Hooks_CreateRemoteThread;
+        else if (!strcmp(lpProcName, "NtOpenProcess"))
+            return (FARPROC)Hooks_NtOpenProcess;
+        else if (!strcmp(lpProcName, "ReadProcessMemory"))
+            return (FARPROC)Hooks_ReadProcessMemory;
+        else if (!strcmp(lpProcName, "WriteProcessMemory"))
+            return (FARPROC)Hooks_WriteProcessMemory;
+        else if (!strcmp(lpProcName, "MultiByteToWideChar"))
+            return (FARPROC)Hooks_MultiByteToWideChar;
+        else if (!strcmp(lpProcName, "GetUserNameExW"))
+            return (FARPROC)Hooks_GetUserNameExW;
+        else if (!strcmp(lpProcName, "GetDriveTypeW"))
+            return (FARPROC)Hooks_GetDriveTypeW;
+        else if (!strcmp(lpProcName, "RegEnumKeyExA"))
+            return (FARPROC)Hooks_RegEnumKeyExA;
+        else if (!strcmp(lpProcName, "RegOpenKeyExA"))
+            return (FARPROC)Hooks_RegOpenKeyExA;
+        else if (!strcmp(lpProcName, "RegCloseKey"))
+            return (FARPROC)Hooks_RegCloseKey;
+        else if (!strcmp(lpProcName, "RegQueryInfoKeyA"))
+            return (FARPROC)Hooks_RegQueryInfoKeyA;
+        else if (!strcmp(lpProcName, "RegQueryValueExA"))
+            return (FARPROC)Hooks_RegQueryValueExA;
+        else if (!strcmp(lpProcName, "OutputDebugStringA"))
+            return (FARPROC)Hooks_OutputDebugStringA;
+        else if (!strcmp(lpProcName, "GetFileVersionInfoA"))
+            return (FARPROC)Hooks_GetFileVersionInfoA;
+        else if (!strcmp(lpProcName, "GetFileVersionInfoW"))
+            return (FARPROC)Hooks_GetFileVersionInfoW;
+        else if (!strcmp(lpProcName, "GetFileVersionInfoSizeA"))
+            return (FARPROC)Hooks_GetFileVersionInfoSizeA;
+        else if (!strcmp(lpProcName, "GetFileVersionInfoSizeW"))
+            return (FARPROC)Hooks_GetFileVersionInfoSizeW;
+        else if (!strcmp(lpProcName, "GetFileSize"))
+            return (FARPROC)Hooks_GetFileSize;
+        else if (!strcmp(lpProcName, "GetFileSizeEx"))
+            return (FARPROC)Hooks_GetFileSizeEx;
+        else if (!strcmp(lpProcName, "GetWindowInfo"))
+            return (FARPROC)Hooks_GetWindowInfo;
+        else if (!strcmp(lpProcName, "GetWindowsDirectoryA"))
+            return (FARPROC)Hooks_GetWindowsDirectoryA;
+        else if (!strcmp(lpProcName, "GetWindowsDirectoryW"))
+            return (FARPROC)Hooks_GetWindowsDirectoryW;
+        else if (!strcmp(lpProcName, "GetModuleHandleA"))
+            return (FARPROC)Hooks_GetModuleHandleA;
+        else if (!strcmp(lpProcName, "AddVectoredExceptionHandler"))
+            return (FARPROC)Hooks_AddVectoredExceptionHandler;
+        else if (!strcmp(lpProcName, "AdjustTokenPrivileges"))
+            return (FARPROC)Hooks_AdjustTokenPrivileges;
+        else if (!strcmp(lpProcName, "CertGetNameStringW"))
+            return (FARPROC)Hooks_CertGetNameStringW;
+        else if (!strcmp(lpProcName, "CreateFileA"))
+            return (FARPROC)Hooks_CreateFileA;
+        else if (!strcmp(lpProcName, "CreateFileW"))
+            return (FARPROC)Hooks_CreateFileW;
+        else if (!strcmp(lpProcName, "GetCurrentProcess"))
+            return (FARPROC)Hooks_GetCurrentProcess;
+        else if (!strcmp(lpProcName, "GetCurrentProcessId"))
+            return (FARPROC)Hooks_GetCurrentProcessId;
+        else if (!strcmp(lpProcName, "GetCurrentThread"))
+            return (FARPROC)Hooks_GetCurrentThread;
+        else if (!strcmp(lpProcName, "GetCurrentThreadId"))
+            return (FARPROC)Hooks_GetCurrentThreadId;
+        else if (!strcmp(lpProcName, "CreateToolhelp32Snapshot"))
+            return (FARPROC)Hooks_CreateToolhelp32Snapshot;
+        else if (!strcmp(lpProcName, "EnumChildWindows"))
+            return (FARPROC)Hooks_EnumChildWindows;
+        else if (!strcmp(lpProcName, "EnumProcesses"))
+            return (FARPROC)Hooks_EnumProcesses;
+        else if (!strcmp(lpProcName, "EnumWindows"))
+            return (FARPROC)Hooks_EnumWindows;
+        else if (!strcmp(lpProcName, "GetProcessTimes"))
+            return (FARPROC)Hooks_GetProcessTimes;
+        else if (!strcmp(lpProcName, "WaitForSingleObject"))
+            return (FARPROC)Hooks_WaitForSingleObject;
+        else if (!strcmp(lpProcName, "VirtualAlloc"))
+            return (FARPROC)Hooks_VirtualAlloc;
+        else if (!strcmp(lpProcName, "VirtualAllocEx"))
+            return (FARPROC)Hooks_VirtualAllocEx;
+        else if (!strcmp(lpProcName, "VirtualFree"))
+            return (FARPROC)Hooks_VirtualFree;
+        else if (!strcmp(lpProcName, "VirtualFreeEx"))
+            return (FARPROC)Hooks_VirtualFreeEx;
+        else if (!strcmp(lpProcName, "VirtualProtect"))
+            return (FARPROC)Hooks_VirtualProtect;
+        else if (!strcmp(lpProcName, "VirtualQuery"))
+            return (FARPROC)Hooks_VirtualQuery;
+        else if (!strcmp(lpProcName, "VirtualQueryEx"))
+            return (FARPROC)Hooks_VirtualQueryEx;
+        else if (!strcmp(lpProcName, "SuspendThread"))
+            return (FARPROC)Hooks_SuspendThread;
+        else if (!strcmp(lpProcName, "SwitchToThread"))
+            return (FARPROC)Hooks_SwitchToThread;
+        else if (!strcmp(lpProcName, "Wow64EnableWow64FsRedirection"))
+            return (FARPROC)Hooks_Wow64EnableWow64FsRedirection;
+        else if (!strcmp(lpProcName, "WinVerifyTrust"))
+            return (FARPROC)Hooks_WinVerifyTrust;
+        else if (!strcmp(lpProcName, "Sleep"))
+            return (FARPROC)Hooks_Sleep;
+        else if (!strcmp(lpProcName, "CreateFileMappingW"))
+            return (FARPROC)Hooks_CreateFileMappingW;
+        else if (!strcmp(lpProcName, "OpenProcessToken"))
+            return (FARPROC)Hooks_OpenProcessToken;
+        else if (!strcmp(lpProcName, "EnumServicesStatusA"))
+            return (FARPROC)Hooks_EnumServicesStatusA;
+        else if (!strcmp(lpProcName, "EnumServicesStatusW"))
+            return (FARPROC)Hooks_EnumServicesStatusW;
+        else if (!strcmp(lpProcName, "FindFirstVolumeW"))
+            return (FARPROC)Hooks_FindFirstVolumeW;
+        else if (!strcmp(lpProcName, "FindNextVolumeW"))
+            return (FARPROC)Hooks_FindNextVolumeW;
+        else if (!strcmp(lpProcName, "FlushInstructionCache"))
+            return (FARPROC)Hooks_FlushInstructionCache;
+        else if (!strcmp(lpProcName, "GetVolumePathNamesForVolumeNameW"))
+            return (FARPROC)Hooks_GetVolumePathNamesForVolumeNameW;
+        else if (!strcmp(lpProcName, "GetWindowThreadProcessId"))
+            return (FARPROC)Hooks_GetWindowThreadProcessId;
+        else if (!strcmp(lpProcName, "Heap32First"))
+            return (FARPROC)Hooks_Heap32First;
+        else if (!strcmp(lpProcName, "NtQuerySystemInformation"))
+            return (FARPROC)Hooks_NtQuerySystemInformation;
+        else if (!strcmp(lpProcName, "ConvertSidToStringSidA"))
+            return (FARPROC)Hooks_ConvertSidToStringSidA;
+        else if (!strcmp(lpProcName, "CryptMsgGetParam"))
+            return (FARPROC)Hooks_CryptMsgGetParam;
+        else if (!strcmp(lpProcName, "NtQueryInformationProcess"))
+            return (FARPROC)Hooks_NtQueryInformationProcess;
+        else if (!strcmp(lpProcName, "EncodePointer"))
+            return (FARPROC)Hooks_EncodePointer;
+        else if (!strcmp(lpProcName, "NtQueryInformationThread"))
+            return (FARPROC)Hooks_NtQueryInformationThread;
+        else if (!strcmp(lpProcName, "OpenSCManagerA"))
+            return (FARPROC)Hooks_OpenSCManagerA;
+        else if (!strcmp(lpProcName, "OpenThread"))
+            return (FARPROC)Hooks_OpenThread;
+        else if (!strcmp(lpProcName, "Process32FirstW"))
+            return (FARPROC)Hooks_Process32FirstW;
+        else if (!strcmp(lpProcName, "Process32NextW"))
+            return (FARPROC)Hooks_Process32NextW;
+        else if (!strcmp(lpProcName, "WriteFile"))
+            return (FARPROC)Hooks_WriteFile;
+        else if (!strcmp(lpProcName, "NtQueryVirtualMemory"))
+            return (FARPROC)Hooks_NtQueryVirtualMemory;
+        else if (!strcmp(lpProcName, "SetLastError"))
+            return (FARPROC)Hooks_SetLastError;
+        else if (!strcmp(lpProcName, "SetThreadAffinityMask"))
+            return (FARPROC)Hooks_SetThreadAffinityMask;
+        else if (!strcmp(lpProcName, "Thread32First"))
+            return (FARPROC)Hooks_Thread32First;
+        else if (!strcmp(lpProcName, "Thread32Next"))
+            return (FARPROC)Hooks_Thread32Next;
+        else if (!strcmp(lpProcName, "NtQueryObject"))
+            return (FARPROC)Hooks_NtQueryObject;
+        else if (!strcmp(lpProcName, "NtFsControlFile"))
+            return (FARPROC)Hooks_NtFsControlFile;
+        else if (!strcmp(lpProcName, "GetThreadContext"))
+            return (FARPROC)Hooks_GetThreadContext;
+        else if (!strcmp(lpProcName, "GetTokenInformation"))
+            return (FARPROC)Hooks_GetTokenInformation;
+        else if (!strcmp(lpProcName, "GetUserProfileDirectoryA"))
+            return (FARPROC)Hooks_GetUserProfileDirectoryA;
+        else if (!strcmp(lpProcName, "GetUserProfileDirectoryW"))
+            return (FARPROC)Hooks_GetUserProfileDirectoryW;
+        else if (!strcmp(lpProcName, "NtDuplicateObject"))
+            return (FARPROC)Hooks_NtDuplicateObject;
+        else if (!strcmp(lpProcName, "OpenFileMappingW"))
+            return (FARPROC)Hooks_OpenFileMappingW;
+        else if (!strcmp(lpProcName, "RtlDecompressBufferEx"))
+            return (FARPROC)Hooks_RtlDecompressBufferEx;
+        else if (!strcmp(lpProcName, "GetTcpTable"))
+            return (FARPROC)Hooks_GetTcpTable;
+        else if (!strcmp(lpProcName, "CloseHandle"))
+            return (FARPROC)Hooks_CloseHandle;
+        else if (!strcmp(lpProcName, "SetFilePointer"))
+            return (FARPROC)Hooks_SetFilePointer;
+        else if (!strcmp(lpProcName, "OpenFileById"))
+            return (FARPROC)Hooks_OpenFileById;
+        else if (!strcmp(lpProcName, "GetMappedFileNameA"))
+            return (FARPROC)Hooks_GetMappedFileNameA;
+        else if (!strcmp(lpProcName, "GetMappedFileNameW"))
+            return (FARPROC)Hooks_GetMappedFileNameW;
+        else if (!strcmp(lpProcName, "SetFilePointerEx"))
+            return (FARPROC)Hooks_SetFilePointerEx;
+        else if (!strcmp(lpProcName, "ResumeThread"))
+            return (FARPROC)Hooks_ResumeThread;
+        else if (!strcmp(lpProcName, "SymGetModuleBase64"))
+            return (FARPROC)Hooks_SymGetModuleBase64;
+        else if (!strcmp(lpProcName, "GetProcessId"))
+            return (FARPROC)Hooks_GetProcessId;
+        else if (!strcmp(lpProcName, "IsBadReadPtr"))
+            return (FARPROC)Hooks_IsBadReadPtr;
+        else if (!strcmp(lpProcName, "ReadFile"))
+            return (FARPROC)Hooks_ReadFile;
+        else if (!strcmp(lpProcName, "GetThreadId"))
+            return (FARPROC)Hooks_GetThreadId;
+        else if (!strcmp(lpProcName, "LocalAlloc"))
+            return (FARPROC)Hooks_LocalAlloc;
+        else if (!strcmp(lpProcName, "GetModuleInformation"))
+            return (FARPROC)Hooks_GetModuleInformation;
+        else if (!strcmp(lpProcName, "IsWow64Process"))
+            return (FARPROC)Hooks_IsWow64Process;
+        else if (!strcmp(lpProcName, "GetSystemDirectoryA"))
+            return (FARPROC)Hooks_GetSystemDirectoryA;
+        else if (!strcmp(lpProcName, "GetSystemDirectoryW"))
+            return (FARPROC)Hooks_GetSystemDirectoryW;
+        else if (!strcmp(lpProcName, "GetProcessHeap"))
+            return (FARPROC)Hooks_GetProcessHeap;
+        else if (!strcmp(lpProcName, "MapViewOfFile"))
+            return (FARPROC)Hooks_MapViewOfFile;
+        else if (!strcmp(lpProcName, "UnmapViewOfFile"))
+            return (FARPROC)Hooks_UnmapViewOfFile;
+        else if (!strcmp(lpProcName, "GetVolumeInformationByHandleW"))
+            return (FARPROC)Hooks_GetVolumeInformationByHandleW;
+        else if (!strcmp(lpProcName, "EnumProcessModules"))
+            return (FARPROC)Hooks_EnumProcessModules;
+        else if (!strcmp(lpProcName, "GetTickCount"))
+            return (FARPROC)Hooks_GetTickCount;
+        else if (!strcmp(lpProcName, "SetupDiGetClassDevsA"))
+            return (FARPROC)Hooks_SetupDiGetClassDevsA;
+        else if (!strcmp(lpProcName, "SetupDiEnumDeviceInfo"))
+            return (FARPROC)Hooks_SetupDiEnumDeviceInfo;
+        else if (!strcmp(lpProcName, "HeapAlloc"))
+            return (FARPROC)Hooks_HeapAlloc;
+        else if (!strcmp(lpProcName, "HeapFree"))
+            return (FARPROC)Hooks_HeapFree;
+        else if (!strcmp(lpProcName, "FindVolumeClose"))
+            return (FARPROC)Hooks_FindVolumeClose;
+        else if (!strcmp(lpProcName, "NtReadVirtualMemory"))
+            return (FARPROC)Hooks_NtReadVirtualMemory;
+        else if (!strcmp(lpProcName, "NtOpenDirectoryObject"))
+            return (FARPROC)Hooks_NtOpenDirectoryObject;
+        else if (!strcmp(lpProcName, "LocalFree"))
+            return (FARPROC)Hooks_LocalFree;
+        else if (!strcmp(lpProcName, "OpenServiceA"))
+            return (FARPROC)Hooks_OpenServiceA;
+        else if (!strcmp(lpProcName, "OpenServiceW"))
+            return (FARPROC)Hooks_OpenServiceW;
+        else if (!strcmp(lpProcName, "GetSystemTimeAsFileTime"))
+            return (FARPROC)Hooks_GetSystemTimeAsFileTime;
+        else if (!strcmp(lpProcName, "OpenEventLogA"))
+            return (FARPROC)Hooks_OpenEventLogA;
+        else if (!strcmp(lpProcName, "ReadEventLogA"))
+            return (FARPROC)Hooks_ReadEventLogA;
+        else if (!strcmp(lpProcName, "CloseEventLog"))
+            return (FARPROC)Hooks_CloseEventLog;
+        else if (!strcmp(lpProcName, "QueryDosDeviceA"))
+            return (FARPROC)Hooks_QueryDosDeviceA;
+        else if (!strcmp(lpProcName, "QueryDosDeviceW"))
+            return (FARPROC)Hooks_QueryDosDeviceW;
+        else if (!strcmp(lpProcName, "GetLastError"))
+            return (FARPROC)Hooks_GetLastError;
+        else if (!strcmp(lpProcName, "GetFileInformationByHandle"))
+            return (FARPROC)Hooks_GetFileInformationByHandle;
+        else if (!strcmp(lpProcName, "GetFileInformationByHandleEx"))
+            return (FARPROC)Hooks_GetFileInformationByHandleEx;
+        else if (!strcmp(lpProcName, "CloseServiceHandle"))
+            return (FARPROC)Hooks_CloseServiceHandle;
+        else if (!strcmp(lpProcName, "QueryServiceConfigA"))
+            return (FARPROC)Hooks_QueryServiceConfigA;
+        else if (!strcmp(lpProcName, "QueryServiceConfigW"))
+            return (FARPROC)Hooks_QueryServiceConfigW;
+        else if (!strcmp(lpProcName, "WinVerifyTrustEx"))
+            return (FARPROC)Hooks_WinVerifyTrustEx;
+        else if (!strcmp(lpProcName, "LoadLibraryA"))
+            return (FARPROC)Hooks_LoadLibraryA;
+        else if (!strcmp(lpProcName, "GetVolumeInformationW"))
+            return (FARPROC)Hooks_GetVolumeInformationW;
+        else if (!strcmp(lpProcName, "LoadLibraryExA"))
+            return (FARPROC)Hooks_LoadLibraryExA;
+        else if (!strcmp(lpProcName, "FreeLibrary"))
+            return (FARPROC)Hooks_FreeLibrary;
+        else if (!strcmp(lpProcName, "NtOpenSection"))
+            return (FARPROC)Hooks_NtOpenSection;
+        else if (!strcmp(lpProcName, "NtQuerySection"))
+            return (FARPROC)Hooks_NtQuerySection;
+        else if (!strcmp(lpProcName, "GetLogicalDriveStringsA"))
+            return (FARPROC)Hooks_GetLogicalDriveStringsA;
+        else if (!strcmp(lpProcName, "GetLogicalDriveStringsW"))
+            return (FARPROC)Hooks_GetLogicalDriveStringsW;
+        else if (!strcmp(lpProcName, "GetModuleHandleExA"))
+            return (FARPROC)Hooks_GetModuleHandleExA;
+        else if (!strcmp(lpProcName, "Module32FirstW"))
+            return (FARPROC)Hooks_Module32FirstW;
+        else if (!strcmp(lpProcName, "Module32NextW"))
+            return (FARPROC)Hooks_Module32NextW;
+        else if (!strcmp(lpProcName, "SetupDiDestroyDeviceInfoList"))
+            return (FARPROC)Hooks_SetupDiDestroyDeviceInfoList;
+        else if (!strcmp(lpProcName, "SymFunctionTableAccess64"))
+            return (FARPROC)Hooks_SymFunctionTableAccess64;
+        else if (!strcmp(lpProcName, "GetUdpTable"))
+            return (FARPROC)Hooks_GetUdpTable;
+        else if (!strcmp(lpProcName, "CryptDecodeObject"))
+            return (FARPROC)Hooks_CryptDecodeObject;
+        else if (!strcmp(lpProcName, "CryptMsgClose"))
+            return (FARPROC)Hooks_CryptMsgClose;
+        else if (!strcmp(lpProcName, "CertFindCertificateInStore"))
+            return (FARPROC)Hooks_CertFindCertificateInStore;
+        else if (!strcmp(lpProcName, "CertCloseStore"))
+            return (FARPROC)Hooks_CertCloseStore;
+        else if (!strcmp(lpProcName, "NtMapViewOfSection"))
+            return (FARPROC)Hooks_NtMapViewOfSection;
+        else if (!strcmp(lpProcName, "VerQueryValueA"))
+            return (FARPROC)Hooks_VerQueryValueA;
+        else if (!strcmp(lpProcName, "VerQueryValueW"))
+            return (FARPROC)Hooks_VerQueryValueW;
+        else if (!strcmp(lpProcName, "CryptQueryObject"))
+            return (FARPROC)Hooks_CryptQueryObject;
+        else if (!strcmp(lpProcName, "LookupPrivilegeValueA"))
+            return (FARPROC)Hooks_LookupPrivilegeValueA;
+        else if (!strcmp(lpProcName, "NtClose"))
+            return (FARPROC)Hooks_NtClose;
+        else if (!strcmp(lpProcName, "CompareStringW"))
+            return (FARPROC)Hooks_CompareStringW;
+        else if (!strcmp(lpProcName, "StackWalk64"))
+            return (FARPROC)Hooks_StackWalk64;
+        else if (!strcmp(lpProcName, "WideCharToMultiByte"))
+            return (FARPROC)Hooks_WideCharToMultiByte;
+        else if (!strcmp(lpProcName, "GetVersionExA"))
+            return (FARPROC)Hooks_GetVersionExA;
+        else if (!strcmp(lpProcName, "GetVersionExW"))
+            return (FARPROC)Hooks_GetVersionExW;
+        else if (!strcmp(lpProcName, "SetupDiGetDeviceRegistryPropertyA"))
+            return (FARPROC)Hooks_SetupDiGetDeviceRegistryPropertyA;
+        else if (!strcmp(lpProcName, "CryptHashCertificate"))
+            return (FARPROC)Hooks_CryptHashCertificate;
+        else if (!strcmp(lpProcName, "CertFreeCertificateContext"))
+            return (FARPROC)Hooks_CertFreeCertificateContext;
+        else if (!strcmp(lpProcName, "GetSystemInfo"))
+            return (FARPROC)Hooks_GetSystemInfo;
+        else if (!strcmp(lpProcName, "NtQueryDirectoryObject"))
+            return (FARPROC)Hooks_NtQueryDirectoryObject;
+        else if (!strcmp(lpProcName, "RtlGetCompressionWorkSpaceSize"))
+            return (FARPROC)Hooks_RtlGetCompressionWorkSpaceSize;
+        else if (!strcmp(lpProcName, "lstrlenW"))
+            return (FARPROC)Hooks_lstrlenW;
+        else if (!strcmp(lpProcName, "lstrcatW"))
+            return (FARPROC)Hooks_lstrcatW;
+        else if (!strcmp(lpProcName, "NtWow64QueryVirtualMemory64"))
+            return (FARPROC)Hooks_NtWow64QueryVirtualMemory64;
+        Utils_log("Function not hooked: %s\n", lpProcName);
+    } else {
+        Utils_log("Function not found: %s\n", lpProcName);
+    }
     return result;
 }
 
