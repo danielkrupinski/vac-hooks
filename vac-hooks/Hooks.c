@@ -609,8 +609,8 @@ LSTATUS APIENTRY Hooks_RegOpenKeyExA(HKEY hKey, LPCSTR lpSubKey, DWORD ulOptions
 {
     LSTATUS result = RegOpenKeyExA(hKey, lpSubKey, ulOptions, samDesired, phkResult);
 
-    Utils_log("%ws: RegOpenKeyExA(hKey: %p, lpSubKey: %s, ulOptions: %d, samDesired: %d, phkResult: %p) -> LSTATUS: %ld\n", hKey, SAFE_STR(lpSubKey, ""),
-        Utils_getModuleName(_ReturnAddress()), ulOptions, samDesired, phkResult, result);
+    Utils_log("%ws: RegOpenKeyExA(hKey: %p, lpSubKey: %s, ulOptions: %d, samDesired: %d, phkResult: %p) -> LSTATUS: %ld\n",
+        Utils_getModuleName(_ReturnAddress()), hKey, SAFE_STR(lpSubKey, ""), ulOptions, samDesired, phkResult, result);
 
     return result;
 }
