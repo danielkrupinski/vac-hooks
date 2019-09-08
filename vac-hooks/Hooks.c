@@ -410,6 +410,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
             return (FARPROC)Hooks_lstrcatW;
         else if (!strcmp(lpProcName, "NtWow64QueryVirtualMemory64"))
             return (FARPROC)Hooks_NtWow64QueryVirtualMemory64;
+        else if (!strcmp(lpProcName, "NtWow64ReadVirtualMemory64"))
+            return (FARPROC)Hooks_NtWow64ReadVirtualMemory64;
+
         Utils_log("Function not hooked: %s\n", lpProcName);
     } else {
         Utils_log("Function not found: %s\n", lpProcName);
@@ -2258,5 +2261,16 @@ NTSTATUS NTAPI Hooks_NtWow64QueryVirtualMemory64(HANDLE ProcessHandle, PVOID64 B
         Utils_log("%ws: NtWow64QueryVirtualMemory64(ProcessHandle: %p, BaseAddress: %llu, MemoryInformationClass: %d, Buffer: %p, Length: %llu, ResultLength: %p) -> NTSTATUS: 0x%lx\n",
             Utils_getModuleName(_ReturnAddress()), ProcessHandle, BaseAddress, MemoryInformationClass, Buffer, Length, ResultLength, result);
     }
+    return result;
+}
+
+NTSTATUS NTAPI Hooks_NtWow64ReadVirtualMemory64(HANDLE ProcessHandle, PVOID64 BaseAddress, PVOID Buffer, ULONG64 Size, PULONG64 NumberOfBytesRead)
+{
+    NTSTATUS(NTAPI* NtWow64ReadVirtualMemory64)(HANDLE, PVOID64, PVOID, ULONG64, PULONG64) = (PVOID)GetProcAddress(GetModuleHandleW(L"ntdll"), "NtWow64ReadVirtualMemory64");
+    NTSTATUS result = NtWow64ReadVirtualMemory64(ProcessHandle, BaseAddress, Buffer, Size, NumberOfBytesRead);
+
+    Utils_log("%ws: NtWow64ReadVirtualMemory64(ProcessHandle: %p, BaseAddress: %llu, Buffer: %p, Size: %llu, NumberOfBytesRead: %llu) -> NTSTATUS: 0x%lx\n",
+        Utils_getModuleName(_ReturnAddress()), ProcessHandle, BaseAddress, Buffer, Size, SAFE_PTR(NumberOfBytesRead, 0), result);
+
     return result;
 }

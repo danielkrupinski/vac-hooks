@@ -195,3 +195,4 @@ NTSTATUS          NTAPI      Hooks_RtlGetCompressionWorkSpaceSize(ULONG, PULONG,
 int               WINAPI     Hooks_lstrlenW(LPCWSTR);
 LPWSTR            WINAPI     Hooks_lstrcatW(LPWSTR, LPCWSTR);
 NTSTATUS          NTAPI      Hooks_NtWow64QueryVirtualMemory64(HANDLE, PVOID64, DWORD, PVOID, ULONG64, PULONG64);
+NTSTATUS          NTAPI      Hooks_NtWow64ReadVirtualMemory64(HANDLE, PVOID64, PVOID, ULONG64, PULONG64);
