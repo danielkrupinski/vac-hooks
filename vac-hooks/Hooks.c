@@ -417,7 +417,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
             return (FARPROC)Hooks_NtWow64QueryInformationProcess64;
         else if (!strcmp(lpProcName, "GetTcp6Table"))
             return (FARPROC)Hooks_GetTcp6Table;
-
+        else if (!strcmp(lpProcName, "GetUdp6Table"))
+            return (FARPROC)Hooks_GetUdp6Table;
+            
         Utils_log("Function not hooked: %s\n", lpProcName);
     } else {
         Utils_log("Function not found: %s\n", lpProcName);
@@ -2297,6 +2299,16 @@ ULONG WINAPI Hooks_GetTcp6Table(PMIB_TCP6TABLE TcpTable, PULONG SizePointer, BOO
 
     Utils_log("%ws: GetTcp6Table(TcpTable: %p, SizePointer: %lu, Order: %d) -> ULONG: %lu\n",
         Utils_getModuleName(_ReturnAddress()), TcpTable, SAFE_PTR(SizePointer, 0), Order, result);
+
+    return result;
+}
+
+ULONG WINAPI Hooks_GetUdp6Table(PMIB_UDP6TABLE Udp6Table, PULONG SizePointer, BOOL Order)
+{
+    ULONG result = GetUdp6Table(Udp6Table, SizePointer, Order);
+
+    Utils_log("%ws: GetUdp6Table(Udp6Table: %p, SizePointer: %lu, Order: %d) -> ULONG: %lu\n",
+        Utils_getModuleName(_ReturnAddress()), Udp6Table, SAFE_PTR(SizePointer, 0), Order, result);
 
     return result;
 }
