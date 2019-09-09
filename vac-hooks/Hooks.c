@@ -415,7 +415,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
             return (FARPROC)Hooks_NtWow64ReadVirtualMemory64;
         else if (!strcmp(lpProcName, "NtWow64QueryInformationProcess64"))
             return (FARPROC)Hooks_NtWow64QueryInformationProcess64;
-            
+        else if (!strcmp(lpProcName, "GetTcp6Table"))
+            return (FARPROC)Hooks_GetTcp6Table;
+
         Utils_log("Function not hooked: %s\n", lpProcName);
     } else {
         Utils_log("Function not found: %s\n", lpProcName);
@@ -2285,6 +2287,16 @@ NTSTATUS NTAPI Hooks_NtWow64QueryInformationProcess64(HANDLE ProcessHandle, PROC
 
     Utils_log("%ws: NtWow64QueryInformationProcess64(ProcessHandle: %p, ProcessInformationClass: %d, ProcessInformation: %p, ProcessInformationLength: %lu, ReturnLength: %lu) -> NTSTATUS: 0x%lx\n",
         Utils_getModuleName(_ReturnAddress()), ProcessHandle, ProcessInformationClass, ProcessInformation, ProcessInformationLength, SAFE_PTR(ReturnLength, 0), result);
+
+    return result;
+}
+
+ULONG WINAPI Hooks_GetTcp6Table(PMIB_TCP6TABLE TcpTable, PULONG SizePointer, BOOL Order)
+{
+    ULONG result = GetTcp6Table(TcpTable, SizePointer, Order);
+
+    Utils_log("%ws: GetTcp6Table(TcpTable: %p, SizePointer: %lu, Order: %d) -> ULONG: %lu\n",
+        Utils_getModuleName(_ReturnAddress()), TcpTable, SAFE_PTR(SizePointer, 0), Order, result);
 
     return result;
 }
