@@ -1,8 +1,10 @@
 #pragma once
 
-#include <dbghelp.h>
-#include <Windows.h>
+#include <WinSock2.h>
+#include <WS2tcpip.h>
 #include <iphlpapi.h>
+#include <Windows.h>
+#include <dbghelp.h>
 #include <Psapi.h>
 #define SECURITY_WIN32
 #include <security.h>

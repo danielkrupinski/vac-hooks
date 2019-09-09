@@ -1,5 +1,3 @@
-#include <Windows.h>
-
 #include "Hooks.h"
 #include "Utils.h"
 

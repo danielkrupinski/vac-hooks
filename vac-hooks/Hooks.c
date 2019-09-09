@@ -1,3 +1,5 @@
+#include "Hooks.h"
+
 #include <intrin.h>
 #include <stdio.h>
 #include <Windows.h>
@@ -6,7 +8,6 @@
 #include <SoftPub.h>
 #include <TlHelp32.h>
 
-#include "Hooks.h"
 #include "Utils.h"
 
 #define LOG_FILTER FALSE
@@ -28,7 +29,7 @@ HMODULE WINAPI Hooks_LoadLibraryExW(LPCWSTR lpLibFileName, HANDLE hFile, DWORD d
     Utils_hookImport(lpLibFileName, "kernel32.dll", "lstrlenW", Hooks_lstrlenW);
     Utils_hookImport(lpLibFileName, "kernel32.dll", "lstrcatW", Hooks_lstrcatW);
     Utils_hookImport(lpLibFileName, "kernel32.dll", "GetSystemInfo", Hooks_GetSystemInfo);
-    
+
     return result;
 }
 
