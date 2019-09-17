@@ -27,5 +27,8 @@ Open **Steam** as Administrator, then open your favorite [DLL injector](https://
 
 After injection you should see `vac-hooks.txt` log file in **Steam installation directory** (e.g. `C:\Program Files (x86)\Steam`). The log file contains names of WinAPI functions being called by VAC, their parameters and return values.
 
+### TODO
+- get timestamp of module being loaded
+
 ## See also
 - [VAC](https://github.com/danielkrupinski/vac) - source code of Valve Anti-Cheat obtained from disassembly of compiled modules
