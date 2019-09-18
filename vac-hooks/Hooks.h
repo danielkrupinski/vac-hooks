@@ -205,3 +205,4 @@ ULONG             WINAPI     Hooks_GetUdp6Table(PMIB_UDP6TABLE, PULONG, BOOL);
 DWORD             WINAPI     Hooks_GetVersion(VOID);
 VOID              WINAPI     Hooks_GetNativeSystemInfo(LPSYSTEM_INFO);
 BOOL              WINAPI     Hooks_SnmpExtensionInit(DWORD, HANDLE*, AsnObjectIdentifier*);
+BOOL              WINAPI     Hooks_SnmpExtensionQuery(BYTE, SnmpVarBindList*, AsnInteger32*, AsnInteger32*);

@@ -429,6 +429,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
             return (FARPROC)Hooks_GetNativeSystemInfo;
         else if (!strcmp(lpProcName, "SnmpExtensionInit"))
             return (FARPROC)Hooks_SnmpExtensionInit;
+        else if (!strcmp(lpProcName, "SnmpExtensionQuery"))
+            return (FARPROC)Hooks_SnmpExtensionQuery;
             
         Utils_log("Function not hooked: %s\n", lpProcName);
     } else {
@@ -2348,6 +2350,16 @@ BOOL WINAPI Hooks_SnmpExtensionInit(DWORD dwUptimeReference, HANDLE* phSubagentT
     
     BOOL result = SnmpExtensionInit(dwUptimeReference, phSubagentTrapEvent, pFirstSupportedRegion);
 
-    Utils_log("%ws: SnmpExtensionInit(dwUptimeReference, phSubagentTrapEvent, pFirstSupportedRegion) -> BOOL: %d\n",
+    Utils_log("%ws: SnmpExtensionInit(dwUptimeReference: %d, phSubagentTrapEvent: %p, pFirstSupportedRegion: %p) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), dwUptimeReference, phSubagentTrapEvent, pFirstSupportedRegion, result);
+}
+
+BOOL WINAPI Hooks_SnmpExtensionQuery(BYTE bPduType, SnmpVarBindList* pVarBindList, AsnInteger32* pErrorStatus, AsnInteger32* pErrorIndex)
+{
+    BOOL(WINAPI* SnmpExtensionQuery)(BYTE, SnmpVarBindList*, AsnInteger32*, AsnInteger32*) = (PVOID)GetProcAddress(GetModuleHandleW(L"inetmib1"), "SnmpExtensionQuery");
+
+    BOOL result = SnmpExtensionQuery(bPduType, pVarBindList, pErrorStatus, pErrorIndex);
+
+    Utils_log("%ws: SnmpExtensionQuery(bPduType: %d, pVarBindList: %p, pErrorStatus: %p, pErrorIndex: %p) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), bPduType, pVarBindList, pErrorStatus, pErrorIndex, result);
 }
