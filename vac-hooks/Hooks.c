@@ -433,6 +433,8 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
             return (FARPROC)Hooks_SnmpExtensionQuery;
         else if (!strcmp(lpProcName, "SnmpUtilMemAlloc"))
             return (FARPROC)Hooks_SnmpUtilMemAlloc;
+        else if (!strcmp(lpProcName, "SnmpUtilVarBindFree"))
+            return (FARPROC)Hooks_SnmpUtilVarBindFree;
 
         Utils_log("Function not hooked: %s\n", lpProcName);
     } else {
@@ -2380,4 +2382,14 @@ LPVOID WINAPI Hooks_SnmpUtilMemAlloc(UINT nBytes)
         Utils_getModuleName(_ReturnAddress()), nBytes, result);
 
     return result;
+}
+
+VOID WINAPI Hooks_SnmpUtilVarBindFree(SnmpVarBind* pVb)
+{
+    VOID(WINAPI* SnmpUtilVarBindFree)(SnmpVarBind*) = (PVOID)GetProcAddress(GetModuleHandleW(L"snmpapi"), "SnmpUtilVarBindFree");
+
+    SnmpUtilVarBindFree(pVb);
+
+    Utils_log("%ws: SnmpUtilVarBindFree(pVb: %p) -> VOID\n",
+        Utils_getModuleName(_ReturnAddress()), pVb);
 }
