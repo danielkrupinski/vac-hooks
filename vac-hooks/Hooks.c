@@ -425,7 +425,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
             return (FARPROC)Hooks_GetUdp6Table;
         else if (!strcmp(lpProcName, "GetVersion"))
             return (FARPROC)Hooks_GetVersion;
- 
+        else if (!strcmp(lpProcName, "GetNativeSystemInfo"))
+            return (FARPROC)Hooks_GetNativeSystemInfo;
+
         Utils_log("Function not hooked: %s\n", lpProcName);
     } else {
         Utils_log("Function not found: %s\n", lpProcName);
@@ -2328,4 +2330,12 @@ DWORD WINAPI Hooks_GetVersion(VOID)
         Utils_getModuleName(_ReturnAddress()), result);
 
     return result;
+}
+
+VOID WINAPI Hooks_GetNativeSystemInfo(LPSYSTEM_INFO lpSystemInfo)
+{
+    GetNativeSystemInfo(lpSystemInfo);
+
+    Utils_log("%ws: GetNativeSystemInfo(lpSystemInfo: %p) -> VOID\n",
+        Utils_getModuleName(_ReturnAddress()), lpSystemInfo);
 }

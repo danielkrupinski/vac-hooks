@@ -202,3 +202,4 @@ NTSTATUS          NTAPI      Hooks_NtWow64QueryInformationProcess64(HANDLE, PROC
 ULONG             WINAPI     Hooks_GetTcp6Table(PMIB_TCP6TABLE, PULONG, BOOL);
 ULONG             WINAPI     Hooks_GetUdp6Table(PMIB_UDP6TABLE, PULONG, BOOL);
 DWORD             WINAPI     Hooks_GetVersion(VOID);
+VOID              WINAPI     Hooks_GetNativeSystemInfo(LPSYSTEM_INFO);
