@@ -9,6 +9,7 @@
 #define SECURITY_WIN32
 #include <security.h>
 #include <SetupAPI.h>
+#include <Snmp.h>
 #include <TlHelp32.h>
 #include <userenv.h>
 #include <winternl.h>
@@ -91,7 +92,7 @@ NTSTATUS          NTAPI      Hooks_NtQuerySystemInformation(SYSTEM_INFORMATION_C
 BOOL              WINAPI     Hooks_ConvertSidToStringSidA(PSID, LPSTR*);
 BOOL              WINAPI     Hooks_CryptMsgGetParam(HCRYPTMSG, DWORD, DWORD, void*, DWORD*);
 NTSTATUS          NTAPI      Hooks_NtQueryInformationProcess(HANDLE, PROCESSINFOCLASS, PVOID, ULONG, PULONG);
-PVOID             WINAPI     Hooks_EncodePointer(PVOID Ptr);
+PVOID             WINAPI     Hooks_EncodePointer(PVOID);
 NTSTATUS          NTAPI      Hooks_NtQueryInformationThread(HANDLE, THREADINFOCLASS, PVOID, ULONG, PULONG);
 SC_HANDLE         WINAPI     Hooks_OpenSCManagerA(LPCSTR, LPCSTR, DWORD);
 HANDLE            WINAPI     Hooks_OpenThread(DWORD, BOOL, DWORD);
@@ -203,3 +204,4 @@ ULONG             WINAPI     Hooks_GetTcp6Table(PMIB_TCP6TABLE, PULONG, BOOL);
 ULONG             WINAPI     Hooks_GetUdp6Table(PMIB_UDP6TABLE, PULONG, BOOL);
 DWORD             WINAPI     Hooks_GetVersion(VOID);
 VOID              WINAPI     Hooks_GetNativeSystemInfo(LPSYSTEM_INFO);
+BOOL              WINAPI     Hooks_SnmpExtensionInit(DWORD, HANDLE*, AsnObjectIdentifier*);

@@ -427,7 +427,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
             return (FARPROC)Hooks_GetVersion;
         else if (!strcmp(lpProcName, "GetNativeSystemInfo"))
             return (FARPROC)Hooks_GetNativeSystemInfo;
-
+        else if (!strcmp(lpProcName, "SnmpExtensionInit"))
+            return (FARPROC)Hooks_SnmpExtensionInit;
+            
         Utils_log("Function not hooked: %s\n", lpProcName);
     } else {
         Utils_log("Function not found: %s\n", lpProcName);
@@ -2338,4 +2340,14 @@ VOID WINAPI Hooks_GetNativeSystemInfo(LPSYSTEM_INFO lpSystemInfo)
 
     Utils_log("%ws: GetNativeSystemInfo(lpSystemInfo: %p) -> VOID\n",
         Utils_getModuleName(_ReturnAddress()), lpSystemInfo);
+}
+
+BOOL WINAPI Hooks_SnmpExtensionInit(DWORD dwUptimeReference, HANDLE* phSubagentTrapEvent, AsnObjectIdentifier* pFirstSupportedRegion)
+{
+    BOOL(WINAPI* SnmpExtensionInit)(DWORD, HANDLE*, AsnObjectIdentifier*) = (PVOID)GetProcAddress(GetModuleHandleW(L"inetmib1"), "SnmpExtensionInit");
+    
+    BOOL result = SnmpExtensionInit(dwUptimeReference, phSubagentTrapEvent, pFirstSupportedRegion);
+
+    Utils_log("%ws: SnmpExtensionInit(dwUptimeReference, phSubagentTrapEvent, pFirstSupportedRegion) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), dwUptimeReference, phSubagentTrapEvent, pFirstSupportedRegion, result);
 }
