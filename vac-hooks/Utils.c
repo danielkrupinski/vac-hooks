@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <Windows.h>
 #include <Psapi.h>
+#include <time.h>
 
 #include "Utils.h"
 
@@ -92,6 +93,21 @@ PCWSTR Utils_getModuleName(PVOID address)
         }
     }
     return L"?";
+}
+
+PCSTR Utils_getModuleTimestamp(PVOID module)
+{
+    PIMAGE_NT_HEADERS ntHeaders = (PIMAGE_NT_HEADERS)((PBYTE)module + ((PIMAGE_DOS_HEADER)module)->e_lfanew);
+    PIMAGE_DEBUG_DIRECTORY debugDirectory = (PIMAGE_DEBUG_DIRECTORY)((PBYTE)module + ntHeaders->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_DEBUG].VirtualAddress);
+
+    time_t timestamp = debugDirectory->TimeDateStamp;
+    struct tm time;
+    if (!localtime_s(&time, &timestamp)) {
+        static CHAR timestampString[26];
+        if (!asctime_s(timestampString, sizeof(timestampString), &time))
+            return timestampString;
+    }
+    return NULL;
 }
 
 UINT Utils_hashRuntime(PCSTR str)
