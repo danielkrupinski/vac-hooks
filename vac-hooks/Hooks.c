@@ -2352,6 +2352,8 @@ BOOL WINAPI Hooks_SnmpExtensionInit(DWORD dwUptimeReference, HANDLE* phSubagentT
 
     Utils_log("%ws: SnmpExtensionInit(dwUptimeReference: %d, phSubagentTrapEvent: %p, pFirstSupportedRegion: %p) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), dwUptimeReference, phSubagentTrapEvent, pFirstSupportedRegion, result);
+
+    return result;
 }
 
 BOOL WINAPI Hooks_SnmpExtensionQuery(BYTE bPduType, SnmpVarBindList* pVarBindList, AsnInteger32* pErrorStatus, AsnInteger32* pErrorIndex)
@@ -2362,4 +2364,6 @@ BOOL WINAPI Hooks_SnmpExtensionQuery(BYTE bPduType, SnmpVarBindList* pVarBindLis
 
     Utils_log("%ws: SnmpExtensionQuery(bPduType: %d, pVarBindList: %p, pErrorStatus: %p, pErrorIndex: %p) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), bPduType, pVarBindList, pErrorStatus, pErrorIndex, result);
+
+    return result;
 }
