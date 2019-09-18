@@ -19,6 +19,10 @@ HMODULE WINAPI Hooks_LoadLibraryExW(LPCWSTR lpLibFileName, HANDLE hFile, DWORD d
     Utils_log("%ws: LoadLibraryExW(lpLibFileName: %ws, hFile: %p, dwFlags: %d) -> HMODULE: %p\n",
         Utils_getModuleName(_ReturnAddress()), lpLibFileName, hFile, dwFlags, result);
 
+    PCSTR timestamp = Utils_getModuleTimestamp(result);
+    if (timestamp)
+        Utils_log("Loaded module %ws with timestamp: %s", lpLibFileName, timestamp);
+
     Utils_hookImport(lpLibFileName, "kernel32.dll", "GetProcAddress", Hooks_GetProcAddress);
     Utils_hookImport(lpLibFileName, "kernel32.dll", "VirtualAlloc", Hooks_VirtualAlloc);
     Utils_hookImport(lpLibFileName, "kernel32.dll", "VirtualFree", Hooks_VirtualFree);
@@ -2205,7 +2209,8 @@ BOOL WINAPI Hooks_CertFreeCertificateContext(PCCERT_CONTEXT pCertContext)
 VOID WINAPI Hooks_GetSystemInfo(LPSYSTEM_INFO lpSystemInfo)
 {
     GetSystemInfo(lpSystemInfo);
-    
+    //lpSystemInfo->dwPageSize = 0x1000 - 1;
+
     Utils_log("%ws: GetSystemInfo(lpSystemInfo: %p) -> VOID\n",
         Utils_getModuleName(_ReturnAddress()), lpSystemInfo);
 }
