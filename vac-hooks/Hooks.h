@@ -201,3 +201,4 @@ NTSTATUS          NTAPI      Hooks_NtWow64ReadVirtualMemory64(HANDLE, PVOID64, P
 NTSTATUS          NTAPI      Hooks_NtWow64QueryInformationProcess64(HANDLE, PROCESSINFOCLASS, PVOID, ULONG, PULONG);
 ULONG             WINAPI     Hooks_GetTcp6Table(PMIB_TCP6TABLE, PULONG, BOOL);
 ULONG             WINAPI     Hooks_GetUdp6Table(PMIB_UDP6TABLE, PULONG, BOOL);
+DWORD             WINAPI     Hooks_GetVersion(VOID);

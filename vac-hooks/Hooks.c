@@ -423,7 +423,9 @@ FARPROC WINAPI Hooks_GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
             return (FARPROC)Hooks_GetTcp6Table;
         else if (!strcmp(lpProcName, "GetUdp6Table"))
             return (FARPROC)Hooks_GetUdp6Table;
-            
+        else if (!strcmp(lpProcName, "GetVersion"))
+            return (FARPROC)Hooks_GetVersion;
+ 
         Utils_log("Function not hooked: %s\n", lpProcName);
     } else {
         Utils_log("Function not found: %s\n", lpProcName);
@@ -2209,7 +2211,6 @@ BOOL WINAPI Hooks_CertFreeCertificateContext(PCCERT_CONTEXT pCertContext)
 VOID WINAPI Hooks_GetSystemInfo(LPSYSTEM_INFO lpSystemInfo)
 {
     GetSystemInfo(lpSystemInfo);
-    //lpSystemInfo->dwPageSize = 0x1000 - 1;
 
     Utils_log("%ws: GetSystemInfo(lpSystemInfo: %p) -> VOID\n",
         Utils_getModuleName(_ReturnAddress()), lpSystemInfo);
@@ -2314,6 +2315,17 @@ ULONG WINAPI Hooks_GetUdp6Table(PMIB_UDP6TABLE Udp6Table, PULONG SizePointer, BO
 
     Utils_log("%ws: GetUdp6Table(Udp6Table: %p, SizePointer: %lu, Order: %d) -> ULONG: %lu\n",
         Utils_getModuleName(_ReturnAddress()), Udp6Table, SAFE_PTR(SizePointer, 0), Order, result);
+
+    return result;
+}
+
+DWORD WINAPI Hooks_GetVersion(VOID)
+{
+    extern DWORD(WINAPI GetVersion)(VOID);
+    DWORD result = GetVersion();
+
+    Utils_log("%ws: GetVersion() -> DWORD: %d\n",
+        Utils_getModuleName(_ReturnAddress()), result);
 
     return result;
 }
