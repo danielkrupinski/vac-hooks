@@ -206,3 +206,4 @@ DWORD             WINAPI     Hooks_GetVersion(VOID);
 VOID              WINAPI     Hooks_GetNativeSystemInfo(LPSYSTEM_INFO);
 BOOL              WINAPI     Hooks_SnmpExtensionInit(DWORD, HANDLE*, AsnObjectIdentifier*);
 BOOL              WINAPI     Hooks_SnmpExtensionQuery(BYTE, SnmpVarBindList*, AsnInteger32*, AsnInteger32*);
+LPVOID            WINAPI     Hooks_SnmpUtilMemAlloc(UINT);
