@@ -208,3 +208,4 @@ BOOL              WINAPI     Hooks_SnmpExtensionInit(DWORD, HANDLE*, AsnObjectId
 BOOL              WINAPI     Hooks_SnmpExtensionQuery(BYTE, SnmpVarBindList*, AsnInteger32*, AsnInteger32*);
 LPVOID            WINAPI     Hooks_SnmpUtilMemAlloc(UINT);
 VOID              WINAPI     Hooks_SnmpUtilVarBindFree(SnmpVarBind*);
+VOID              WINAPI     Hooks_SnmpExtensionClose(VOID);
