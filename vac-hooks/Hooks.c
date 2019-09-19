@@ -2368,8 +2368,8 @@ BOOL WINAPI Hooks_SnmpExtensionQuery(BYTE bPduType, SnmpVarBindList* pVarBindLis
 
     BOOL result = SnmpExtensionQuery(bPduType, pVarBindList, pErrorStatus, pErrorIndex);
 
-    Utils_log("%ws: SnmpExtensionQuery(bPduType: %d, pVarBindList: %p, pErrorStatus: %p, pErrorIndex: %p) -> BOOL: %d\n",
-        Utils_getModuleName(_ReturnAddress()), bPduType, pVarBindList, pErrorStatus, pErrorIndex, result);
+    Utils_log("%ws: SnmpExtensionQuery(bPduType: %d, pVarBindList: %p {asnType: %d, asnValue: %d}, pErrorStatus: %p, pErrorIndex: %p) -> BOOL: %d\n",
+        Utils_getModuleName(_ReturnAddress()), bPduType, pVarBindList, pVarBindList->list->value.asnType, pVarBindList->list->value.asnValue.number, pErrorStatus, pErrorIndex, result);
 
     return result;
 }
