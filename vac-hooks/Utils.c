@@ -102,7 +102,7 @@ PCSTR Utils_getModuleTimestamp(PVOID module)
 
     time_t timestamp = debugDirectory->TimeDateStamp;
     struct tm time;
-    if (!localtime_s(&time, &timestamp)) {
+    if (!gmtime_s(&time, &timestamp)) {
         static CHAR timestampString[26];
         if (!asctime_s(timestampString, sizeof(timestampString), &time))
             return timestampString;
