@@ -11,7 +11,9 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
             *toPatch = 0xEB;
             VirtualProtect(toPatch, 1, old, &old);
             Utils_hookImport(L"steamservice", "kernel32.dll", "LoadLibraryExW", Hooks_LoadLibraryExW);
-            MessageBoxW(NULL, L"Vac hooks loaded successfully!", L"Success", MB_OK | MB_ICONINFORMATION);
+            MessageBoxW(NULL, L"Loaded successfully!", L"VAC hooks", MB_OK | MB_ICONINFORMATION);
+        } else {
+            MessageBoxW(NULL, L"Something went wrong...", L"VAC hooks", MB_OK | MB_ICONERROR);
         }
         DisableThreadLibraryCalls(hModule);
     }
