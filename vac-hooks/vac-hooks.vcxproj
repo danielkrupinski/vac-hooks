@@ -177,6 +177,7 @@
     <ClCompile Include="Utils.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Functions.h" />
     <ClInclude Include="Hooks.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
