@@ -173,6 +173,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.c" />
+    <ClCompile Include="Functions.c" />
     <ClCompile Include="Hooks.c" />
     <ClCompile Include="Utils.c" />
   </ItemGroup>
