@@ -34,6 +34,7 @@ HMODULE WINAPI Hooks_LoadLibraryExW(LPCWSTR lpLibFileName, HANDLE hFile, DWORD d
     Utils_hookImport(lpLibFileName, "kernel32.dll", "lstrlenW", Hooks_lstrlenW);
     Utils_hookImport(lpLibFileName, "kernel32.dll", "lstrcatW", Hooks_lstrcatW);
     Utils_hookImport(lpLibFileName, "kernel32.dll", "GetSystemInfo", Hooks_GetSystemInfo);
+    Utils_hookImport(lpLibFileName, "kernel32.dll", "lstrcmpiW", Hooks_lstrcmpiW);
     Utils_hookImport(lpLibFileName, "user32.dll", "CharUpperW", Hooks_CharUpperW);
     
     return result;
@@ -2036,6 +2037,16 @@ LPWSTR WINAPI Hooks_CharUpperW(LPWSTR lpsz)
         Utils_log("%ws: CharUpperW(lpsz: %ws) -> LPWSTR: %wc\n",
             Utils_getModuleName(_ReturnAddress()), lpsz, result);
     }
+
+    return result;
+}
+
+int WINAPI Hooks_lstrcmpiW(LPCWSTR lpString1, LPCWSTR lpString2)
+{
+    int result = lstrcmpiW(lpString1, lpString2);
+
+    Utils_log("%ws: lstrcmpiW(lpString1: %ws, lpString2: %ws) -> int: %d\n",
+        Utils_getModuleName(_ReturnAddress()), lpString1, lpString2, result);
 
     return result;
 }
