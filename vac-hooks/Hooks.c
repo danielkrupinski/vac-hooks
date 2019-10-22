@@ -36,7 +36,8 @@ HMODULE WINAPI Hooks_LoadLibraryExW(LPCWSTR lpLibFileName, HANDLE hFile, DWORD d
     Utils_hookImport(lpLibFileName, "kernel32.dll", "GetSystemInfo", Hooks_GetSystemInfo);
     Utils_hookImport(lpLibFileName, "kernel32.dll", "lstrcmpiW", Hooks_lstrcmpiW);
     Utils_hookImport(lpLibFileName, "user32.dll", "CharUpperW", Hooks_CharUpperW);
-    
+    Utils_hookImport(lpLibFileName, "user32.dll", "wsprintfW", Hooks_wsprintfW);
+
     return result;
 }
 
@@ -2047,6 +2048,19 @@ int WINAPI Hooks_lstrcmpiW(LPCWSTR lpString1, LPCWSTR lpString2)
 
     Utils_log("%ws: lstrcmpiW(lpString1: %ws, lpString2: %ws) -> int: %d\n",
         Utils_getModuleName(_ReturnAddress()), lpString1, lpString2, result);
+
+    return result;
+}
+
+int WINAPIV Hooks_wsprintfW(LPWSTR buffer, LPCWSTR format, ...)
+{
+    va_list args;
+    va_start(args, format);
+    int result = wvsprintfW(buffer, format, args);
+    va_end(args);
+
+    Utils_log("%ws: wsprintfW(buffer: %ws, format: %ws) -> int: %d\n",
+        Utils_getModuleName(_ReturnAddress()), buffer, format, result);
 
     return result;
 }
