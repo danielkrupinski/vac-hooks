@@ -207,7 +207,7 @@ static CONST FunctionBinding functions[] = {
 
 FARPROC Functions_find(PCSTR name)
 {
-    for (int i = 0; i < sizeof(functions) / sizeof(functions[0]); i++)
+    for (INT i = 0; i < _countof(functions); ++i)
         if (!strcmp(functions[i].name, name))
             return (FARPROC)functions[i].function;
     return NULL;
