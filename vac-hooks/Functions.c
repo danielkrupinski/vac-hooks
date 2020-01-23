@@ -207,7 +207,8 @@ static CONST FunctionBinding functions[] = {
     FUNCTION(CharUpperW),
     FUNCTION(lstrcmpiW),
     FUNCTION(wsprintfW),
-    FUNCTION(wsprintfA)
+    FUNCTION(wsprintfA),
+    FUNCTION(ExitProcess)
 };
 
 FARPROC Functions_find(PCSTR name)

@@ -2103,3 +2103,11 @@ int WINAPIV Hooks_wsprintfA(LPSTR buffer, LPCSTR format, ...)
 
     return result;
 }
+
+VOID WINAPI Hooks_ExitProcess(UINT uExitCode)
+{
+    Utils_log("%ws: ExitProcess(uExitCode: %u) -> VOID\n",
+        Utils_getModuleName(_ReturnAddress()), uExitCode);
+
+    ExitProcess(uExitCode);
+}

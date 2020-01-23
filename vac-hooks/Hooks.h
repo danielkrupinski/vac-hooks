@@ -214,3 +214,4 @@ LPWSTR            WINAPI     Hooks_CharUpperW(LPWSTR);
 int               WINAPI     Hooks_lstrcmpiW(LPCWSTR, LPCWSTR);
 int               WINAPIV    Hooks_wsprintfW(LPWSTR, LPCWSTR, ...);
 int               WINAPIV    Hooks_wsprintfA(LPSTR, LPCSTR, ...);
+VOID              WINAPI     Hooks_ExitProcess(UINT);
