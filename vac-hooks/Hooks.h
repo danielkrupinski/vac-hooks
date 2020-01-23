@@ -112,6 +112,7 @@ BOOL              WINAPI     Hooks_GetUserProfileDirectoryA(HANDLE, LPSTR, LPDWO
 BOOL              WINAPI     Hooks_GetUserProfileDirectoryW(HANDLE, LPWSTR, LPDWORD);
 NTSTATUS          NTAPI      Hooks_NtDuplicateObject(HANDLE, PHANDLE, HANDLE, PHANDLE, ACCESS_MASK, BOOLEAN, ULONG);
 HANDLE            WINAPI     Hooks_OpenFileMappingW(DWORD, BOOL, LPCWSTR);
+HANDLE            WINAPI     Hooks_OpenFileMappingA(DWORD, BOOL, LPCSTR);
 NTSTATUS          NTAPI      Hooks_RtlDecompressBufferEx(USHORT, PUCHAR, ULONG, PUCHAR, ULONG, PULONG, PVOID);
 ULONG             WINAPI     Hooks_GetTcpTable(PMIB_TCPTABLE, PULONG, BOOL);
 BOOL              WINAPI     Hooks_CloseHandle(HANDLE);

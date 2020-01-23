@@ -106,6 +106,7 @@ static CONST FunctionBinding functions[] = {
     FUNCTION(GetUserProfileDirectoryW),
     FUNCTION(NtDuplicateObject),
     FUNCTION(OpenFileMappingW),
+    FUNCTION(OpenFileMappingA),
     FUNCTION(RtlDecompressBufferEx),
     FUNCTION(GetTcpTable),
     FUNCTION(CloseHandle),

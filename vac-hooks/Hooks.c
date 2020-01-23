@@ -1033,6 +1033,16 @@ HANDLE WINAPI Hooks_OpenFileMappingW(DWORD dwDesiredAccess, BOOL bInheritHandle,
     return result;
 }
 
+HANDLE WINAPI Hooks_OpenFileMappingA(DWORD dwDesiredAccess, BOOL bInheritHandle, LPCSTR lpName)
+{
+    HANDLE result = OpenFileMappingA(dwDesiredAccess, bInheritHandle, lpName);
+
+    Utils_log("%ws: OpenFileMappingA(dwDesiredAccess: %d, bInheritHandle: %d, lpName: %s) -> HANDLE: %p\n",
+        Utils_getModuleName(_ReturnAddress()), dwDesiredAccess, bInheritHandle, lpName, result);
+
+    return result;
+}
+
 NTSTATUS NTAPI Hooks_RtlDecompressBufferEx(USHORT CompressionFormat, PUCHAR UncompressedBuffer, ULONG UncompressedBufferSize, PUCHAR CompressedBuffer, ULONG CompressedBufferSize, PULONG FinalUncompressedSize, PVOID WorkSpace)
 {
     extern NTSTATUS(NTAPI RtlDecompressBufferEx)(USHORT, PUCHAR, ULONG, PUCHAR, ULONG, PULONG, PVOID);
