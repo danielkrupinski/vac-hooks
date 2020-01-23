@@ -13,6 +13,8 @@
 
 #define LOG_FILTER FALSE
 
+// TODO: Hook HeapReAlloc
+
 HMODULE WINAPI Hooks_LoadLibraryExW(LPCWSTR lpLibFileName, HANDLE hFile, DWORD dwFlags)
 {
     HMODULE result = LoadLibraryExW(lpLibFileName, hFile, dwFlags);
@@ -2083,6 +2085,19 @@ int WINAPIV Hooks_wsprintfW(LPWSTR buffer, LPCWSTR format, ...)
     va_end(args);
 
     Utils_log("%ws: wsprintfW(buffer: %ws, format: %ws) -> int: %d\n",
+        Utils_getModuleName(_ReturnAddress()), buffer, format, result);
+
+    return result;
+}
+
+int WINAPIV Hooks_wsprintfA(LPSTR buffer, LPCSTR format, ...)
+{
+    va_list args;
+    va_start(args, format);
+    int result = wvsprintfA(buffer, format, args);
+    va_end(args);
+
+    Utils_log("%ws: wsprintfA(buffer: %s, format: %s) -> int: %d\n",
         Utils_getModuleName(_ReturnAddress()), buffer, format, result);
 
     return result;

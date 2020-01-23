@@ -204,6 +204,10 @@ static CONST FunctionBinding functions[] = {
     FUNCTION(SnmpUtilMemAlloc),
     FUNCTION(SnmpUtilVarBindFree),
     FUNCTION(SnmpExtensionClose),
+    FUNCTION(CharUpperW),
+    FUNCTION(lstrcmpiW),
+    FUNCTION(wsprintfW),
+    FUNCTION(wsprintfA)
 };
 
 FARPROC Functions_find(PCSTR name)
