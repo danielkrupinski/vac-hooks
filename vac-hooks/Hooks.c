@@ -46,6 +46,7 @@ HMODULE WINAPI Hooks_LoadLibraryExW(LPCWSTR lpLibFileName, HANDLE hFile, DWORD d
     Utils_hookImport(lpLibFileName, "kernel32.dll", "ReadFile", Hooks_ReadFile);
     Utils_hookImport(lpLibFileName, "kernel32.dll", "CreateFileW", Hooks_CreateFileW);
     Utils_hookImport(lpLibFileName, "kernel32.dll", "WideCharToMultiByte", Hooks_WideCharToMultiByte);
+    Utils_hookImport(lpLibFileName, "kernel32.dll", "GetProcessTimes", Hooks_GetProcessTimes);
     
     Utils_hookImport(lpLibFileName, "user32.dll", "CharUpperW", Hooks_CharUpperW);
     Utils_hookImport(lpLibFileName, "user32.dll", "wsprintfW", Hooks_wsprintfW);
