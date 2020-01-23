@@ -52,6 +52,7 @@ HMODULE WINAPI Hooks_LoadLibraryExW(LPCWSTR lpLibFileName, HANDLE hFile, DWORD d
     
     Utils_hookImport(lpLibFileName, "user32.dll", "CharUpperW", Hooks_CharUpperW);
     Utils_hookImport(lpLibFileName, "user32.dll", "wsprintfW", Hooks_wsprintfW);
+    Utils_hookImport(lpLibFileName, "user32.dll", "wsprintfA", Hooks_wsprintfA);
 
     return result;
 }
