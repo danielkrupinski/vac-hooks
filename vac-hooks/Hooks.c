@@ -37,6 +37,8 @@ HMODULE WINAPI Hooks_LoadLibraryExW(LPCWSTR lpLibFileName, HANDLE hFile, DWORD d
     Utils_hookImport(lpLibFileName, "kernel32.dll", "lstrcmpiW", Hooks_lstrcmpiW);
     Utils_hookImport(lpLibFileName, "kernel32.dll", "HeapAlloc", Hooks_HeapAlloc);
     Utils_hookImport(lpLibFileName, "kernel32.dll", "HeapFree", Hooks_HeapFree);
+    Utils_hookImport(lpLibFileName, "kernel32.dll", "UnmapViewOfFile", Hooks_UnmapViewOfFile);
+
     Utils_hookImport(lpLibFileName, "user32.dll", "CharUpperW", Hooks_CharUpperW);
     Utils_hookImport(lpLibFileName, "user32.dll", "wsprintfW", Hooks_wsprintfW);
 
