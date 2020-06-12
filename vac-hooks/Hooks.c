@@ -11,7 +11,7 @@
 #include "Functions.h"
 #include "Utils.h"
 
-#define LOG_FILTER FALSE
+#define LOG_FILTER TRUE
 
 // TODO: Hook HeapReAlloc
 
