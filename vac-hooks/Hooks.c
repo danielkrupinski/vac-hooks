@@ -1334,8 +1334,10 @@ LPVOID WINAPI Hooks_HeapAlloc(HANDLE hHeap, DWORD dwFlags, SIZE_T dwBytes)
 {
     LPVOID result = HeapAlloc(hHeap, dwFlags, dwBytes);
 
+#if !LOG_FILTER
     Utils_log("%ws: HeapAlloc(hHeap: %p, dwFlags: %d, dwBytes: %lu) -> LPVOID: %p\n",
         Utils_getModuleName(_ReturnAddress()), hHeap, dwFlags, dwBytes, result);
+#endif
 
     return result;
 }
@@ -1344,8 +1346,10 @@ BOOL WINAPI Hooks_HeapFree(HANDLE hHeap, DWORD dwFlags, LPVOID lpMem)
 {
     BOOL result = HeapFree(hHeap, dwFlags, lpMem);
 
+#if !LOG_FILTER
     Utils_log("%ws: HeapFree(hHeap: %p, dwFlags: %d, lpMem: %p) -> BOOL: %d\n",
         Utils_getModuleName(_ReturnAddress()), hHeap, dwFlags, lpMem, result);
+#endif
 
     return result;
 }
